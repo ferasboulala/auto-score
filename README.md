@@ -3,9 +3,9 @@ auto-score is an Optical Music Recognition (OMR) program written in C++. It leve
 
 ## Prerequisites
 auto-score can, for the most part, process any type of musical. Nonetheless, there are a few prerequisites :
-1. The input image was taken with a resolution of at least 2 megapixels.
-2. The spacing between staffs is at least the staff height.
-3. The musical notation is readable (very subjective).
+- The input image was taken with a resolution of at least 2 megapixels.
+- The spacing between staffs is at least the staff height.
+- The musical notation is readable (very subjective).
 
 ## Modules
 auto-score is made up of modules that each accomplish one specific task : 
