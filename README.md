@@ -12,11 +12,5 @@ auto-score is made up of modules that each accomplish one specific task :
 
 1. Input : This module is the input of the whole program. It takes an image as an input and ouputs a straightened out and binarized version of it.
 2. Staff : The binarized image is then scanned for staff line detection (start = green, end = red)
-<p align="center">
-<img src="pictures/anotated_curved.png" alt="curved" height="250"/> 
-<img src="pictures/anotated_straight.png" alt="curved" height="250"/>
-<img src="pictures/anotated_cluttered.png" alt="curved" height="600px"/>
-<img src="pictures/anotated_high_vertical.png" alt="curved" height="600px"/>
-</p>
 3. Model : This module slides a window along the staff lines to detect and classify relevant musical symbols.
 4. Music : Finally, every detected symbol is processed within its context. The output is a MusicXML file.
