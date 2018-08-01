@@ -1,7 +1,7 @@
 # AUTO-SCORE
 auto-score is an Optical Music Recognition (OMR) program written in C++. It leverages classical computer vision algorithms along with modern deep learning models to recognize music notation from both computer generated and handwritten scores. It processes an input image and outputs a MusicXML file.
 
-# Prerequisites
+## Prerequisites
 auto-score can, for the most part, process any type of musical. Nonetheless, there are a few prerequisites :
 1. The input image was taken with a resolution of at least 2 megapixels.
 2. The spacing between staffs is at least the staff height.
@@ -18,5 +18,5 @@ auto-score is made up of modules that each accomplish one specific task :
 <img src="pictures/anotated_cluttered.png" alt="curved" height="600px"/>
 <img src="pictures/anotated_high_vertical.png" alt="curved" height="600px"/>
 </p>
-3. Model : This module slides an window along the staff lines to detect and classify relevant musical symbols.
+3. Model : This module slides a window along the staff lines to detect and classify relevant musical symbols.
 4. Music : Finally, every detected symbol is processed within its context. The output is a MusicXML file.
