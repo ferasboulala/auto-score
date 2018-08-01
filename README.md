@@ -9,4 +9,4 @@ auto-score is made up of modules that each accomplish one specific task :
 3. Model : This module slides an window along the staff lines to detect and classify relevant musical symbols.
 4. Music : Finally, every detected symbol is processed within its context. The output is a MusicXML file.
 
-![curved_score]("pictures/anotated_curved.png")
+![curved_score](pictures/anotated_curved.png)
