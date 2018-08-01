@@ -14,3 +14,12 @@ auto-score is made up of modules that each accomplish one specific task :
 2. Staff : The binarized image is then scanned for staff line detection (start = green, end = red)
 3. Model : This module slides a window along the staff lines to detect and classify relevant musical symbols.
 4. Music : Finally, every detected symbol is processed within its context. The output is a MusicXML file.
+
+### TODO
+- [x] Staff module
+    - [x] Staff line model
+    - [x] Staff detection
+    - [ ] Staff removal (optional)
+- [ ] Input module
+- [ ] Model module
+- [ ] Music module
