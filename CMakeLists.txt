@@ -22,6 +22,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
 list(APPEND ALL_LIBRARIES ${CAFFE2_LIB})
 list(APPEND ALL_LIBRARIES ${OpenCV_LIBS})
 list(APPEND ALL_LIBRARIES -lstdc++fs)
+list(APPEND ALL_LIBRARIES -pthread)
 
 macro(link_whole_archive lib)
   if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")

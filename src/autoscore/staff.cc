@@ -2,6 +2,7 @@
 
 // c++ std
 #include <map>
+#include <thread>
 
 // c std
 #include <assert.h>
@@ -89,20 +90,9 @@ bool blackOnWhite(const cv::Mat &src) {
   return true;
 }
 
-} // namespace
-
-StaffModel StaffDetect::GetStaffModel(const cv::Mat &src) {
-  assert(isGray(src));
-
-  cv::Mat img;
-  src.copyTo(img);
-  if (blackOnWhite(img))
-    cv::threshold(img, img, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
-
-  StaffModel model;
-
+void estimate_rotation(cv::Mat &img, StaffModel &model) {
   // If HoughTransform yields a lot of 90 degrees lines, the model will not be
-  // infered
+  // infered. The straight line will be the chosen model
   std::vector<cv::Vec2f> lines;
   cv::HoughLines(img, lines, 1, CV_PI / (180 * THETA_RES), img.cols / 2);
 
@@ -143,62 +133,91 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src) {
     model.straight = true;
     model.rot = avg_theta;
   }
-
   cv::Mat points;
   cv::findNonZero(img, points);
   cv::Rect bbox = cv::boundingRect(points);
   img = img(bbox);
   model.start_col = bbox.x;
   model.start_row = bbox.y;
+}
 
-  if (model.straight) {
-    std::vector<double> gradient(img.cols, 0.0);
-    model.gradient = gradient;
-  }
+struct RunLengthData {
+  cv::Mat img;
+  std::vector<int> *whites, *blacks;
+  int start, finish;
+};
 
-  // Getting an estimate of staff_height and staff_space
-  // map< count, poll >
-  std::map<int, int> white_run_length; // text
-  std::map<int, int> black_run_length; // spaces
-  for (int x = 0; x < img.cols; x++) {
+void run_length_p(struct RunLengthData &data) {
+  const cv::Mat img = data.img;
+  for (int x = data.start; x < data.finish; x++) {
     int val = img.at<char>(0, x);
     int count = 1;
     for (int y = 1; y < img.rows; y++) {
       if (!((val == 0) == (img.at<char>(y, x) == 0))) {
         if (!val)
-          black_run_length[count]++;
+          (*data.blacks)[count]++;
         else
-          white_run_length[count]++;
+          (*data.whites)[count]++;
         val = img.at<char>(y, x);
         count = 1;
       } else
         count++;
     }
   }
+}
+
+void run_length(const cv::Mat &img, int &staff_height, int &staff_space,
+                const int n_threads) {
+  std::vector<std::vector<int>> white_run_length(n_threads,
+                                                 std::vector<int>(img.rows, 0));
+  std::vector<std::vector<int>> black_run_length(n_threads,
+                                                 std::vector<int>(img.rows, 0));
+  std::vector<std::thread> threads(n_threads);
+  std::vector<struct RunLengthData> run_length_data(n_threads);
+
+  const int cols_per_thread = img.cols / n_threads;
+  for (int i = 0; i < n_threads; i++) {
+    const int start = i * cols_per_thread;
+    int end = (i + 1) * cols_per_thread;
+    if (i == n_threads - 1)
+      end = img.cols;
+    run_length_data[i].img = img;
+    run_length_data[i].start = start;
+    run_length_data[i].finish = end;
+    run_length_data[i].whites = &white_run_length[i];
+    run_length_data[i].blacks = &black_run_length[i];
+    threads[i] = std::thread(run_length_p, std::ref(run_length_data[i]));
+  }
+  for (auto it = threads.begin(); it != threads.end(); it++) {
+    it->join();
+  }
 
   // staff_height and staff_space are assigned to the most polled runs
-  int staff_height, staff_space;
+  std::vector<int> white_poll(img.rows, 0), black_poll(img.rows, 0);
+  for (int i = 0; i < img.rows; i++) {
+    for (int j = 0; j < n_threads; j++) {
+      white_poll[i] += white_run_length[j][i];
+      black_poll[i] += black_run_length[j][i];
+    }
+  }
   int max_polled = 0;
-  for (auto it : white_run_length) {
-    if (max_polled < it.second) {
-      max_polled = it.second;
-      staff_height = it.first;
+  for (auto it = white_poll.begin(); it != white_poll.end(); it++) {
+    if (max_polled < *it) {
+      max_polled = *it;
+      staff_height = it - white_poll.begin();
     }
   }
   max_polled = 0;
-  for (auto it : black_run_length) {
-    if (max_polled < it.second) {
-      max_polled = it.second;
-      staff_space = it.first;
+  for (auto it = black_poll.begin(); it != black_poll.end(); it++) {
+    if (max_polled < *it) {
+      max_polled = *it;
+      staff_space = it - black_poll.begin();
     }
   }
+}
 
-  // assert(staff_height < staff_space);
-  model.staff_height = staff_height;
-  model.staff_space = staff_space;
-
-  // Removing symbols based on estimated staff_height
-  cv::Mat staff_image = img;
+void remove_glyphs(cv::Mat &staff_image, const int staff_height,
+                   const int staff_space) {
   // If you do img.copyTo(staff_image), you get fucked up errors
   const int T = staff_height +
                 1; // std::min(2 * staff_height, staff_height + staff_space);
@@ -219,7 +238,39 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src) {
         count++;
     }
   }
+}
 
+} // namespace
+
+StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
+  assert(isGray(src));
+  assert(n_threads > 0);
+
+  cv::Mat img;
+  src.copyTo(img);
+  if (blackOnWhite(img))
+    cv::threshold(img, img, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
+
+  StaffModel model;
+
+  // Checking whether it is straight or not
+  estimate_rotation(img, model);
+  if (model.straight) {
+    std::vector<double> gradient(img.cols, 0.0);
+    model.gradient = gradient;
+  }
+
+  // Getting an estimate of staff_height and staff_space
+  int staff_height, staff_space;
+  run_length(img, staff_height, staff_space, n_threads);
+
+  // assert(staff_height < staff_space);
+  model.staff_height = staff_height;
+  model.staff_space = staff_space;
+
+  // Removing symbols based on estimated staff_height
+  cv::Mat staff_image = img;
+  remove_glyphs(staff_image, staff_height, staff_space);
   model.staff_image = staff_image; // shared_ptr
   if (model.straight)
     return model;

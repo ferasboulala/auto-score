@@ -34,7 +34,7 @@ namespace StaffDetect {
  * @param cv::Mat src Binary image (CV_8UC1, black on white)
  * @return StaffModel Estimated model
  */
-StaffModel GetStaffModel(const cv::Mat &src);
+StaffModel GetStaffModel(const cv::Mat &src, const int n_threads = 1);
 
 /**
  * @brief Prints a staff model on a black image
