@@ -19,8 +19,8 @@
 #define MIN_POLL_RATIO_STRAIGHT 5
 #define MIN_POLL_RATIO_CURVED 10
 // Ratio of the max amount of lines per staff to suspect the presence of a staff
-#define LINE_PER_STAFF_RATIO_STRAIGHT 0.5
-#define LINE_PER_STAFF_RATIO_CURVED 0.5
+#define LINE_PER_STAFF_RATIO_STRAIGHT 0.3
+#define LINE_PER_STAFF_RATIO_CURVED 0.3
 // Minimum amount of detected HoughLines to consider it straight
 #define MIN_HOUGH_LINES 10
 
@@ -353,8 +353,8 @@ std::vector<int> poll_lines(const StaffModel &model) {
 
   // Polling each staff line and keep only the ones
   const int n_rows = img.rows;
-  const int n_cols = model.gradient.size();
-  std::vector<int> staff_lines;
+  int max = 0;
+  std::vector<int> staff_lines(n_rows + 1, 0); // last element is the max
   for (int y = 0; y < n_rows; y++) {
     int poll = 0;
     double estimated_y = y;
@@ -382,12 +382,12 @@ std::vector<int> poll_lines(const StaffModel &model) {
         }
       }
     }
-    int is_line = poll * (int)(poll >= n_cols / MIN_POLL_RATIO_STRAIGHT);
-    if (!straight) {
-      is_line = poll * (int)(poll >= n_cols / MIN_POLL_RATIO_CURVED);
+    staff_lines[y] = poll;
+    if (poll > max) {
+      max = poll;
     }
-    staff_lines.push_back(is_line);
   }
+  staff_lines[staff_lines.size()] = max;
   return staff_lines;
 }
 
@@ -402,7 +402,7 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
   if (blackOnWhite(img))
     cv::threshold(img, img, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   else {
-    //cv::threshold(img, img, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
+    // cv::threshold(img, img, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
   }
 
   StaffModel model;
@@ -459,55 +459,56 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
                      (KERNEL_SIZE - 1) * model.staff_space + model.staff_space;
   // higher --> harder on scarce staffs
   // lower --> staffs will start anywhere
-  int min_lines_per_staff = 0;
+  int min_poll_staff = 0;
   // higher --> will end anywhere
   // lower --> Harder with lyrics
   const int staff_size = (LINES_PER_STAFF - 0.5) * model.staff_height +
                          (LINES_PER_STAFF - 1) * model.staff_space;
+  const int min_poll_line = 0.5 * staff_lines[staff_lines.size()];
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
     for (int j = 0; j + i < img.rows && j < kernel; j++) {
       const int idx = i + j;
-      if (staff_lines[idx])
-        count++;
+      count += staff_lines[idx];
     }
-    if (count > min_lines_per_staff)
-      min_lines_per_staff = count;
+    if (count > min_poll_staff)
+      min_poll_staff = count;
   }
 
   // Higher --> Some staffs will not be detected
   // Lower --> Staffs will start too early (on hight pitch notes for instance)
   if (!straight)
-    min_lines_per_staff *= LINE_PER_STAFF_RATIO_CURVED;
+    min_poll_staff *= LINE_PER_STAFF_RATIO_CURVED;
   else
-    min_lines_per_staff *= LINE_PER_STAFF_RATIO_STRAIGHT;
+    min_poll_staff *= LINE_PER_STAFF_RATIO_STRAIGHT;
 
   // Hysteresis
+
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
     for (int j = 0; j + i < img.rows && j < kernel; j++) {
-      if (staff_lines[i + j])
-        count++;
+      const int idx = i + j;
+      count += staff_lines[idx];
     }
 
-    if (count >= min_lines_per_staff) {
+    if (count >= min_poll_staff) {
       int flag = 0;
-      int next_count = min_lines_per_staff;
       std::vector<int> maxes;
-      while (i < img.rows && flag <= model.staff_space) {
-        next_count = 0;
+      while (i < img.rows && flag < 2 * model.staff_space) {
+        int next_count = 0;
         for (int j = 0; j + i < img.rows && j < kernel; j++) {
           const int idx = j + i;
-          if (staff_lines[idx])
-            next_count++;
+          next_count += staff_lines[idx];
         }
         if (next_count == count) {
           maxes.push_back(i);
-        } else if (next_count > count) {
+        }
+        if (next_count > count) {
+          flag = 0;
           maxes.clear();
           maxes.push_back(i);
           count = next_count;
-        } else {
+        } else if (next_count = count) {
           flag++;
         }
         i++;
@@ -516,22 +517,27 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
       for (int idx : maxes) {
         start += idx;
       }
-      start = round(start / maxes.size());
-      int cur_poll = staff_lines[start];
-      int offset = 0;
-      for (int k = 0;
-           k < model.staff_space - model.staff_height && start - k >= 0 && start + k < img.rows;
-           k++) {
-        if (cur_poll < staff_lines[start - k]){
-          offset = -k;
-          cur_poll = staff_lines[start - k];
-        }
-        if (cur_poll < staff_lines[start + k]){
-          offset = k;
-          cur_poll = staff_lines[start + k];
+      start = round(start / maxes.size() + EPSILON);
+      if (staff_lines[start] < min_poll_line) {
+        for (int k = 1; k <= model.staff_space + model.staff_height &&
+                        start + k < staff_lines.size() && start - k >= 0;
+             k++) {
+          const int l = k;
+          if (staff_lines[start - k] >= min_poll_line) {
+            while (staff_lines[start - k] >= min_poll_line && start - k >= 0) {
+              k++;
+            }
+            start -= (k + l) / 2;
+            break;
+          } else if (staff_lines[start + k] >= min_poll_line) {
+            while (staff_lines[start + k] >= min_poll_line && start + k < staff_lines.size()) {
+              k++;
+            }
+            start += (k + l) / 2;
+            break;
+          }
         }
       }
-      start += offset;
       const int finish = start + staff_size;
       i = finish + model.staff_space;
       staffs.push_back(std::pair<int, int>(start, finish));
