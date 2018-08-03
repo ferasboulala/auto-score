@@ -15,12 +15,10 @@
 #define K_NEAREST 5
 // Size of the sliding window in number of lines to find staffs
 #define KERNEL_SIZE 5
-// 1/ratio of the model must be polled
-#define MIN_POLL_RATIO_STRAIGHT 5
-#define MIN_POLL_RATIO_CURVED 10
-// Ratio of the max amount of lines per staff to suspect the presence of a staff
-#define LINE_PER_STAFF_RATIO_STRAIGHT 0.3
-#define LINE_PER_STAFF_RATIO_CURVED 0.3
+// Ratiio of the max amount of polls per line to consider it a valid line
+#define MIN_POLL_PER_LINE_RATIO 0.5
+// Ratio of the max amount of polls per staff to suspect the presence of a one
+#define POLL_PER_STAFF_RATIO 0.5
 // Minimum amount of detected HoughLines to consider it straight
 #define MIN_HOUGH_LINES 10
 
@@ -464,7 +462,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
   // lower --> Harder with lyrics
   const int staff_size = (LINES_PER_STAFF - 0.5) * model.staff_height +
                          (LINES_PER_STAFF - 1) * model.staff_space;
-  const int min_poll_line = 0.6 * staff_lines[staff_lines.size() - 1];
+  const int min_poll_line = MIN_POLL_PER_LINE_RATIO * staff_lines[staff_lines.size() - 1];
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
     for (int j = 0; j + i < img.rows && j < kernel; j++) {
@@ -475,12 +473,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
       min_poll_staff = count;
   }
 
-  // Higher --> Some staffs will not be detected
-  // Lower --> Staffs will start too early (on hight pitch notes for instance)
-  if (!straight)
-    min_poll_staff *= LINE_PER_STAFF_RATIO_CURVED;
-  else
-    min_poll_staff *= LINE_PER_STAFF_RATIO_STRAIGHT;
+  min_poll_staff *= POLL_PER_STAFF_RATIO;
 
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
