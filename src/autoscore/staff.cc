@@ -10,7 +10,7 @@
 // Hyperparameters
 #define BINARY_THRESH_VAL 220
 // Minimum amount of CC in a column to estimate the gradient
-#define MIN_CONNECTED_COMP 5
+#define MIN_CONNECTED_COMP 10
 // Number of neighbouring CC to average the gradient
 #define K_NEAREST 5
 // Size of the sliding window in number of lines to find staffs
@@ -387,7 +387,7 @@ std::vector<int> poll_lines(const StaffModel &model) {
       max = poll;
     }
   }
-  staff_lines[staff_lines.size()] = max;
+  staff_lines[staff_lines.size() - 1] = max;
   return staff_lines;
 }
 
@@ -464,7 +464,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
   // lower --> Harder with lyrics
   const int staff_size = (LINES_PER_STAFF - 0.5) * model.staff_height +
                          (LINES_PER_STAFF - 1) * model.staff_space;
-  const int min_poll_line = 0.5 * staff_lines[staff_lines.size()];
+  const int min_poll_line = 0.6 * staff_lines[staff_lines.size() - 1];
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
     for (int j = 0; j + i < img.rows && j < kernel; j++) {
@@ -481,8 +481,6 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
     min_poll_staff *= LINE_PER_STAFF_RATIO_CURVED;
   else
     min_poll_staff *= LINE_PER_STAFF_RATIO_STRAIGHT;
-
-  // Hysteresis
 
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
@@ -508,7 +506,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
           maxes.clear();
           maxes.push_back(i);
           count = next_count;
-        } else if (next_count = count) {
+        } else {
           flag++;
         }
         i++;
@@ -524,13 +522,13 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
              k++) {
           const int l = k;
           if (staff_lines[start - k] >= min_poll_line) {
-            while (staff_lines[start - k] >= min_poll_line && start - k >= 0) {
+            while (staff_lines[start - k] >= min_poll_line && start - k >= 0 && k <= model.staff_space) {
               k++;
             }
             start -= (k + l) / 2;
             break;
           } else if (staff_lines[start + k] >= min_poll_line) {
-            while (staff_lines[start + k] >= min_poll_line && start + k < staff_lines.size()) {
+            while (staff_lines[start + k] >= min_poll_line && start + k < staff_lines.size() && k <= model.staff_space) {
               k++;
             }
             start += (k + l) / 2;
@@ -547,7 +545,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
 }
 
 void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
-                              const StaffModel model) {
+                              const StaffModel &model) {
   const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
   rotate_image(dst, rotation);
   if (is_gray(dst)) {

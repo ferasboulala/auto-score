@@ -55,7 +55,7 @@ Staffs FitStaffModel(const StaffModel &model);
  * @param Staffs The position of the staffs
  * @param StaffModel
  */
-void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel model);
+void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
 
 } // namespace StaffDetect
 
