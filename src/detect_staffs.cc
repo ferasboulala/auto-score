@@ -1,4 +1,5 @@
 #include <autoscore/staff.hh>
+#include <chrono>
 #include <experimental/filesystem>
 #include <string>
 
@@ -8,9 +9,19 @@ namespace fs = std::experimental::filesystem;
 
 void process_image(const std::string &fn, const int n_threads) {
   cv::Mat img = cv::imread(fn, CV_LOAD_IMAGE_GRAYSCALE);
+
+  auto start = std::chrono::high_resolution_clock::now();
   auto model = StaffDetect::GetStaffModel(img, n_threads);
   auto staffs = StaffDetect::FitStaffModel(model);
-  StaffDetect::PrintStaffs(img, staffs, model);
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<float> duration = end - start;
+  std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+  std::cout
+      << "Took : "
+      << duration.count()
+      << std::endl;
+
+  StaffDetect::RemoveStaffs(img, staffs, model);
 
   const std::string window_name = "Staffs";
   const double ratio = (double)img.cols / img.rows;

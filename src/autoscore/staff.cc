@@ -238,32 +238,62 @@ void remove_glyphs(cv::Mat &staff_image, const int staff_height,
   }
 }
 
-void estimate_gradient(StaffModel &model) {
-  // Getting all connected components of each column
-  cv::Mat staff_image = model.staff_image;
-  struct ConnectedComponent {
-    int n, x, y;
-  };
-  std::vector<std::vector<struct ConnectedComponent>> components(
-      staff_image.cols);
-  for (int x = 0; x < staff_image.cols; x++) {
+struct ConnectedComponent {
+  int n, x, y;
+};
+
+struct GradientData {
+  cv::Mat staff_image;
+  int start, end;
+  std::vector<std::vector<struct ConnectedComponent>> *components;
+};
+
+void estimate_gradient_p(struct GradientData &data) {
+  for (int x = data.start; x < data.end; x++) {
     int count = 1;
-    int val = staff_image.at<char>(0, x);
-    for (int y = 1; y < staff_image.rows; y++) {
-      if ((val == 0) != (staff_image.at<char>(y, x) == 0) ||
-          y == staff_image.rows - 1) { // optional condition
+    int val = data.staff_image.at<char>(0, x);
+    for (int y = 1; y < data.staff_image.rows; y++) {
+      if ((val == 0) != (data.staff_image.at<char>(y, x) == 0) ||
+          y == data.staff_image.rows - 1) {
         if (val != 0) {
           struct ConnectedComponent cc;
           cc.x = x;
           cc.y = y - 1;
           cc.n = count;
-          components[x].push_back(cc);
+          (*data.components)[x].push_back(cc);
         }
-        val = staff_image.at<char>(y, x);
+        val = data.staff_image.at<char>(y, x);
         count = 1;
       } else
         count++;
     }
+  }
+}
+
+void estimate_gradient(StaffModel &model, const int n_threads) {
+  // Getting all connected components of each column
+  cv::Mat staff_image = model.staff_image;
+  std::vector<std::thread> threads(n_threads);
+  std::vector<std::vector<struct ConnectedComponent>> components(
+      staff_image.cols);
+
+  std::vector<struct GradientData> data(n_threads);
+  const int cols_per_thread = staff_image.cols / n_threads;
+  for (int i = 0; i < n_threads; i++) {
+    const int start = i * cols_per_thread;
+    int end = (i + 1) * cols_per_thread;
+    if (i == n_threads - 1) {
+      end = staff_image.cols;
+    }
+    data[i].staff_image = staff_image;
+    data[i].start = start;
+    data[i].end = end;
+    data[i].components = &components;
+    threads[i] = std::thread(estimate_gradient_p, std::ref(data[i]));
+  }
+  for (auto it = threads.begin(); it != threads.end(); it++) {
+    it->join();
+    const int idx = it - threads.begin();
   }
 
   // Computing the orientation at each column
@@ -400,7 +430,7 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
   if (blackOnWhite(img))
     cv::threshold(img, img, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   else {
-    // cv::threshold(img, img, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
+    cv::threshold(img, img, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
   }
 
   StaffModel model;
@@ -426,7 +456,7 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
   if (model.straight)
     return model;
 
-  estimate_gradient(model);
+  estimate_gradient(model, n_threads);
   interpolate_model(model);
 
   return model;
@@ -462,7 +492,8 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
   // lower --> Harder with lyrics
   const int staff_size = (LINES_PER_STAFF - 0.5) * model.staff_height +
                          (LINES_PER_STAFF - 1) * model.staff_space;
-  const int min_poll_line = MIN_POLL_PER_LINE_RATIO * staff_lines[staff_lines.size() - 1];
+  const int min_poll_line =
+      MIN_POLL_PER_LINE_RATIO * staff_lines[staff_lines.size() - 1];
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
     for (int j = 0; j + i < img.rows && j < kernel; j++) {
@@ -515,13 +546,15 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
              k++) {
           const int l = k;
           if (staff_lines[start - k] >= min_poll_line) {
-            while (staff_lines[start - k] >= min_poll_line && start - k >= 0 && k <= model.staff_space) {
+            while (staff_lines[start - k] >= min_poll_line && start - k >= 0 &&
+                   k <= model.staff_space) {
               k++;
             }
             start -= (k + l) / 2;
             break;
           } else if (staff_lines[start + k] >= min_poll_line) {
-            while (staff_lines[start + k] >= min_poll_line && start + k < staff_lines.size() && k <= model.staff_space) {
+            while (staff_lines[start + k] >= min_poll_line &&
+                   start + k < staff_lines.size() && k <= model.staff_space) {
               k++;
             }
             start += (k + l) / 2;
@@ -558,5 +591,50 @@ void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
         round(staff_interval / (LINES_PER_STAFF - 1) * (LINES_PER_STAFF - 1)) +
         s.first + model.start_row;
     draw_model(dst, model, line_pos, cv::Scalar(0, 0, 255));
+  }
+}
+
+void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
+                               const StaffModel &model) {
+  assert(is_gray(dst));
+  for (auto staff : staffs) {
+    const double staff_interval = staff.second - staff.first;
+    for (int i = 0; i < LINES_PER_STAFF; i++) {
+      int line_pos = round(staff_interval / (LINES_PER_STAFF - 1) * i) +
+                           staff.first + model.start_row;
+      for (int j = 0; j < model.gradient.size(); j++) {
+        line_pos += model.gradient[j];
+        const int col = j + model.start_col;
+        if (dst.at<char>(line_pos, col)) {
+          int up = 0;
+          for (int k = 1; k <= model.staff_height && line_pos - k >= 0; k++) {
+            if (dst.at<char>(line_pos - k, col)) {
+              up++;
+            } else {
+              break;
+            }
+          }
+          int down = 0;
+          for (int k = 1; k <= model.staff_height && line_pos + k >= dst.rows;
+               k++) {
+            if (dst.at<char>(line_pos + k, col)) {
+              down++;
+            } else {
+              break;
+            }
+          }
+          if (up + down + 1 <= model.staff_height) {
+            for (int k = 1; k <= up; k++) {
+              dst.at<char>(line_pos - k, col) = 255;
+            }
+            for (int k = 1; k <= down; k++) {
+              dst.at<char>(line_pos + k, col) = 255;
+            }
+          }
+        } else {
+          dst.at<char>(line_pos, col) = 255;
+        }
+      }
+    }
   }
 }

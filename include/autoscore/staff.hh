@@ -52,10 +52,19 @@ Staffs FitStaffModel(const StaffModel &model);
 /**
  * @brief Prints all the detected staffs of the model on an image
  * @param cv::Mat dst Image on which it will be printed
- * @param Staffs The position of the staffs
  * @param StaffModel
+ * @return Staffs The position of the staffs
  */
 void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
+
+/**
+ * @brief Removes staffs from an image according to a model and start and end
+ * positions
+ * @param cv::Mat dst Image with staffs
+ * @param Staffs The positions of the staffs
+ * @param StaffModel
+ */
+void RemoveStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
 
 } // namespace StaffDetect
 
