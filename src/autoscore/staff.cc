@@ -16,8 +16,8 @@
 // Size of the sliding window in number of lines to find staffs
 #define KERNEL_SIZE 5
 // 1/ratio of the model must be polled
-#define MIN_POLL_RATIO_STRAIGHT 4
-#define MIN_POLL_RATIO_CURVED 4
+#define MIN_POLL_RATIO_STRAIGHT 5
+#define MIN_POLL_RATIO_CURVED 10
 // Ratio of the max amount of lines per staff to suspect the presence of a staff
 #define LINE_PER_STAFF_RATIO_STRAIGHT 0.5
 #define LINE_PER_STAFF_RATIO_CURVED 0.5
@@ -36,23 +36,23 @@
 
 namespace {
 
-inline bool isGray(const cv::Mat &src) {
+inline bool is_gray(const cv::Mat &src) {
   unsigned char depth = src.type() & CV_MAT_DEPTH_MASK;
   if (depth != CV_8U || (src.channels() != 1))
     return false;
   return true;
 }
 
-inline void boundingBox(const cv::Mat &src, cv::Mat &dst) {
+inline void bounding_box(const cv::Mat &src, cv::Mat &dst) {
   cv::Mat points;
   cv::findNonZero(src, points);
   cv::Rect bbox = cv::boundingRect(points);
   dst = dst(bbox);
 }
 
-void drawModel(cv::Mat &dst, const StaffModel &model, const int pos,
-               const cv::Scalar color) {
-  assert(!isGray(dst));
+void draw_model(cv::Mat &dst, const StaffModel &model, const int pos,
+                const cv::Scalar color) {
+  assert(!is_gray(dst));
   double y = pos;
   for (auto it = model.gradient.begin(); it != model.gradient.end(); it++) {
     y += *it;
@@ -65,7 +65,7 @@ void drawModel(cv::Mat &dst, const StaffModel &model, const int pos,
   }
 }
 
-void rotateImage(cv::Mat &dst, const double rot_theta) {
+void rotate_image(cv::Mat &dst, const double rot_theta) {
   cv::Point2f center((dst.cols - 1) / 2.0, (dst.rows - 1) / 2.0);
   cv::Mat rot = cv::getRotationMatrix2D(center, rot_theta, 1.0);
   cv::Rect bbox =
@@ -129,7 +129,7 @@ void estimate_rotation(cv::Mat &img, StaffModel &model) {
   model.straight = false;
   if ((double)theta_count[max_index].size() / lines.size() >= 0.7 &&
       lines.size() > MIN_HOUGH_LINES) {
-    rotateImage(img, RAD2DEG * (avg_theta - CV_PI / 2));
+    rotate_image(img, RAD2DEG * (avg_theta - CV_PI / 2));
     model.straight = true;
     model.rot = avg_theta;
   }
@@ -240,42 +240,9 @@ void remove_glyphs(cv::Mat &staff_image, const int staff_height,
   }
 }
 
-} // namespace
-
-StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
-  assert(isGray(src));
-  assert(n_threads > 0);
-
-  cv::Mat img;
-  src.copyTo(img);
-  if (blackOnWhite(img))
-    cv::threshold(img, img, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
-
-  StaffModel model;
-
-  // Checking whether it is straight or not
-  estimate_rotation(img, model);
-  if (model.straight) {
-    std::vector<double> gradient(img.cols, 0.0);
-    model.gradient = gradient;
-  }
-
-  // Getting an estimate of staff_height and staff_space
-  int staff_height, staff_space;
-  run_length(img, staff_height, staff_space, n_threads);
-
-  // assert(staff_height < staff_space);
-  model.staff_height = staff_height;
-  model.staff_space = staff_space;
-
-  // Removing symbols based on estimated staff_height
-  cv::Mat staff_image = img;
-  remove_glyphs(staff_image, staff_height, staff_space);
-  model.staff_image = staff_image; // shared_ptr
-  if (model.straight)
-    return model;
-
+void estimate_gradient(StaffModel &model) {
   // Getting all connected components of each column
+  cv::Mat staff_image = model.staff_image;
   struct ConnectedComponent {
     int n, x, y;
   };
@@ -342,7 +309,12 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
       orientations[x] = global_orientation / global_count;
     }
   }
+  model.gradient = orientations;
+}
 
+void interpolate_model(StaffModel &model) {
+  auto &orientations = model.gradient;
+  cv::Mat staff_image = model.staff_image;
   // Interpolating with empty columns
   double prev_orientation = staff_image.rows,
          next_orientation = staff_image.rows;
@@ -373,30 +345,16 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
       orientations[j] = prev_orientation + (i - j) * delta_slope;
     }
   }
-
-  model.gradient = orientations;
-
-  return model;
 }
 
-void StaffDetect::PrintStaffModel(cv::Mat &dst, const StaffModel &model) {
-  const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
-  assert(isGray(dst));
-  rotateImage(dst, -rotation);
-  boundingBox(dst, dst);
-  dst =
-      cv::Mat(cv::Size(model.gradient.size(), model.gradient.size()), CV_8UC3);
-  drawModel(dst, model, dst.rows / 2, cv::Scalar(255, 0, 0));
-}
-
-Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
+std::vector<int> poll_lines(const StaffModel &model) {
   cv::Mat img = model.staff_image;
   const bool straight = model.straight;
 
   // Polling each staff line and keep only the ones
   const int n_rows = img.rows;
   const int n_cols = model.gradient.size();
-  std::vector<bool> staff_lines;
+  std::vector<int> staff_lines;
   for (int y = 0; y < n_rows; y++) {
     int poll = 0;
     double estimated_y = y;
@@ -404,7 +362,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
       estimated_y += *it;
       const int x = it - model.gradient.begin() + model.start_col;
       const int rounded_y = round(estimated_y);
-      // Boudary check
+      // Boundary check
       if (estimated_y > n_rows || estimated_y < 0)
         continue;
       // Model fits
@@ -414,7 +372,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
       // Check if the model fits with a staff_height padding around it
       else if (!model.straight) {
         for (int i = 1; i <= model.staff_height; i++) {
-          if (estimated_y + i < n_rows || estimated_y - i >= 0) {
+          if (rounded_y + i < n_rows || rounded_y - i >= 0) {
             if (img.at<char>(rounded_y + i, x) ||
                 img.at<char>(rounded_y - i, x)) {
               poll++;
@@ -424,49 +382,87 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
         }
       }
     }
-    bool is_line = poll >= n_cols / MIN_POLL_RATIO_STRAIGHT;
+    int is_line = poll * (int)(poll >= n_cols / MIN_POLL_RATIO_STRAIGHT);
     if (!straight) {
-      is_line = poll >= n_cols / MIN_POLL_RATIO_CURVED;
+      is_line = poll * (int)(poll >= n_cols / MIN_POLL_RATIO_CURVED);
     }
     staff_lines.push_back(is_line);
   }
+  return staff_lines;
+}
 
-  // Checking how many duplicates per staff line on average (+1)
-  double avg_duplicate = 0;
-  int n_lines = 0;
-  for (int i = 0; i < staff_lines.size(); i++) {
-    if (!staff_lines[i])
-      continue;
-    int dup = 0;
-    const int cur_pos = i;
-    for (int j = i; j < staff_lines.size(); j++) {
-      const bool is_line = staff_lines[j];
-      const int next_pos = j;
-      if (next_pos - cur_pos <= model.staff_height && is_line) {
-        dup++;
-      } else {
-        i = j;
-        break;
-      }
-    }
-    avg_duplicate += dup;
-    n_lines++;
+} // namespace
+
+StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
+  assert(is_gray(src));
+  assert(n_threads > 0);
+
+  cv::Mat img;
+  src.copyTo(img);
+  if (blackOnWhite(img))
+    cv::threshold(img, img, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
+  else {
+    //cv::threshold(img, img, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
   }
-  avg_duplicate /= (n_lines + EPSILON);
-  // Add an assertion for avg_duplicate >= model.staff_height
+
+  StaffModel model;
+
+  // Checking whether it is straight or not
+  estimate_rotation(img, model);
+  if (model.straight) {
+    std::vector<double> gradient(img.cols, 0.0);
+    model.gradient = gradient;
+  }
+
+  // Getting an estimate of staff_height and staff_space
+  int staff_height, staff_space;
+  run_length(img, staff_height, staff_space, n_threads);
+
+  model.staff_height = staff_height;
+  model.staff_space = staff_space;
+
+  // Removing symbols based on estimated staff_height
+  cv::Mat staff_image = img;
+  remove_glyphs(staff_image, staff_height, staff_space);
+  model.staff_image = staff_image; // shared_ptr
+  if (model.straight)
+    return model;
+
+  estimate_gradient(model);
+  interpolate_model(model);
+
+  return model;
+}
+
+void StaffDetect::PrintStaffModel(cv::Mat &dst, const StaffModel &model) {
+  const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
+  rotate_image(dst, -rotation);
+  bounding_box(dst, dst);
+  if (is_gray(dst)) {
+    dst = cv::Mat(cv::Size(model.gradient.size(), model.gradient.size()),
+                  CV_8UC3);
+  }
+  draw_model(dst, model, dst.rows / 2, cv::Scalar(255, 0, 0));
+}
+
+Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
+  cv::Mat img = model.staff_image;
+  const bool straight = model.straight;
+
+  // Polling each staff line and keeping the ones that are polled enough
+  std::vector<int> staff_lines = poll_lines(model);
 
   // Convolving a 1-D kernel
   // The local maximas are zones where there might be a staff
   Staffs staffs;
   const int kernel = KERNEL_SIZE * model.staff_height +
-                     (KERNEL_SIZE - 1) * model.staff_space +
-                     round(avg_duplicate);
+                     (KERNEL_SIZE - 1) * model.staff_space + model.staff_space;
   // higher --> harder on scarce staffs
   // lower --> staffs will start anywhere
   int min_lines_per_staff = 0;
   // higher --> will end anywhere
   // lower --> Harder with lyrics
-  const int staff_size = (LINES_PER_STAFF)*model.staff_height +
+  const int staff_size = (LINES_PER_STAFF - 0.5) * model.staff_height +
                          (LINES_PER_STAFF - 1) * model.staff_space;
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
@@ -498,7 +494,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
       int flag = 0;
       int next_count = min_lines_per_staff;
       std::vector<int> maxes;
-      while (i < img.rows && flag <= 2 * model.staff_space) {
+      while (i < img.rows && flag <= model.staff_space) {
         next_count = 0;
         for (int j = 0; j + i < img.rows && j < kernel; j++) {
           const int idx = j + i;
@@ -511,7 +507,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
           maxes.clear();
           maxes.push_back(i);
           count = next_count;
-        } else if (next_count < min_lines_per_staff) {
+        } else {
           flag++;
         }
         i++;
@@ -521,59 +517,49 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
         start += idx;
       }
       start = round(start / maxes.size());
-      if (!staff_lines[start]) {
-        int k = 1;
-        while (k <= model.staff_space + model.staff_height &&
-               start + k < staff_lines.size() && start - k >= 0) {
-          if (staff_lines[start - k]) {
-            const int l = k;
-            while (staff_lines[start - k] && start - k >= 0) {
-              k++;
-            }
-            start -= (k + l) / 2;
-            break;
-          } else if (staff_lines[start + k]) {
-            const int l = k;
-            while (staff_lines[start + k] && start + k < staff_lines.size()) {
-              k++;
-            }
-            start += (k + l) / 2;
-            break;
-          }
-          k++;
+      int cur_poll = staff_lines[start];
+      int offset = 0;
+      for (int k = 0;
+           k < model.staff_space - model.staff_height && start - k >= 0 && start + k < img.rows;
+           k++) {
+        if (cur_poll < staff_lines[start - k]){
+          offset = -k;
+          cur_poll = staff_lines[start - k];
+        }
+        if (cur_poll < staff_lines[start + k]){
+          offset = k;
+          cur_poll = staff_lines[start + k];
         }
       }
+      start += offset;
       const int finish = start + staff_size;
       i = finish + model.staff_space;
       staffs.push_back(std::pair<int, int>(start, finish));
     }
   }
-
   return staffs;
 }
 
 void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
                               const StaffModel model) {
-  assert(isGray(dst));
   const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
-  rotateImage(dst, rotation);
-  cv::cvtColor(dst, dst, CV_GRAY2BGR);
+  rotate_image(dst, rotation);
+  if (is_gray(dst)) {
+    cv::cvtColor(dst, dst, CV_GRAY2BGR);
+  }
   dst *= 0.5;
   for (auto s : staffs) {
     const double staff_interval = s.second - s.first;
     for (int i = 1; i < LINES_PER_STAFF - 1; i++) {
       const int line_pos = round(staff_interval / (LINES_PER_STAFF - 1) * i) +
                            s.first + model.start_row;
-      drawModel(dst, model, line_pos, cv::Scalar(255, 0, 0));
+      draw_model(dst, model, line_pos, cv::Scalar(255, 0, 0));
     }
     int line_pos = s.first + model.start_row;
-    drawModel(dst, model, line_pos, cv::Scalar(0, 255, 0));
+    draw_model(dst, model, line_pos, cv::Scalar(0, 255, 0));
     line_pos =
         round(staff_interval / (LINES_PER_STAFF - 1) * (LINES_PER_STAFF - 1)) +
         s.first + model.start_row;
-    drawModel(dst, model, line_pos, cv::Scalar(0, 0, 255));
+    draw_model(dst, model, line_pos, cv::Scalar(0, 0, 255));
   }
 }
-
-// TODO : Add relevant assertions !!!
-// TODO : Add RemoveStaff()
