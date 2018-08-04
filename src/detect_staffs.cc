@@ -11,23 +11,29 @@ void process_image(const std::string &fn, const int n_threads) {
   cv::Mat img = cv::imread(fn, CV_LOAD_IMAGE_GRAYSCALE);
 
   auto start = std::chrono::high_resolution_clock::now();
+
   auto model = StaffDetect::GetStaffModel(img, n_threads);
-  auto staffs = StaffDetect::FitStaffModel(model);
+  cv::Mat no_staffs;
+  img.copyTo(no_staffs);
+  auto staffs = StaffDetect::FitStaffModel(no_staffs, model, true);
+
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<float> duration = end - start;
   std::chrono::duration_cast<std::chrono::milliseconds>(duration);
-  std::cout
-      << "Took : "
-      << duration.count()
-      << std::endl;
+  std::cout << "Took : " << duration.count() << std::endl;
 
-  StaffDetect::RemoveStaffs(img, staffs, model);
+  StaffDetect::PrintStaffs(img, staffs, model);
 
-  const std::string window_name = "Staffs";
+  const std::string identified = "Staffs";
+  const std::string removed = "Staffs";
   const double ratio = (double)img.cols / img.rows;
-  cv::namedWindow(window_name, CV_WINDOW_NORMAL);
-  cv::resizeWindow(window_name, WINDOW_HEIGHT, ratio * WINDOW_HEIGHT);
-  cv::imshow(window_name, img);
+  cv::namedWindow(identified, CV_WINDOW_NORMAL);
+  cv::resizeWindow(identified, WINDOW_HEIGHT, ratio * WINDOW_HEIGHT);
+  cv::imshow(identified, img);
+  cv::waitKey(0);
+  cv::namedWindow(removed, CV_WINDOW_NORMAL);
+  cv::resizeWindow(removed, WINDOW_HEIGHT, ratio * WINDOW_HEIGHT);
+  cv::imshow(removed, no_staffs);
   cv::waitKey(0);
 }
 

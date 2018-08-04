@@ -16,7 +16,7 @@
 // Size of the sliding window in number of lines to find staffs
 #define KERNEL_SIZE 5
 // Ratiio of the max amount of polls per line to consider it a valid line
-#define MIN_POLL_PER_LINE_RATIO 0.5
+#define MIN_POLL_PER_LINE_RATIO 0.3
 // Ratio of the max amount of polls per staff to suspect the presence of a one
 #define POLL_PER_STAFF_RATIO 0.5
 // Minimum amount of detected HoughLines to consider it straight
@@ -473,7 +473,8 @@ void StaffDetect::PrintStaffModel(cv::Mat &dst, const StaffModel &model) {
   draw_model(dst, model, dst.rows / 2, cv::Scalar(255, 0, 0));
 }
 
-Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
+Staffs StaffDetect::FitStaffModel(cv::Mat &dst, const StaffModel &model,
+                                  const bool remove) {
   cv::Mat img = model.staff_image;
   const bool straight = model.straight;
 
@@ -567,6 +568,31 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
       staffs.push_back(std::pair<int, int>(start, finish));
     }
   }
+
+  if (remove) {
+    assert(is_gray(dst));
+    if (blackOnWhite(dst))
+      cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
+    else {
+      cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
+    }
+    const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
+    rotate_image(dst, rotation);
+    for (auto it = staff_lines.begin(); it != staff_lines.end(); it++) {
+      const int line_pos = it - staff_lines.begin();
+      if (*it <= 0.25 * min_poll_line) {
+        continue;
+      }
+      RemoveStaffs(dst, line_pos + model.start_row, model);
+    }
+    if (blackOnWhite(dst))
+      cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
+    else {
+      cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
+    }
+    rotate_image(dst, -rotation);
+  }
+
   return staffs;
 }
 
@@ -594,47 +620,79 @@ void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
   }
 }
 
-void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
+void StaffDetect::RemoveStaffs(cv::Mat &dst, double line_pos,
                                const StaffModel &model) {
-  assert(is_gray(dst));
-  for (auto staff : staffs) {
-    const double staff_interval = staff.second - staff.first;
-    for (int i = 0; i < LINES_PER_STAFF; i++) {
-      int line_pos = round(staff_interval / (LINES_PER_STAFF - 1) * i) +
-                           staff.first + model.start_row;
-      for (int j = 0; j < model.gradient.size(); j++) {
-        line_pos += model.gradient[j];
-        const int col = j + model.start_col;
-        if (dst.at<char>(line_pos, col)) {
-          int up = 0;
-          for (int k = 1; k <= model.staff_height && line_pos - k >= 0; k++) {
-            if (dst.at<char>(line_pos - k, col)) {
-              up++;
-            } else {
-              break;
-            }
-          }
-          int down = 0;
-          for (int k = 1; k <= model.staff_height && line_pos + k >= dst.rows;
-               k++) {
-            if (dst.at<char>(line_pos + k, col)) {
-              down++;
-            } else {
-              break;
-            }
-          }
-          if (up + down + 1 <= model.staff_height) {
-            for (int k = 1; k <= up; k++) {
-              dst.at<char>(line_pos - k, col) = 255;
-            }
-            for (int k = 1; k <= down; k++) {
-              dst.at<char>(line_pos + k, col) = 255;
-            }
-          }
+  for (int j = 0; j < model.gradient.size(); j++) {
+    line_pos += model.gradient[j];
+    const int rounded_pos = round(line_pos);
+    if ((rounded_pos > dst.rows) || (rounded_pos < 0))
+      continue;
+    const int col = j + model.start_col;
+    // If the pixel is white, check the size of its CC
+    if (dst.at<char>(rounded_pos, col)) {
+      int up = 0;
+      for (int k = 1; k <= model.staff_space && rounded_pos - k >= 0; k++) {
+        if (dst.at<char>(rounded_pos - k, col)) {
+          up++;
         } else {
-          dst.at<char>(line_pos, col) = 255;
+          break;
+        }
+      }
+      int down = 0;
+      for (int k = 1; k <= model.staff_space && rounded_pos + k >= dst.rows; k++) {
+        if (dst.at<char>(rounded_pos + k, col)) {
+          down++;
+        } else {
+          break;
+        }
+      }
+      // If the CC is about the staff_height, it belongs to a staff line
+      if (up + down + 1 <= model.staff_height) {
+        for (int k = 0; k <= up; k++) {
+          dst.at<char>(rounded_pos - k, col) = 0;
+        }
+        for (int k = 1; k <= down; k++) {
+          dst.at<char>(rounded_pos + k, col) = 0;
+        }
+      }
+      // If the pixel is black, check the nearest CC
+    } else {
+      int up_or_down = 0;
+      int start = 0;
+      // Getting the nearest CC
+      for (int k = 1; k <= model.staff_space && rounded_pos + k < dst.rows &&
+                      rounded_pos - k >= 0;
+           k++) {
+        // up
+        if (dst.at<char>(rounded_pos - k, col)) {
+          up_or_down = -1;
+          start = k;
+          break;
+          // down
+        } else if (dst.at<char>(rounded_pos + k, col)) {
+          up_or_down = 1;
+          start = k;
+          break;
+        }
+      }
+      // If the nearest CC is small enough, it belongs to a staff line
+      int cc_count = 0;
+      for (int k = start; k <= model.staff_space + start && rounded_pos - k >= 0 &&
+                          rounded_pos + k < dst.rows;
+           k++) {
+        if (dst.at<char>(rounded_pos + k * up_or_down, col)) {
+          cc_count++;
+        } else {
+          break;
+        }
+      }
+      if (cc_count <= model.staff_height) {
+        for (int k = start; k < cc_count + start; k++) {
+          dst.at<char>(rounded_pos + k * up_or_down, col) = 0;
         }
       }
     }
   }
 }
+
+// End of measure with glyph removal with staff_height very high

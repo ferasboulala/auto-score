@@ -47,7 +47,7 @@ void PrintStaffModel(cv::Mat &dst, const StaffModel &model);
  * @param StaffModel
  * @return Staffs
  */
-Staffs FitStaffModel(const StaffModel &model);
+Staffs FitStaffModel(cv::Mat& dst, const StaffModel &model, const bool remove = false);
 
 /**
  * @brief Prints all the detected staffs of the model on an image
@@ -64,7 +64,7 @@ void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
  * @param Staffs The positions of the staffs
  * @param StaffModel
  */
-void RemoveStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
+void RemoveStaffs(cv::Mat &dst, double line_pos, const StaffModel &model);
 
 } // namespace StaffDetect
 
