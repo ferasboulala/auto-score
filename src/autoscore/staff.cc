@@ -16,7 +16,7 @@
 // Size of the sliding window in number of lines to find staffs
 #define KERNEL_SIZE 5
 // Ratiio of the max amount of polls per line to consider it a valid line
-#define MIN_POLL_PER_LINE_RATIO 0.3
+#define MIN_POLL_PER_LINE_RATIO 0.8
 // Ratio of the max amount of polls per staff to suspect the presence of a one
 #define POLL_PER_STAFF_RATIO 0.5
 // Minimum amount of detected HoughLines to consider it straight
@@ -397,15 +397,12 @@ std::vector<int> poll_lines(const StaffModel &model) {
       else if (img.at<char>(rounded_y, x)) {
         poll++;
       }
-      // Check if the model fits with a staff_height padding around it
-      else if (!model.straight) {
-        for (int i = 1; i <= model.staff_height; i++) {
-          if (rounded_y + i < n_rows || rounded_y - i >= 0) {
-            if (img.at<char>(rounded_y + i, x) ||
-                img.at<char>(rounded_y - i, x)) {
-              poll++;
-              break;
-            }
+      // Check if the model fits with one pixel padding around it
+      else {
+        if (rounded_y + 1 < n_rows || rounded_y - 1 >= 0) {
+          if (img.at<char>(rounded_y + 1, x) ||
+              img.at<char>(rounded_y - 1, x)) {
+            poll++;
           }
         }
       }
@@ -493,7 +490,7 @@ Staffs StaffDetect::FitStaffModel(cv::Mat &dst, const StaffModel &model,
   // lower --> Harder with lyrics
   const int staff_size = (LINES_PER_STAFF - 0.5) * model.staff_height +
                          (LINES_PER_STAFF - 1) * model.staff_space;
-  const int min_poll_line =
+  int min_poll_line =
       MIN_POLL_PER_LINE_RATIO * staff_lines[staff_lines.size() - 1];
   for (int i = 0; i < img.rows; i++) {
     int count = 0;
@@ -517,15 +514,15 @@ Staffs StaffDetect::FitStaffModel(cv::Mat &dst, const StaffModel &model,
     if (count >= min_poll_staff) {
       int flag = 0;
       std::vector<int> maxes;
-      while (i < img.rows && flag < 2 * model.staff_space) {
+      while (i < img.rows && flag < model.staff_space) {
         int next_count = 0;
         for (int j = 0; j + i < img.rows && j < kernel; j++) {
           const int idx = j + i;
           next_count += staff_lines[idx];
         }
-        if (next_count == count) {
-          maxes.push_back(i);
-        }
+        // if (next_count == count) {
+        //   maxes.push_back(i);
+        // }
         if (next_count > count) {
           flag = 0;
           maxes.clear();
@@ -541,31 +538,37 @@ Staffs StaffDetect::FitStaffModel(cv::Mat &dst, const StaffModel &model,
         start += idx;
       }
       start = round(start / maxes.size() + EPSILON);
-      if (staff_lines[start] < min_poll_line) {
-        for (int k = 1; k <= model.staff_space + model.staff_height &&
+      bool converged = false;
+      while (!converged) {
+        for (int k = 0; k < model.staff_space &&
                         start + k < staff_lines.size() && start - k >= 0;
              k++) {
           const int l = k;
           if (staff_lines[start - k] >= min_poll_line) {
             while (staff_lines[start - k] >= min_poll_line && start - k >= 0 &&
-                   k <= model.staff_space) {
+                   k < model.staff_space) {
               k++;
             }
+            converged = true;
             start -= (k + l) / 2;
             break;
           } else if (staff_lines[start + k] >= min_poll_line) {
             while (staff_lines[start + k] >= min_poll_line &&
-                   start + k < staff_lines.size() && k <= model.staff_space) {
+                   start + k < staff_lines.size() && k < model.staff_space) {
               k++;
             }
+            converged = true;
             start += (k + l) / 2;
             break;
           }
         }
+        min_poll_line *= 0.9;
       }
       const int finish = start + staff_size;
       i = finish + model.staff_space;
       staffs.push_back(std::pair<int, int>(start, finish));
+      min_poll_line =
+          MIN_POLL_PER_LINE_RATIO * staff_lines[staff_lines.size() - 1];
     }
   }
 
@@ -580,7 +583,7 @@ Staffs StaffDetect::FitStaffModel(cv::Mat &dst, const StaffModel &model,
     rotate_image(dst, rotation);
     for (auto it = staff_lines.begin(); it != staff_lines.end(); it++) {
       const int line_pos = it - staff_lines.begin();
-      if (*it <= 0.25 * min_poll_line) {
+      if (*it <= 0.7 * min_poll_line) {
         continue;
       }
       RemoveStaffs(dst, line_pos + model.start_row, model);
@@ -639,7 +642,8 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, double line_pos,
         }
       }
       int down = 0;
-      for (int k = 1; k <= model.staff_space && rounded_pos + k >= dst.rows; k++) {
+      for (int k = 1; k <= model.staff_space && rounded_pos + k >= dst.rows;
+           k++) {
         if (dst.at<char>(rounded_pos + k, col)) {
           down++;
         } else {
@@ -677,8 +681,8 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, double line_pos,
       }
       // If the nearest CC is small enough, it belongs to a staff line
       int cc_count = 0;
-      for (int k = start; k <= model.staff_space + start && rounded_pos - k >= 0 &&
-                          rounded_pos + k < dst.rows;
+      for (int k = start; k <= model.staff_space + start &&
+                          rounded_pos - k >= 0 && rounded_pos + k < dst.rows;
            k++) {
         if (dst.at<char>(rounded_pos + k * up_or_down, col)) {
           cc_count++;
@@ -696,3 +700,4 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, double line_pos,
 }
 
 // End of measure with glyph removal with staff_height very high
+// Realign() implementation
