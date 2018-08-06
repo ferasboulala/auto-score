@@ -19,7 +19,8 @@ auto-score is made up of modules that each accomplish one specific task :
 - [x] Staff module
     - [x] Staff line model
     - [x] Staff detection
-    - [ ] Staff removal (optional)
+    - [x] Staff removal (optional)
+    - [ ] Staff realigment (optional)
 - [ ] Input module
 - [ ] Model module
 - [ ] Music module

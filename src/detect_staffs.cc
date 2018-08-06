@@ -15,7 +15,7 @@ void process_image(const std::string &fn, const int n_threads) {
   auto model = StaffDetect::GetStaffModel(img, n_threads);
   cv::Mat no_staffs;
   img.copyTo(no_staffs);
-  auto staffs = StaffDetect::FitStaffModel(no_staffs, model, true);
+  auto staffs = StaffDetect::FitStaffModel(no_staffs, model);
 
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<float> duration = end - start;
