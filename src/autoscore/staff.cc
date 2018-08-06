@@ -422,6 +422,8 @@ std::vector<int> poll_lines(const StaffModel &model) {
 }
 
 void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
+  assert(is_gray(dst));
+
   for (int j = 0; j < model.gradient.size(); j++) {
     line_pos += model.gradient[j];
     const int rounded_pos = round(line_pos);
@@ -610,7 +612,7 @@ Staffs StaffDetect::FitStaffModel(cv::Mat &dst, const StaffModel &model) {
 
       bool converged = false;
       while (!converged) {
-        for (int k = 0; k <= model.staff_space + model.staff_height &&
+        for (int k = 0; k <= model.staff_space + 2 * model.staff_height &&
                         start + k < staff_lines.size() && start - k >= 0;
              k++) {
           const int l = k;
@@ -676,7 +678,8 @@ void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
 void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
                                const StaffModel &model) {
   assert(is_gray(dst));
-  if (blackOnWhite(dst))
+  const bool black_on_white = blackOnWhite(dst);
+  if (black_on_white)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   else {
     cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
@@ -688,10 +691,14 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
     for (int i = 0; i < LINES_PER_STAFF; i++) {
       const int line_pos = round(staff_interval / (LINES_PER_STAFF - 1) * i) +
                            it->first + model.start_row;
+      for (int j = 1; j <= model.staff_height; j++) {
+        remove_line(dst, line_pos - j, model);
+        remove_line(dst, line_pos + j, model);
+      }
       remove_line(dst, line_pos, model);
     }
   }
-  if (blackOnWhite(dst))
+  if (!black_on_white)
     cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
   else {
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
@@ -699,5 +706,5 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
   rotate_image(dst, -rotation);
 }
 
-// End of measure with glyph removal with staff_height very high
+// End of measure with glyph removal with staff_height very high (model module)
 // Realign() implementation

@@ -15,14 +15,14 @@ void process_image(const std::string &fn, const int n_threads) {
   auto model = StaffDetect::GetStaffModel(img, n_threads);
   cv::Mat no_staffs;
   img.copyTo(no_staffs);
-  auto staffs = StaffDetect::FitStaffModel(no_staffs, model);
-
+  auto staffs = StaffDetect::FitStaffModel(img, model);
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<float> duration = end - start;
   std::chrono::duration_cast<std::chrono::milliseconds>(duration);
   std::cout << "Took : " << duration.count() << std::endl;
 
   StaffDetect::PrintStaffs(img, staffs, model);
+  StaffDetect::RemoveStaffs(no_staffs, staffs, model);
 
   const std::string identified = "Staffs";
   const std::string removed = "Staffs";

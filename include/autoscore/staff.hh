@@ -66,6 +66,8 @@ void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
  */
 void RemoveStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
 
+void Realign(cv::Mat &dst, const StaffModel &model);
+
 } // namespace StaffDetect
 
 #endif // STAFF_H_
