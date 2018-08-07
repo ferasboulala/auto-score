@@ -47,11 +47,11 @@ void PrintStaffModel(cv::Mat &dst, const StaffModel &model);
  * @param StaffModel
  * @return Staffs
  */
-Staffs FitStaffModel(cv::Mat &dst, const StaffModel &model);
+Staffs FitStaffModel(const StaffModel &model);
 
 /**
  * @brief Prints all the detected staffs of the model on an image
- * @param cv::Mat dst Image on which it will be printed
+ * @param cv::Mat dst Image on which it will be printed (will be BGR)
  * @param StaffModel
  * @return Staffs The position of the staffs
  */
@@ -66,7 +66,13 @@ void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
  */
 void RemoveStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
 
-void Realign(cv::Mat &dst, const StaffModel &model);
+/**
+ * @brief Realigns the image according to the staff model gradient. The output
+ * image is then modeled with a constant gradient.
+ * @param cv::Mat destination image (grayscale)
+ * @param StaffModel the model to work on
+ */
+void Realign(cv::Mat &dst, StaffModel &model);
 
 } // namespace StaffDetect
 

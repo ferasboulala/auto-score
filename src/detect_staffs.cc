@@ -1,5 +1,4 @@
 #include <autoscore/staff.hh>
-#include <chrono>
 #include <experimental/filesystem>
 #include <string>
 
@@ -8,32 +7,39 @@
 namespace fs = std::experimental::filesystem;
 
 void process_image(const std::string &fn, const int n_threads) {
+  // Reading the image
   cv::Mat img = cv::imread(fn, CV_LOAD_IMAGE_GRAYSCALE);
 
-  auto start = std::chrono::high_resolution_clock::now();
-
+  // Approximating the staff line model
   auto model = StaffDetect::GetStaffModel(img, n_threads);
-  cv::Mat no_staffs;
+  
+  // Fiting the model, removing staffs and realigning everything
+  cv::Mat no_staffs, realigned;
   img.copyTo(no_staffs);
-  auto staffs = StaffDetect::FitStaffModel(img, model);
-  auto end = std::chrono::high_resolution_clock::now();
-  std::chrono::duration<float> duration = end - start;
-  std::chrono::duration_cast<std::chrono::milliseconds>(duration);
-  std::cout << "Took : " << duration.count() << std::endl;
-
+  img.copyTo(realigned);
+  auto staffs = StaffDetect::FitStaffModel(model);
   StaffDetect::PrintStaffs(img, staffs, model);
   StaffDetect::RemoveStaffs(no_staffs, staffs, model);
+  StaffDetect::Realign(realigned, model);
 
+  // Displaying the results
   const std::string identified = "Staffs";
   const std::string removed = "Staffs";
+  const std::string aligned = "Aligned";
   const double ratio = (double)img.cols / img.rows;
   cv::namedWindow(identified, CV_WINDOW_NORMAL);
   cv::resizeWindow(identified, WINDOW_HEIGHT, ratio * WINDOW_HEIGHT);
   cv::imshow(identified, img);
   cv::waitKey(0);
+  
   cv::namedWindow(removed, CV_WINDOW_NORMAL);
   cv::resizeWindow(removed, WINDOW_HEIGHT, ratio * WINDOW_HEIGHT);
   cv::imshow(removed, no_staffs);
+  cv::waitKey(0);
+
+  cv::namedWindow(aligned, CV_WINDOW_NORMAL);
+  cv::resizeWindow(aligned, WINDOW_HEIGHT, ratio * WINDOW_HEIGHT);
+  cv::imshow(aligned, realigned);
   cv::waitKey(0);
 }
 

@@ -6,6 +6,7 @@
 
 // c std
 #include <assert.h>
+#include <unistd.h>
 
 // Hyperparameters
 #define BINARY_THRESH_VAL 220
@@ -64,6 +65,8 @@ void draw_model(cv::Mat &dst, const StaffModel &model, const int pos,
 }
 
 void rotate_image(cv::Mat &dst, const double rot_theta) {
+  if (abs(rot_theta) < 1)
+    return;
   cv::Point2f center((dst.cols - 1) / 2.0, (dst.rows - 1) / 2.0);
   cv::Mat rot = cv::getRotationMatrix2D(center, rot_theta, 1.0);
   cv::Rect bbox =
@@ -73,11 +76,19 @@ void rotate_image(cv::Mat &dst, const double rot_theta) {
   cv::warpAffine(dst, dst, rot, bbox.size());
 }
 
+void raw_rotate(cv::Mat &dst, const double rot_theta) {
+  if (abs(rot_theta) < 1)
+    return;
+  cv::Point2f center((dst.cols - 1) / 2.0, (dst.rows - 1) / 2.0);
+  cv::Mat rot = cv::getRotationMatrix2D(center, rot_theta, 1.0);
+  cv::warpAffine(dst, dst, rot, dst.size());
+}
+
 bool blackOnWhite(const cv::Mat &src) {
   int black = 0, white = 0;
   for (int i = 0; i < src.rows / 2; i++) {
     for (int j = 0; j < src.cols / 2; j++) {
-      if (src.at<char>(i, j))
+      if (src.at<char>(i, j) > 128)
         white++;
       else
         black++;
@@ -424,7 +435,8 @@ std::vector<int> poll_lines(const StaffModel &model) {
 void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
   assert(is_gray(dst));
 
-  for (int j = 0; j < model.gradient.size(); j++, line_pos += model.gradient[j]) {
+  for (int j = 0; j < model.gradient.size();
+       j++, line_pos += model.gradient[j]) {
     const int rounded_pos = round(line_pos);
     if ((rounded_pos > dst.rows) || (rounded_pos < 0))
       continue;
@@ -462,8 +474,8 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
       int up_or_down = 0;
       int start = 0;
       // Getting the nearest CC
-      for (int k = 1; k <= model.staff_space / 2 && rounded_pos + k < dst.rows &&
-                      rounded_pos - k >= 0;
+      for (int k = 1; k <= model.staff_space / 2 &&
+                      rounded_pos + k < dst.rows && rounded_pos - k >= 0;
            k++) {
         // up
         if (dst.at<char>(rounded_pos - k, col)) {
@@ -551,7 +563,7 @@ void StaffDetect::PrintStaffModel(cv::Mat &dst, const StaffModel &model) {
   draw_model(dst, model, dst.rows / 2, cv::Scalar(255, 0, 0));
 }
 
-Staffs StaffDetect::FitStaffModel(cv::Mat &dst, const StaffModel &model) {
+Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
   cv::Mat img = model.staff_image;
   const bool straight = model.straight;
 
@@ -686,24 +698,55 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
   const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
   rotate_image(dst, rotation);
   for (auto it = staffs.begin(); it != staffs.end(); it++) {
-    const double staff_interval = (it->second - it->first) / (LINES_PER_STAFF - 1);
+    const double staff_interval =
+        (it->second - it->first) / (LINES_PER_STAFF - 1);
     for (int i = 0; i < LINES_PER_STAFF; i++) {
-      const int line_pos = round(staff_interval * i) +
-                           it->first + model.start_row;
+      const int line_pos =
+          round(staff_interval * i) + it->first + model.start_row;
       remove_line(dst, line_pos, model);
-      for (int j = 1; j <= 1; j++){
+      for (int j = 1; j <= 1; j++) {
         remove_line(dst, line_pos + j, model);
         remove_line(dst, line_pos - j, model);
       }
     }
   }
-  if (!black_on_white)
-    cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
-  else {
+  if (black_on_white)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
+  raw_rotate(dst, -rotation);
+}
+
+void StaffDetect::Realign(cv::Mat &dst, StaffModel &model) {
+  assert(is_gray(dst));
+  assert(dst.cols >= model.gradient.size());
+
+  const bool black_on_white = blackOnWhite(dst);
+  if (black_on_white)
+    cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
+  else {
+    cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
   }
-  rotate_image(dst, -rotation);
+  const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
+  rotate_image(dst, rotation);
+
+  if (!model.straight) {
+    double start = 0;
+    for (int x = 0; x < model.gradient.size();
+         x++, start += model.gradient[x]) {
+      for (int y = 0; y < dst.rows; y++) {
+        const int offset_y = y + round(start);
+        const int col = x + model.start_col;
+        if (offset_y >= dst.rows || offset_y < 0) {
+          dst.at<char>(y, col) = 0;
+        } else {
+          dst.at<char>(y, col) = dst.at<char>(offset_y, col);
+        }
+      }
+    }
+    model.gradient = std::vector<double>(model.gradient.size(), 0);
+  }
+  if (black_on_white)
+    cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
+  raw_rotate(dst, -rotation);
 }
 
 // End of measure with glyph removal with staff_height very high (model module)
-// Realign() implementation
