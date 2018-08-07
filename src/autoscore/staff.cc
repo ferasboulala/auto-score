@@ -424,8 +424,7 @@ std::vector<int> poll_lines(const StaffModel &model) {
 void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
   assert(is_gray(dst));
 
-  for (int j = 0; j < model.gradient.size(); j++) {
-    line_pos += model.gradient[j];
+  for (int j = 0; j < model.gradient.size(); j++, line_pos += model.gradient[j]) {
     const int rounded_pos = round(line_pos);
     if ((rounded_pos > dst.rows) || (rounded_pos < 0))
       continue;
@@ -433,7 +432,7 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
     // If the pixel is white, check the size of its CC
     if (dst.at<char>(rounded_pos, col)) {
       int up = 0;
-      for (int k = 1; k <= model.staff_space && rounded_pos - k >= 0; k++) {
+      for (int k = 1; k <= model.staff_space / 2 && rounded_pos - k >= 0; k++) {
         if (dst.at<char>(rounded_pos - k, col)) {
           up++;
         } else {
@@ -441,7 +440,7 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
         }
       }
       int down = 0;
-      for (int k = 1; k <= model.staff_space && rounded_pos + k >= dst.rows;
+      for (int k = 1; k <= model.staff_space / 2 && rounded_pos + k >= dst.rows;
            k++) {
         if (dst.at<char>(rounded_pos + k, col)) {
           down++;
@@ -450,7 +449,7 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
         }
       }
       // If the CC is about the staff_height, it belongs to a staff line
-      if (up + down + 1 <= model.staff_height) {
+      if (up + down + 1 <= model.staff_height + 1) {
         for (int k = 0; k <= up; k++) {
           dst.at<char>(rounded_pos - k, col) = 0;
         }
@@ -463,7 +462,7 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
       int up_or_down = 0;
       int start = 0;
       // Getting the nearest CC
-      for (int k = 1; k <= model.staff_space && rounded_pos + k < dst.rows &&
+      for (int k = 1; k <= model.staff_space / 2 && rounded_pos + k < dst.rows &&
                       rounded_pos - k >= 0;
            k++) {
         // up
@@ -480,7 +479,7 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
       }
       // If the nearest CC is small enough, it belongs to a staff line
       int cc_count = 0;
-      for (int k = start; k <= model.staff_space + start &&
+      for (int k = start; k <= model.staff_space / 2 + start &&
                           rounded_pos - k >= 0 && rounded_pos + k < dst.rows;
            k++) {
         if (dst.at<char>(rounded_pos + k * up_or_down, col)) {
@@ -489,7 +488,7 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
           break;
         }
       }
-      if (cc_count <= model.staff_height) {
+      if (cc_count <= model.staff_height + 1) {
         for (int k = start; k < cc_count + start; k++) {
           dst.at<char>(rounded_pos + k * up_or_down, col) = 0;
         }
@@ -687,15 +686,15 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
   const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
   rotate_image(dst, rotation);
   for (auto it = staffs.begin(); it != staffs.end(); it++) {
-    const double staff_interval = it->first - it->second;
+    const double staff_interval = (it->second - it->first) / (LINES_PER_STAFF - 1);
     for (int i = 0; i < LINES_PER_STAFF; i++) {
-      const int line_pos = round(staff_interval / (LINES_PER_STAFF - 1) * i) +
+      const int line_pos = round(staff_interval * i) +
                            it->first + model.start_row;
-      for (int j = 1; j <= model.staff_height; j++) {
-        remove_line(dst, line_pos - j, model);
-        remove_line(dst, line_pos + j, model);
-      }
       remove_line(dst, line_pos, model);
+      for (int j = 1; j <= 1; j++){
+        remove_line(dst, line_pos + j, model);
+        remove_line(dst, line_pos - j, model);
+      }
     }
   }
   if (!black_on_white)
