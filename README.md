@@ -24,3 +24,4 @@ auto-score is made up of modules that each accomplish one specific task :
 - [ ] Input module
 - [ ] Model module
 - [ ] Music module
+- [ ] Check MUSCIMA++/Dataset correspondance
