@@ -16,7 +16,7 @@ auto-score is made up of modules that each accomplish one specific task :
 4. Music : Finally, every detected symbol is processed within its context. The output is a MusicXML file.
 
 ### TODO
-- [ ] Staff module
+- [x] Staff module
     - [x] Staff line model
     - [x] Staff detection
     - [x] Staff removal (optional)
