@@ -719,6 +719,10 @@ void StaffDetect::Realign(cv::Mat &dst, StaffModel &model) {
   assert(is_gray(dst));
   assert(dst.cols >= model.gradient.size());
 
+  if (model.straight) {
+    return;
+  }
+
   const bool black_on_white = blackOnWhite(dst);
   if (black_on_white)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
@@ -728,22 +732,23 @@ void StaffDetect::Realign(cv::Mat &dst, StaffModel &model) {
   const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
   rotate_image(dst, rotation);
 
-  if (!model.straight) {
-    double start = 0;
-    for (int x = 0; x < model.gradient.size();
-         x++, start += model.gradient[x]) {
-      for (int y = 0; y < dst.rows; y++) {
-        const int offset_y = y + round(start);
-        const int col = x + model.start_col;
-        if (offset_y >= dst.rows || offset_y < 0) {
-          dst.at<char>(y, col) = 0;
-        } else {
-          dst.at<char>(y, col) = dst.at<char>(offset_y, col);
-        }
+  cv::Mat img = dst.clone();
+
+  double start = 0;
+  for (int x = 0; x < model.gradient.size(); x++, start += model.gradient[x]) {
+    const int rounded_start = round(start);
+    const int col = x + model.start_col;
+    for (int y = 0; y < img.rows; y++) {
+      const int offset_y = y + rounded_start;
+      if (offset_y >= img.rows || offset_y < 0) {
+        img.at<char>(y, col) = 0;
+      } else {
+        img.at<char>(y, col) = dst.at<char>(offset_y, col);
       }
     }
-    model.gradient = std::vector<double>(model.gradient.size(), 0);
   }
+  model.gradient = std::vector<double>(model.gradient.size(), 0);
+  dst = img;
   if (black_on_white)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   raw_rotate(dst, -rotation);
