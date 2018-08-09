@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 // Hyperparameters
-#define BINARY_THRESH_VAL 220
+#define BINARY_THRESH_VAL 128
 // Minimum amount of CC in a column to estimate the gradient
 #define MIN_CONNECTED_COMP 10
 // Number of neighbouring CC to average the gradient
@@ -84,19 +84,18 @@ void raw_rotate(cv::Mat &dst, const double rot_theta) {
   cv::warpAffine(dst, dst, rot, dst.size());
 }
 
-bool blackOnWhite(const cv::Mat &src) {
+bool black_on_white(const cv::Mat &src) {
+  assert(is_gray(src));
   int black = 0, white = 0;
   for (int i = 0; i < src.rows / 2; i++) {
     for (int j = 0; j < src.cols / 2; j++) {
-      if (src.at<char>(i, j) > 128)
-        white++;
-      else
+      if (src.at<char>(i, j) == 0)
         black++;
+      else
+        white++;
     }
   }
-  if (black > white)
-    return false;
-  return true;
+  return (black < white);
 }
 
 void estimate_rotation(cv::Mat &img, StaffModel &model) {
@@ -517,7 +516,7 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
 
   cv::Mat img;
   src.copyTo(img);
-  if (blackOnWhite(img))
+  if (black_on_white(img))
     cv::threshold(img, img, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   else {
     cv::threshold(img, img, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
@@ -689,8 +688,8 @@ void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
 void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
                                const StaffModel &model) {
   assert(is_gray(dst));
-  const bool black_on_white = blackOnWhite(dst);
-  if (black_on_white)
+  const bool blackOnWhite = black_on_white(dst);
+  if (blackOnWhite)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   else {
     cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
@@ -710,7 +709,7 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
       }
     }
   }
-  if (black_on_white)
+  if (blackOnWhite)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   raw_rotate(dst, -rotation);
 }
@@ -723,8 +722,8 @@ void StaffDetect::Realign(cv::Mat &dst, StaffModel &model) {
     return;
   }
 
-  const bool black_on_white = blackOnWhite(dst);
-  if (black_on_white)
+  const bool blackOnWhite = black_on_white(dst);
+  if (blackOnWhite)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   else {
     cv::threshold(dst, dst, 255 - BINARY_THRESH_VAL, 255, CV_THRESH_BINARY);
@@ -749,7 +748,7 @@ void StaffDetect::Realign(cv::Mat &dst, StaffModel &model) {
   }
   model.gradient = std::vector<double>(model.gradient.size(), 0);
   dst = img;
-  if (black_on_white)
+  if (blackOnWhite)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   raw_rotate(dst, -rotation);
 }
