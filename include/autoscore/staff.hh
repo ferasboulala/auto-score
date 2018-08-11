@@ -68,11 +68,14 @@ void RemoveStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
 
 /**
  * @brief Realigns the image according to the staff model gradient. The output
- * image is then modeled with a constant gradient.
+ * image is then modeled with a constant gradient. To distort back the image,
+ * give the inverse of the model (*-1).
  * @param cv::Mat destination image (grayscale)
- * @param StaffModel the model to work on
+ * @param StaffModel the model to work on.
  */
-void Realign(cv::Mat &dst, StaffModel &model);
+void Realign(cv::Mat &dst, const StaffModel &model);
+
+void SaveToDisk(const Staffs &staffs, const StaffModel &model);
 
 } // namespace StaffDetect
 

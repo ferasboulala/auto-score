@@ -714,7 +714,7 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
   raw_rotate(dst, -rotation);
 }
 
-void StaffDetect::Realign(cv::Mat &dst, StaffModel &model) {
+void StaffDetect::Realign(cv::Mat &dst, const StaffModel &model) {
   assert(is_gray(dst));
   assert(dst.cols >= model.gradient.size());
 
@@ -746,11 +746,14 @@ void StaffDetect::Realign(cv::Mat &dst, StaffModel &model) {
       }
     }
   }
-  model.gradient = std::vector<double>(model.gradient.size(), 0);
   dst = img;
   if (blackOnWhite)
     cv::threshold(dst, dst, BINARY_THRESH_VAL, 255, CV_THRESH_BINARY_INV);
   raw_rotate(dst, -rotation);
+}
+
+void StaffDetect::SaveToDisk(const Staffs &staffs, const StaffModel &model){
+
 }
 
 // End of measure with glyph removal with staff_height very high (model module)
