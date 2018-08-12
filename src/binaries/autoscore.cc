@@ -2,8 +2,6 @@
 #include <experimental/filesystem>
 #include <string>
 
-#define WINDOW_HEIGHT 1440
-
 namespace fs = std::experimental::filesystem;
 
 void process_image(const std::string &fn, const int n_threads) {
