@@ -1,4 +1,5 @@
 #include <autoscore/staff.hh>
+#include <tinyxml2.hh>
 
 // c++ std
 #include <map>
@@ -752,8 +753,66 @@ void StaffDetect::Realign(cv::Mat &dst, const StaffModel &model) {
   raw_rotate(dst, -rotation);
 }
 
-void StaffDetect::SaveToDisk(const Staffs &staffs, const StaffModel &model){
+void StaffDetect::SaveToDisk(const std::string &fn, const Staffs &staffs,
+                             const StaffModel &model) { 
+  using namespace tinyxml2;
+  XMLDocument doc;
 
+  // <Autoscore>
+  XMLNode * Root = doc.NewElement("AutoScore");
+  doc.InsertFirstChild(Root);
+
+  // <filename>
+  XMLElement * Filename = doc.NewElement("filename");
+  Filename->SetText((fn + ".png").c_str());
+  Root->InsertFirstChild(Filename);
+
+  // <Model...>
+  XMLNode * Model = doc.NewElement("model");
+  Root->InsertAfterChild(Filename, Model);
+
+  // <staff_height, staff_space, etc.>
+  XMLElement * StaffHeight = doc.NewElement("staff_height");
+  StaffHeight->SetText(std::to_string(model.staff_height).c_str());
+  Model->InsertFirstChild(StaffHeight);
+
+  XMLElement * StaffSpace = doc.NewElement("staff_space");
+  StaffSpace->SetText(std::to_string(model.staff_space).c_str());
+  Model->InsertAfterChild(StaffHeight, StaffSpace);
+
+  XMLElement * StartCol = doc.NewElement("start_column");
+  StartCol->SetText(std::to_string(model.start_col).c_str());
+  Model->InsertAfterChild(StaffSpace, StartCol);
+
+  XMLElement * StartRow = doc.NewElement("start_row");
+  StartRow->SetText(std::to_string(model.start_row).c_str());
+  Model->InsertAfterChild(StartCol, StartRow);
+
+  XMLElement * Rotation = doc.NewElement("rotation");
+  Rotation->SetText(std::to_string(model.rot).c_str());
+  Model->InsertAfterChild(StartRow, Rotation);
+
+  XMLElement * Gradient = doc.NewElement("gradient");
+  std::string grad;
+  for (double g : model.gradient){
+    grad += std::to_string(g) + ' ';
+  }
+  Gradient->SetText(grad.c_str());
+  Model->InsertAfterChild(Rotation, Gradient);
+
+  // <staffs>
+  XMLNode * AllStaffs = doc.NewElement("staffs");
+  Root->InsertAfterChild(Model, AllStaffs);
+
+  for (auto staff : staffs){
+    XMLElement * s = doc.NewElement("staff");
+    s->SetText(std::to_string(staff.first).c_str());
+    AllStaffs->InsertEndChild(s);
+  }
+
+  if (doc.SaveFile((fn + ".xml").c_str()) < 0){
+    throw std::string("tinyxml2 could not write to file");
+  } 
 }
 
 // End of measure with glyph removal with staff_height very high (model module)

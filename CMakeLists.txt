@@ -35,10 +35,11 @@ macro(link_whole_archive lib)
 endmacro()
 
 file(GLOB LIB_SOURCES "${PROJECT_SOURCE_DIR}/src/autoscore/*.cc")
+list(APPEND LIB_SOURCES src/tinyxml2.cc)
 add_library(auto-score-lib ${LIB_SOURCES})
 link_whole_archive(auto-score-lib)
 
-file(GLOB BIN_SOURCES "${PROJECT_SOURCE_DIR}/src/*.cc")
+file(GLOB BIN_SOURCES "${PROJECT_SOURCE_DIR}/src/binaries/*.cc")
 foreach(filename ${BIN_SOURCES})
   get_filename_component(name ${filename} NAME_WE)
   add_executable(${name} ${filename})

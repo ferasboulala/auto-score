@@ -75,7 +75,13 @@ void RemoveStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
  */
 void Realign(cv::Mat &dst, const StaffModel &model);
 
-void SaveToDisk(const Staffs &staffs, const StaffModel &model);
+/**
+ * @brief Saves the staff information in a xml format
+ * @param std::string fn 
+ * @param Staffs staffs
+ * @param StaffModel model
+ */
+void SaveToDisk(const std::string &fn, const Staffs &staffs, const StaffModel &model);
 
 } // namespace StaffDetect
 
