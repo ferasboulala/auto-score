@@ -17,7 +17,7 @@ auto-score depends on OpenCV (image acquisition and processing) and Pytorch (dee
 For Pytorch, please follow the instructions on the official website. To build the project, follow these steps :  
 - `$ git clone https://gitlab.com/ferasboulala/auto-score.git`  
 - `$ cd auto-score`  
-- `$ mkdir build && mkdir bin && cd build`  
+- `$ mkdir build mkdir bin && cd build`  
 - `$ cmake ..`  
 - `$ make`  
 
@@ -27,10 +27,10 @@ auto-score can, for the most part, process any type of musical score. Nonetheles
 - The spacing between staffs is at least the staff height.
 - The musical notation is readable (very subjective).  
 
-To test auto-score, `./bin/auto-score <input>`
+To test auto-score, `$ ./bin/auto-score <input>`
 
 ## Datasets and papers
-The handwritten model was trained using the [MUSCIMA++](https://ufal.mff.cuni.cz/muscima) dataset. The computer generated model was trained with the [DeepScores](https://tuggeluk.github.io/deepscores/) dataset. `deepscores.cc` and `muscima.cc` binaries can be used to detect staff lines and save the output in a convenient `xml` format for both datasets to use for training afterwards.
+The handwritten model was trained using the [MUSCIMA++](https://ufal.mff.cuni.cz/muscima) dataset. The computer generated model was trained with the [DeepScores](https://tuggeluk.github.io/deepscores/) dataset. `deepscores.cc` and `muscima.cc` binaries can be used to detect staff lines and save the output in a convenient `xml` format for both datasets to use for training afterwards. For the DeepScores dataset, the 70 gb detection dataset was extracted in a single directory using `unzip` instead of manually extracting each archive into its own directory.
 
 The staff detection module was inspired by 
 ```
