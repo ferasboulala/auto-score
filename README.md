@@ -1,5 +1,5 @@
 # AUTO-SCORE
-auto-score is an Optical Music Recognition (OMR) program written in C++. It leverages classical computer vision algorithms along with modern deep learning models to recognize music notation from both computer generated and handwritten scores. It processes an input image and outputs a MusicXML file.
+auto-score is an Optical Music Recognition (OMR) program written in C++ and Python. It leverages classical computer vision algorithms along with modern deep learning models to recognize music notation from both computer generated and handwritten scores.
 
 ## Prerequisites
 auto-score can, for the most part, process any type of musical score. Nonetheless, there are a few prerequisites :
@@ -13,7 +13,7 @@ auto-score is made up of modules that each accomplish one specific task :
 1. Input : This module is the input of the whole program. It takes an image as an input and ouputs a straightened out and binarized version of it.
 2. Staff : The binarized image is then scanned for staff line detection. The output is staff line positions.
 3. Model : This module slides a window along the staff lines to detect and classify relevant musical glyphs.
-4. Music : Finally, every detected symbol is processed within its context. The output is a MusicXML file.
+4. Music : Finally, every detected glyph is processed within its context (pitch, duration, etc.). The output for now is simply the position of the glyphs. Alternatively a MusicXML file or tablatures could be implemented.
 
 ### TODO
 - [x] Staff module
@@ -23,5 +23,6 @@ auto-score is made up of modules that each accomplish one specific task :
     - [x] Staff realigment (optional)
 - [ ] Input module
 - [ ] Model module
+  - [ ] Model definition
+  - [ ] Dataset creation
 - [ ] Music module
-- [ ] Check MUSCIMA++/Dataset correspondance
