@@ -8,9 +8,7 @@
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
 
-#define FN_DATASET "../datasets/Artificial"
-#define FN_DEEPSCORE "DeepScores_archive"
-#define FN_DEEPSCORE_PNG "/images_png"
+#define FN_DATASET "../datasets/Handwritten"
 
 namespace fs = std::experimental::filesystem;
 
@@ -40,7 +38,7 @@ void process_p(std::vector<std::string>::iterator start, const int n_files) {
 
 int main(int argc, char **argv) {
   if (argc < 2) {
-    std::cerr << "Usage : deepscores <relative fn> <nthreads>" << std::endl;
+    std::cerr << "Usage : muscima <relative fn> <nthreads>" << std::endl;
     return -1;
   }
 
@@ -112,6 +110,6 @@ int main(int argc, char **argv) {
     }
   }
 
-  std::cout << "End of DeepScores dataset program" << std::endl;
+  std::cout << "End of Muscima dataset program" << std::endl;
   return 0;
 }
