@@ -15,6 +15,12 @@ auto-score is made up of modules that each accomplish one specific task :
 3. Model : This module slides a window along the staff lines to detect and classify relevant musical glyphs.
 4. Music : Finally, every detected glyph is processed within its context (pitch, duration, etc.). The output for now is simply the position of the glyphs. Alternatively a MusicXML file or tablatures could be implemented.
 
+## Dependencies
+auto-score depends on OpenCV and Pytorch. 
+`sudo apt-get install libopencv`
+`sudo pip3 install opencv-python`
+For Pytorch, please follow the instructions on the official website. 
+
 ### TODO
 - [x] Staff module
     - [x] Staff line model
