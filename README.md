@@ -17,7 +17,7 @@ auto-score depends on OpenCV (image acquisition and processing) and Pytorch (dee
 For Pytorch, please follow the instructions on the official website. To build the project, follow these steps :  
 - `$ git clone https://gitlab.com/ferasboulala/auto-score.git`  
 - `$ cd auto-score`  
-- `$ mkdir build mkdir bin && cd build`  
+- `$ mkdir build bin && cd build`  
 - `$ cmake ..`  
 - `$ make`  
 
