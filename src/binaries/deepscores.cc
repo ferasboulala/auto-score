@@ -57,24 +57,17 @@ int main(int argc, char **argv) {
     system((std::string("mkdir ") + FN_DATASET).c_str());
   } else {
     for (auto &p : fs::directory_iterator(FN_DATASET)) {
-      processed_images[strip_fn(strip_ext(p.path()))] = "Exists";
+      processed_images[strip_fn(strip_ext(p.path()))] = "";
     }
   }
 
-  // For every archive
   for (auto &p : fs::directory_iterator(fn)) {
-    if (std::string(p.path()).find(FN_DEEPSCORE) == std::string::npos) {
+    if (std::string(p.path()).find(FN_DEEPSCORE_PNG) == std::string::npos) {
       continue;
     }
     std::cout << "Working directory : " << p.path() << std::endl;
-
-    if (!fs::exists(std::string(p.path()) + FN_DEEPSCORE_PNG)) {
-      std::cout << "No images found in this directory." << std::endl;
-      continue;
-    }
-
     const auto start =
-        fs::directory_iterator(std::string(p.path()) + FN_DEEPSCORE_PNG);
+        fs::directory_iterator(std::string(p.path()));
     const auto finish = end(start);
     const int size = std::distance(start, finish);
     std::cout << size << " files to process among " << n_threads << " threads"
@@ -88,7 +81,7 @@ int main(int argc, char **argv) {
     // Storing filenames into a vector because std::advance does not work on fs
     int pos = 0;
     for (auto &s :
-         fs::directory_iterator(std::string(p.path()) + FN_DEEPSCORE_PNG)) {
+         fs::directory_iterator(std::string(p.path()))) {
       if (processed_images.count(strip_fn(strip_ext(s.path())))) {
         std::cout << s.path() << " already processed.\n";
         continue;

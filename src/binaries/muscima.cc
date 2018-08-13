@@ -8,7 +8,9 @@
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
 
-#define FN_DATASET "../datasets/Handwritten"
+#define FN_DATASET "../datasets/Artificial"
+#define FN_DEEPSCORE "DeepScores_archive"
+#define FN_DEEPSCORE_PNG "/images_png"
 
 namespace fs = std::experimental::filesystem;
 
@@ -38,7 +40,7 @@ void process_p(std::vector<std::string>::iterator start, const int n_files) {
 
 int main(int argc, char **argv) {
   if (argc < 2) {
-    std::cerr << "Usage : muscima <relative fn> <nthreads>" << std::endl;
+    std::cerr << "Usage : deepscores <relative fn> <nthreads>" << std::endl;
     return -1;
   }
 
@@ -59,20 +61,13 @@ int main(int argc, char **argv) {
     }
   }
 
-  // For every archive
   for (auto &p : fs::directory_iterator(fn)) {
-    if (std::string(p.path()).find(FN_DEEPSCORE) == std::string::npos) {
-      continue;
-    }
-    std::cout << "Working directory : " << p.path() << std::endl;
-
-    if (!fs::exists(std::string(p.path()) + FN_DEEPSCORE_PNG)) {
-      std::cout << "No images found in this directory." << std::endl;
+    if (std::string(p.path()) != FN_DEEPSCORE_PNG) {
       continue;
     }
 
     const auto start =
-        fs::directory_iterator(std::string(p.path()) + FN_DEEPSCORE_PNG);
+        fs::directory_iterator(std::string(p.path()));
     const auto finish = end(start);
     const int size = std::distance(start, finish);
     std::cout << size << " files to process among " << n_threads << " threads"
@@ -86,7 +81,7 @@ int main(int argc, char **argv) {
     // Storing filenames into a vector because std::advance does not work on fs
     int pos = 0;
     for (auto &s :
-         fs::directory_iterator(std::string(p.path()) + FN_DEEPSCORE_PNG)) {
+         fs::directory_iterator(std::string(p.path()))) {
       if (processed_images.count(strip_fn(strip_ext(s.path())))) {
         std::cout << s.path() << " already processed.\n";
         continue;
@@ -110,6 +105,6 @@ int main(int argc, char **argv) {
     }
   }
 
-  std::cout << "End of Muscima dataset program" << std::endl;
+  std::cout << "End of DeepScores dataset program" << std::endl;
   return 0;
 }
