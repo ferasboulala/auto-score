@@ -1,4 +1,5 @@
 #include <autoscore/staff.hh>
+#include <autoscore/util.hh>
 #include <tinyxml2.hh>
 
 // c++ std
@@ -764,7 +765,7 @@ void StaffDetect::SaveToDisk(const std::string &fn, const Staffs &staffs,
 
   // <filename>
   XMLElement * Filename = doc.NewElement("filename");
-  Filename->SetText((fn + ".png").c_str());
+  Filename->SetText((strip_fn(fn)).c_str());
   Root->InsertFirstChild(Filename);
 
   // <Model...>
@@ -810,9 +811,7 @@ void StaffDetect::SaveToDisk(const std::string &fn, const Staffs &staffs,
     AllStaffs->InsertEndChild(s);
   }
 
-  if (doc.SaveFile((fn + ".xml").c_str()) < 0){
-    throw std::string("tinyxml2 could not write to file");
-  } 
+  assert(doc.SaveFile((strip_ext(strip_fn(fn)) + ".xml").c_str()) >= 0);
 }
 
 // End of measure with glyph removal with staff_height very high (model module)

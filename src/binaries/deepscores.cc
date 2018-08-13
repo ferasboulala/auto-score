@@ -1,8 +1,12 @@
 #include <assert.h>
-#include <autoscore/staff.hh>
 #include <experimental/filesystem>
 #include <map>
 #include <string>
+#include <thread>
+#include <vector>
+
+#include <autoscore/staff.hh>
+#include <autoscore/util.hh>
 
 #define FN_DATASET "../datasets/Artificial"
 #define FN_DEEPSCORE "DeepScores_archive"
@@ -10,34 +14,28 @@
 
 namespace fs = std::experimental::filesystem;
 
-std::string strip_fn(const std::string &fn) {
-  const int size = fn.size();
-  std::string out = fn;
-  for (int i = size - 1; i >= 0; i--){
-    if (fn[i] == '/'){
-      out.clear();
-      for (int j = i + 1; j < size; j++){
-        out.push_back(fn[j]);
-      }
-      break;
-    }
-  }
-  return out;
-}
+void process_p(std::vector<std::string>::iterator start, const int n_files) {
 
-std::string strip_ext(const std::string &fn) {
-  const int size = fn.size();
-  std::string out = fn;
-  for (int i = size - 1; i >= 0; i--){
-    if (fn[i] == '.'){
-      out.clear();
-      for (int j = 0; j < i; j++){
-        out.push_back(fn[j]);
-      }
-      break;
+  for (int i = 0; i < n_files; i++, start++) {
+    std::cout << *start << std::endl;
+    if (start->find(".png") == std::string::npos &&
+        start->find(".jpg") == std::string::npos &&
+        start->find(".PNG") == std::string::npos) {
+      continue;
+    }
+    const std::string output_fn = strip_fn(strip_ext(*start));
+
+    try {
+      const cv::Mat img = cv::imread(*start, CV_LOAD_IMAGE_GRAYSCALE);
+      const auto model = StaffDetect::GetStaffModel(img);
+      const auto staffs = StaffDetect::FitStaffModel(model);
+      StaffDetect::SaveToDisk(*start, staffs, model);
+      system((std::string("mv ") + output_fn + ".xml " + FN_DATASET).c_str());
+    } catch (...) {
+      std::cerr << "An error occured while processing filename " << *start
+                << std::endl;
     }
   }
-  return out;
 }
 
 int main(int argc, char **argv) {
@@ -59,39 +57,58 @@ int main(int argc, char **argv) {
     system((std::string("mkdir ") + FN_DATASET).c_str());
   } else {
     for (auto &p : fs::directory_iterator(FN_DATASET)) {
-      std::cout << strip_fn(strip_ext(p.path())) << std::endl;
       processed_images[strip_fn(strip_ext(p.path()))] = "Exists";
     }
   }
 
   // For every archive
   for (auto &p : fs::directory_iterator(fn)) {
+    if (std::string(p.path()).find(FN_DEEPSCORE) == std::string::npos) {
+      continue;
+    }
     std::cout << "Working directory : " << p.path() << std::endl;
-    if (std::string(p.path()).find(FN_DEEPSCORE) != std::string::npos) {
-      // For every image
-      for (auto &i :
-           fs::directory_iterator(std::string(p.path()) + FN_DEEPSCORE_PNG)) {
-        std::cout << i.path() << std::endl;
-        const std::string output_fn =
-            strip_fn(strip_ext(fs::absolute(i.path())));
 
-        if (processed_images.count(output_fn)){
-          std::cout << "File already exists.\n";
-          continue;
-        }
+    if (!fs::exists(std::string(p.path()) + FN_DEEPSCORE_PNG)) {
+      std::cout << "No images found in this directory." << std::endl;
+      continue;
+    }
 
-        try {
-          const cv::Mat img = cv::imread(i.path(), CV_LOAD_IMAGE_GRAYSCALE);
-          const auto model = StaffDetect::GetStaffModel(img);
-          const auto staffs = StaffDetect::FitStaffModel(model);
-          StaffDetect::SaveToDisk(output_fn, staffs, model);
-          system(
-              (std::string("mv ") + output_fn + ".xml " + FN_DATASET).c_str());
-        } catch (...) {
-          std::cerr << "An error occured while processing filename " << i.path()
-                    << std::endl;
-        }
+    const auto start =
+        fs::directory_iterator(std::string(p.path()) + FN_DEEPSCORE_PNG);
+    const auto finish = end(start);
+    const int size = std::distance(start, finish);
+    std::cout << size << " files to process among " << n_threads << " threads"
+              << std::endl;
+
+    std::vector<std::string> filenames(size);
+
+    const int files_per_thread = size / n_threads;
+    std::vector<std::thread> threads(n_threads);
+
+    // Storing filenames into a vector because std::advance does not work on fs
+    int pos = 0;
+    for (auto &s :
+         fs::directory_iterator(std::string(p.path()) + FN_DEEPSCORE_PNG)) {
+      if (processed_images.count(strip_fn(strip_ext(s.path())))) {
+        std::cout << s.path() << " already processed.\n";
+        continue;
       }
+      filenames[pos] = s.path();
+      pos++;
+    }
+
+    std::cout << std::endl;
+    std::cout << "Starting dataset processing ..." << std::endl;
+    auto st = filenames.begin();
+    for (int i = 0; i < n_threads; i++, std::advance(st, files_per_thread)) {
+      int n_files = files_per_thread;
+      if (i == n_threads - 1) {
+        n_files = size - (n_threads - 1) * files_per_thread;
+      }
+      threads[i] = std::thread(process_p, st, n_files);
+    }
+    for (auto it = threads.begin(); it != threads.end(); it++) {
+      it->join();
     }
   }
 
