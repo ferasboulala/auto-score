@@ -27,9 +27,9 @@ void process_p(std::vector<std::string>::iterator start, const int n_files) {
 
     try {
       const cv::Mat img = cv::imread(*start, CV_LOAD_IMAGE_GRAYSCALE);
-      const auto model = StaffDetect::GetStaffModel(img);
-      const auto staffs = StaffDetect::FitStaffModel(model);
-      StaffDetect::SaveToDisk(*start, staffs, model);
+      const auto model = as::staff::GetStaffModel(img);
+      const auto staffs = as::staff::FitStaffModel(model);
+      as::staff::SaveToDisk(*start, staffs, model);
       system((std::string("mv ") + output_fn + ".xml " + FN_DATASET).c_str());
     } catch (...) {
       std::cerr << "An error occured while processing filename " << *start

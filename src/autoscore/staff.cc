@@ -512,7 +512,7 @@ void remove_line(cv::Mat &dst, double line_pos, const StaffModel &model) {
 
 } // namespace
 
-StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
+StaffModel as::staff::GetStaffModel(const cv::Mat &src, const int n_threads) {
   assert(is_gray(src));
   assert(n_threads > 0);
 
@@ -553,7 +553,7 @@ StaffModel StaffDetect::GetStaffModel(const cv::Mat &src, const int n_threads) {
   return model;
 }
 
-void StaffDetect::PrintStaffModel(cv::Mat &dst, const StaffModel &model) {
+void as::staff::PrintStaffModel(cv::Mat &dst, const StaffModel &model) {
   const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
   rotate_image(dst, -rotation);
   bounding_box(dst, dst);
@@ -564,7 +564,7 @@ void StaffDetect::PrintStaffModel(cv::Mat &dst, const StaffModel &model) {
   draw_model(dst, model, dst.rows / 2, cv::Scalar(255, 0, 0));
 }
 
-Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
+Staffs as::staff::FitStaffModel(const StaffModel &model) {
   cv::Mat img = model.staff_image;
   const bool straight = model.straight;
 
@@ -663,7 +663,7 @@ Staffs StaffDetect::FitStaffModel(const StaffModel &model) {
   return staffs;
 }
 
-void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
+void as::staff::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
                               const StaffModel &model) {
   const double rotation = RAD2DEG * (model.rot - CV_PI / 2);
   rotate_image(dst, rotation);
@@ -687,7 +687,7 @@ void StaffDetect::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
   }
 }
 
-void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
+void as::staff::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
                                const StaffModel &model) {
   assert(is_gray(dst));
   const bool blackOnWhite = black_on_white(dst);
@@ -716,7 +716,7 @@ void StaffDetect::RemoveStaffs(cv::Mat &dst, const Staffs &staffs,
   raw_rotate(dst, -rotation);
 }
 
-void StaffDetect::Realign(cv::Mat &dst, const StaffModel &model) {
+void as::staff::Realign(cv::Mat &dst, const StaffModel &model) {
   assert(is_gray(dst));
   assert(dst.cols >= model.gradient.size());
 
@@ -754,7 +754,7 @@ void StaffDetect::Realign(cv::Mat &dst, const StaffModel &model) {
   raw_rotate(dst, -rotation);
 }
 
-void StaffDetect::SaveToDisk(const std::string &fn, const Staffs &staffs,
+void as::staff::SaveToDisk(const std::string &fn, const Staffs &staffs,
                              const StaffModel &model) { 
   using namespace tinyxml2;
   XMLDocument doc;

@@ -27,7 +27,8 @@ typedef struct staffModel {
  */
 typedef std::vector<std::pair<int, int>> Staffs;
 
-namespace StaffDetect {
+namespace as {
+namespace staff {
 
 /**
  * @brief Estimates a staff model from a binary image
@@ -77,12 +78,14 @@ void Realign(cv::Mat &dst, const StaffModel &model);
 
 /**
  * @brief Saves the staff information in a xml format
- * @param std::string fn 
+ * @param std::string fn
  * @param Staffs staffs
  * @param StaffModel model
  */
-void SaveToDisk(const std::string &fn, const Staffs &staffs, const StaffModel &model);
+void SaveToDisk(const std::string &fn, const Staffs &staffs,
+                const StaffModel &model);
+} // namespace staff
 
-} // namespace StaffDetect
+} // namespace as
 
 #endif // STAFF_H_

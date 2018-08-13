@@ -6,9 +6,9 @@ namespace fs = std::experimental::filesystem;
 
 void process_image(const std::string &fn, const int n_threads) {
   cv::Mat img = cv::imread(fn, CV_LOAD_IMAGE_GRAYSCALE);
-  auto model = StaffDetect::GetStaffModel(img, n_threads);
-  auto staffs = StaffDetect::FitStaffModel(model);
-  StaffDetect::SaveToDisk("output", staffs, model);
+  auto model = as::staff::GetStaffModel(img, n_threads);
+  auto staffs = as::staff::FitStaffModel(model);
+  as::staff::SaveToDisk("output", staffs, model);
 }
 
 int main(int argc, char **argv) {
