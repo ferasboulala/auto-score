@@ -9,7 +9,6 @@
 #include <autoscore/util.hh>
 
 #define FN_DATASET "../datasets/Artificial"
-#define FN_DEEPSCORE "DeepScores_archive"
 #define FN_DEEPSCORE_PNG "/images_png"
 
 namespace fs = std::experimental::filesystem;
@@ -40,7 +39,7 @@ void process_p(std::vector<std::string>::iterator start, const int n_files) {
 
 int main(int argc, char **argv) {
   if (argc < 2) {
-    std::cerr << "Usage : deepscores <relative fn> <nthreads>" << std::endl;
+    std::cerr << "Usage : deepscores <path-to: /images_png/> <n_threads>" << std::endl;
     return -1;
   }
 
@@ -50,9 +49,8 @@ int main(int argc, char **argv) {
   }
   assert(n_threads > 0);
 
+  // Creating a map of already processed files
   std::map<std::string, std::string> processed_images;
-  const std::string fn = argv[1];
-
   if (!fs::exists(FN_DATASET)) {
     system((std::string("mkdir ") + FN_DATASET).c_str());
   } else {
@@ -61,48 +59,42 @@ int main(int argc, char **argv) {
     }
   }
 
-  for (auto &p : fs::directory_iterator(fn)) {
-    if (std::string(p.path()).find(FN_DEEPSCORE_PNG) == std::string::npos) {
+  // Counting the amount of images that will be processed
+  const std::string fn = argv[1];
+  const auto start = fs::directory_iterator(fn);
+  const auto finish = end(start);
+  const int size = std::distance(start, finish);
+  std::cout << size << " files to process among " << n_threads << " threads"
+            << std::endl;
+
+  // Preparing threading data
+  std::vector<std::string> filenames(size);
+  const int files_per_thread = size / n_threads;
+  std::vector<std::thread> threads(n_threads);
+
+  // Storing filenames into a vector because std::advance does not work on fs
+  int pos = 0;
+  for (auto &s : fs::directory_iterator(fn)) {
+    if (processed_images.count(strip_fn(strip_ext(s.path())))) {
+      std::cout << s.path() << " already processed.\n";
       continue;
     }
-    std::cout << "Working directory : " << p.path() << std::endl;
-    const auto start =
-        fs::directory_iterator(std::string(p.path()));
-    const auto finish = end(start);
-    const int size = std::distance(start, finish);
-    std::cout << size << " files to process among " << n_threads << " threads"
-              << std::endl;
+    filenames[pos] = s.path();
+    pos++;
+  }
 
-    std::vector<std::string> filenames(size);
-
-    const int files_per_thread = size / n_threads;
-    std::vector<std::thread> threads(n_threads);
-
-    // Storing filenames into a vector because std::advance does not work on fs
-    int pos = 0;
-    for (auto &s :
-         fs::directory_iterator(std::string(p.path()))) {
-      if (processed_images.count(strip_fn(strip_ext(s.path())))) {
-        std::cout << s.path() << " already processed.\n";
-        continue;
-      }
-      filenames[pos] = s.path();
-      pos++;
+  std::cout << std::endl;
+  std::cout << "Starting dataset processing ..." << std::endl;
+  auto st = filenames.begin();
+  for (int i = 0; i < n_threads; i++, std::advance(st, files_per_thread)) {
+    int n_files = files_per_thread;
+    if (i == n_threads - 1) {
+      n_files = size - (n_threads - 1) * files_per_thread;
     }
-
-    std::cout << std::endl;
-    std::cout << "Starting dataset processing ..." << std::endl;
-    auto st = filenames.begin();
-    for (int i = 0; i < n_threads; i++, std::advance(st, files_per_thread)) {
-      int n_files = files_per_thread;
-      if (i == n_threads - 1) {
-        n_files = size - (n_threads - 1) * files_per_thread;
-      }
-      threads[i] = std::thread(process_p, st, n_files);
-    }
-    for (auto it = threads.begin(); it != threads.end(); it++) {
-      it->join();
-    }
+    threads[i] = std::thread(process_p, st, n_files);
+  }
+  for (auto it = threads.begin(); it != threads.end(); it++) {
+    it->join();
   }
 
   std::cout << "End of DeepScores dataset program" << std::endl;
