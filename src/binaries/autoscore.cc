@@ -1,4 +1,5 @@
 #include <autoscore/staff.hh>
+#include <util.hh>
 #include <experimental/filesystem>
 #include <string>
 
@@ -24,7 +25,7 @@ int main(int argc, char **argv) {
 
   std::string fn = argv[1];
   auto not_found = std::string::npos;
-  if (fn.find(".png") != not_found || fn.find(".jpg") != not_found) {
+  if (is_image(fn)) {
     process_image(fn, n_threads);
     return 0;
   }

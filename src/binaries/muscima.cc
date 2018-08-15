@@ -13,14 +13,13 @@
 
 namespace fs = std::experimental::filesystem;
 
+// Threading function
 void process_p(std::vector<std::string>::iterator start, const int n_files,
                const int writer, const std::string dist) {
 
   for (int i = 0; i < n_files; i++, start++) {
     std::cout << *start << std::endl;
-    if (start->find(".png") == std::string::npos &&
-        start->find(".jpg") == std::string::npos &&
-        start->find(".PNG") == std::string::npos) {
+    if (!is_image(*start)) {
       continue;
     }
     const std::string output_fn = strip_fn(strip_ext(*start));
@@ -40,6 +39,10 @@ void process_p(std::vector<std::string>::iterator start, const int n_files,
   }
 }
 
+// Program that does staff detection on the MUSCIMA distorted dataset and saves
+// the output in a xml format. Line thickness disrotions are not supported
+// because they are unreadable. The curvature or rotation distortions are
+// supported but for inference only.
 int main(int argc, char **argv) {
   if (argc < 2) {
     std::cerr << "Usage : muscima <path-to: /distorsion/> <n_threads>"
@@ -50,16 +53,16 @@ int main(int argc, char **argv) {
   int n_threads = 1;
   if (argc == 3) {
     n_threads = atoi(argv[2]);
+    assert(n_threads > 0);
   }
-  assert(n_threads > 0);
-
+  
   // Preparing directories
   // Not checking if they exist because this step is quick whereas
   // DeepScores involves storing all files in a std::map
   // If it already exists, nothing will happen
   const std::vector<std::string> distortions = {
-      "kanungo",       "curvature",        "ideal", "interrupted", "rotated",
-      "whitespeckles", "typeset-emulation"};
+      "kanungo", "ideal",         "interrupted",
+      "rotated", "whitespeckles", "typeset-emulation"};
   system((std::string("mkdir ") + FN_DATASET).c_str());
   for (std::string dist : distortions) {
     system((std::string("mkdir ") + FN_DATASET + '/' + dist).c_str());

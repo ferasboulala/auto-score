@@ -13,13 +13,12 @@
 
 namespace fs = std::experimental::filesystem;
 
+// Threading function
 void process_p(std::vector<std::string>::iterator start, const int n_files) {
 
   for (int i = 0; i < n_files; i++, start++) {
     std::cout << *start << std::endl;
-    if (start->find(".png") == std::string::npos &&
-        start->find(".jpg") == std::string::npos &&
-        start->find(".PNG") == std::string::npos) {
+    if (!is_image(*start)) {
       continue;
     }
     const std::string output_fn = strip_fn(strip_ext(*start));
@@ -37,9 +36,13 @@ void process_p(std::vector<std::string>::iterator start, const int n_files) {
   }
 }
 
+// Program that does staff detection on the DEEPSCORES dataset. Since the
+// dataset is enormous, files that were already processed will be skipped.
+// Hence, the program can be stopped at any time.
 int main(int argc, char **argv) {
   if (argc < 2) {
-    std::cerr << "Usage : deepscores <path-to: /images_png/> <n_threads>" << std::endl;
+    std::cerr << "Usage : deepscores <path-to: /images_png/> <n_threads>"
+              << std::endl;
     return -1;
   }
 

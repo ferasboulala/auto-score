@@ -13,3 +13,14 @@ std::string strip_fn(const std::string &fn);
  * @return std::string path without the extension
 */
 std::string strip_ext(const std::string &fn);
+
+/**
+ * @brief Checks if the filename is an image supported by OpenCV
+ * @param std::string fn : The filename
+ * @return bool
+*/
+inline bool is_image(const std::string &fn){
+  return !(fn.find(".png") == std::string::npos &&
+        fn.find(".jpg") == std::string::npos &&
+        fn.find(".PNG") == std::string::npos);
+}
