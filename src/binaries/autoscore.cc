@@ -1,5 +1,5 @@
 #include <autoscore/staff.hh>
-#include <util.hh>
+#include <autoscore/util.hh>
 #include <experimental/filesystem>
 #include <string>
 
