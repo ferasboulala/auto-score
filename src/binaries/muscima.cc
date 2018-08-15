@@ -21,15 +21,15 @@ void process_p(std::vector<std::string>::iterator start, const int n_files,
     if (!is_image(*start)) {
       continue;
     }
-    const std::string output_fn = strip_fn(strip_ext(*start));
+    const std::string output_fn = strip_ext(strip_fn(*start)) + "_W-" +
+                                  std::to_string(writer) + '_' + dist;
 
     try {
       const cv::Mat img = cv::imread(*start, CV_LOAD_IMAGE_GRAYSCALE);
       const auto model = as::staff::GetStaffModel(img);
       const auto staffs = as::staff::FitStaffModel(model);
-      as::staff::SaveToDisk(*start, staffs, model);
-      system((std::string("mv ") + output_fn + ".xml " + FN_DATASET + '/' +
-              dist + "/w-" + std::to_string(writer) + '/')
+      as::staff::SaveToDisk(output_fn, staffs, model);
+      system((std::string("mv ") + output_fn + ".xml " + FN_DATASET + '/')
                  .c_str());
     } catch (...) {
       std::cerr << "An error occured while processing filename " << *start
@@ -84,22 +84,11 @@ int main(int argc, char **argv) {
     std::cout << "Writer " << writer << ", sheet " << sheet << '\n';
   }
 
-  // Preparing directories
-  // Not checking if they exist because this step is quick whereas
-  // DeepScores involves storing all files in a std::map
-  // If it already exists, nothing will happen
+  // Preparing the directory
   const std::vector<std::string> distortions = {
       "kanungo", "ideal",         "interrupted",
       "rotated", "whitespeckles", "typeset-emulation"};
-  system((std::string("mkdir ") + FN_DATASET).c_str());
-  for (std::string dist : distortions) {
-    system((std::string("mkdir ") + FN_DATASET + '/' + dist).c_str());
-    for (int i = 1; i <= N_WRITERS; i++) {
-      system((std::string("mkdir ") + FN_DATASET + '/' + dist + "/w-" +
-              std::to_string(i))
-                 .c_str());
-    }
-  }
+  system(std::string("mkdir ../datasets/Handwritten/").c_str());
 
   // For every transformation
   const std::string fn = argv[1];
