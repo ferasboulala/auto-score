@@ -1,0 +1,19 @@
+<annotation>
+<folder>Annotations</folder>
+<filename>lg-100096699677900503-aug-beethoven--page-14.svg</filename>
+<size>
+  <width>2707</width>
+  <height>3828</height>
+  <depth>1</depth>
+</size>
+<segmented>0</segmented>
+<object>
+  <name>noteheadBlack</name>
+  <bndbox>
+    <xmin>0.67211761</xmin>
+    <xmax>0.68281257</xmax><ymin>0.22343055</ymin>
+    <ymax>0.23001458</ymax>
+  </bndbox>
+</object>
+
+<object><name>noteheadBlack</name><bndbox><xmin>0.67211761</xmin><xmax>0.68281257</xmax><ymin>0.0556744</ymin><ymax>0.06225843</ymax></bndbox></object><object><name>noteheadBlack</name><bndbox><xmin>0.53296334</xmin><xmax>0.5436583</xmax><ymin>0.0526925</ymin><ymax>0.05927653</ymax></bndbox></object><object><name>noteheadBlack</name><bndbox><xmin>0.81338051</xmin><xmax>0.82407547</xmax><ymin>0.04971061</ymin><ymax>0.05629464</ymax></bndbox></object><object><name>accidentalSharp</name><bndbox><xmin>0.65998878</xmin><xmax>0.66916553</xmax><ymin>0.21780073</ymin><ymax>0.23554898</ymax></bndbox></object><object><name>keySharp</name><bndbox><xmin>0.08523665</xmin><xmax>0.0944134</xmax><ymin>0.22078263</ymin><ymax>0.23853088</ymax></bndbox></object><object><name>fClef</name><bndbox><xmin>0.05436634</xmin><xmax>0.07838783</xmax><ymin>0.22347826</ymin><ymax>0.24404142</ymax></bndbox></object><object><name>keySharp</name><bndbox><xmin>0.08523665</xmin><xmax>0.0944134</xmax><ymin>0.03811699</ymin><ymax>0.05586524</ymax></bndbox></object><object><name>gClef</name><bndbox><xmin>0.05571586</xmin><xmax>0.078523</xmax><ymin>0.03496811</ymin><ymax>0.08014981</ymax></bndbox></object><object><name>brace</name><bndbox><xmin>0.03248458</xmin><xmax>0.04535581</xmax><ymin>0.04664156</ymin><ymax>0.24799268</ymax></bndbox></object><object><name>noteheadBlack</name><bndbox><xmin>0.39380907</xmin><xmax>0.40450403</xmax><ymin>0.22939435</ymin><ymax>0.23597838</ymax></bndbox></object><object><name>noteheadBlack</name><bndbox><xmin>0.39380907</xmin><xmax>0.40450403</xmax><ymin>0.04971061</ymin><ymax>0.05629464</ymax></bndbox></object><object><name>noteheadBlack</name><bndbox><xmin>0.2546548</xmin><xmax>0.26534976</xmax><ymin>0.04672871</ymin><ymax>0.05331274</ymax></bndbox></object><object><name>noteheadBlack</name><bndbox><xmin>0.11549968</xmin><xmax>0.12619464</xmax><ymin>0.04971061</ymin><ymax>0.05629464</ymax></bndbox></object><object><name>noteheadBlack</name><bndbox><xmin>0.11549968</xmin><xmax>0.12619464</xmax><ymin>0.24132193</ymin><ymax>0.24790596</ymax></bndbox></object></annotation>
