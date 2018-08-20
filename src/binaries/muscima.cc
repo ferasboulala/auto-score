@@ -86,8 +86,7 @@ int main(int argc, char **argv) {
 
   // Preparing the directory
   const std::vector<std::string> distortions = {
-      "kanungo", "ideal",         "interrupted",
-      "rotated", "whitespeckles", "typeset-emulation"};
+      "kanungo", "ideal", "interrupted", "whitespeckles", "typeset-emulation"};
   system(std::string("mkdir ../datasets/Handwritten/").c_str());
 
   // For every transformation
