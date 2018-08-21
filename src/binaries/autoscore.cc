@@ -1,5 +1,6 @@
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
+
 #include <experimental/filesystem>
 #include <string>
 
@@ -10,6 +11,8 @@ void process_image(const std::string &fn, const int n_threads) {
   auto model = as::staff::GetStaffModel(img, n_threads);
   auto staffs = as::staff::FitStaffModel(model);
   as::staff::SaveToDisk("output", staffs, model);
+  as::staff::PrintStaffs(img, staffs, model);
+  cv::imwrite("../pictures/staff_" + strip_fn(fn), img);
 }
 
 int main(int argc, char **argv) {
