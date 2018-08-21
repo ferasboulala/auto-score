@@ -4,7 +4,7 @@ auto-score is an Optical Music Recognition (OMR) program written in C++ and Pyth
 ## Modules
 auto-score is made up of modules that each accomplish one specific task : 
 
-1. `as::staff` : The input image is then scanned for staff line detection. The output is staff line positions.  
+1. `as::staff` : The input image is then scanned for staff line detection. The output is staff line positions. (ZOOM in to see staff identification)
 
 <p align="center">  
 <img src=pictures/computer_generated.png width="250" height="350">  
@@ -13,12 +13,12 @@ auto-score is made up of modules that each accomplish one specific task :
 <img src=pictures/staff_handwritten.png width="400" height="250">  
 </p>
 
-2. `infer` : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN.
+2. `infer`, in progress : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN.
 
-<img src=pictures/artificial_annotated.png width="250" height="350">
-<img src=pictures/handwritten_annotated.png width="400" height="250">
+<img src=pictures/artificial_annotation.png width="500" height="700">
+<img src=pictures/handwritten_annotation.png width="800" height="500">
 
-3. `music` : Finally, every detected glyph is processed within its context (pitch, duration, etc.). The output for now is simply the position of the glyphs. Alternatively a MusicXML file or tablatures could be implemented.
+3. `music`, todo : Finally, every detected glyph is processed within its context (pitch, duration, etc.). The output for now is simply the position of the glyphs. Alternatively a MusicXML file or tablatures could be implemented.
 
 ## Dependencies and installation
 auto-score depends on OpenCV (image acquisition and processing) and Pytorch (deep learning).  
@@ -53,3 +53,4 @@ The staff detection module was inspired by
 }
 ```
 `datasets.ipynb` is a jupyter notebook that shows the process of generating groundtruth for the classifier.
+<img src=pictures/groundtruths.png width="600" height="700">
