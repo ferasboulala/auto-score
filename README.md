@@ -1,6 +1,8 @@
 # AUTO-SCORE
 auto-score is an Optical Music Recognition (OMR) program written in C++ and Python. It leverages classical computer vision algorithms along with basic modern deep learning models to recognize music notation from both computer generated and handwritten scores.
 
+Essentially, it detects staff lines, slides a window across them with some overlap and classifies the corresponding image.
+
 ## Modules
 auto-score is made up of modules that each accomplish one specific task : 
 
