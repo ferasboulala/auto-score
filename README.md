@@ -4,12 +4,20 @@ auto-score is an Optical Music Recognition (OMR) program written in C++ and Pyth
 ## Modules
 auto-score is made up of modules that each accomplish one specific task : 
 
-1. `as::staff` : The input image is then scanned for staff line detection. The output is staff line positions.
+1. `as::staff` : The input image is then scanned for staff line detection. The output is staff line positions.  
 
-<img src=pictures/computer_generated.png width="400" height="600">
-<img src=pictures/staff_computer_generated.png width="400" height="600">
+<p align="center">  
+<img src=pictures/computer_generated.png width="250" height="350">  
+<img src=pictures/staff_computer_generated.png width="250" height="350">  
+<img src=pictures/handwritten.png width="400" height="250">  
+<img src=pictures/staff_handwritten.png width="400" height="250">  
+</p>
 
 2. `infer` : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN.
+
+<img src=pictures/artificial_annotated.png width="250" height="350">
+<img src=pictures/handwritten_annotated.png width="400" height="250">
+
 3. `music` : Finally, every detected glyph is processed within its context (pitch, duration, etc.). The output for now is simply the position of the glyphs. Alternatively a MusicXML file or tablatures could be implemented.
 
 ## Dependencies and installation
