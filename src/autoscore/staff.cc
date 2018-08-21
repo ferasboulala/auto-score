@@ -670,7 +670,6 @@ void as::staff::PrintStaffs(cv::Mat &dst, const Staffs &staffs,
   if (is_gray(dst)) {
     cv::cvtColor(dst, dst, CV_GRAY2BGR);
   }
-  dst *= 0.5;
   for (auto s : staffs) {
     const double staff_interval = s.second - s.first;
     for (int i = 1; i < LINES_PER_STAFF - 1; i++) {
