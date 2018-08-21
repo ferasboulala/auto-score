@@ -15,8 +15,10 @@ auto-score is made up of modules that each accomplish one specific task :
 
 2. `infer`, in progress : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN.
 
+<p align="center"> 
 <img src=pictures/artificial_annotation.png width="500" height="700">
 <img src=pictures/handwritten_annotation.png width="800" height="500">
+</p>
 
 3. `music`, todo : Finally, every detected glyph is processed within its context (pitch, duration, etc.). The output for now is simply the position of the glyphs. Alternatively a MusicXML file or tablatures could be implemented.
 
@@ -53,4 +55,7 @@ The staff detection module was inspired by
 }
 ```
 `datasets.ipynb` is a jupyter notebook that shows the process of generating groundtruth for the classifier.
+
+<p align="center"> 
 <img src=pictures/groundtruths.png width="600" height="700">
+</p>
