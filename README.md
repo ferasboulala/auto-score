@@ -15,7 +15,7 @@ auto-score is made up of modules that each accomplish one specific task :
 <img src=pictures/staff_handwritten.png width="400" height="250">  
 </p>
 
-2. `infer`, in progress : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN.
+2. `infer`, in progress : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN. (Images below belong are ground truths, not detected symbols).
 
 <p align="center"> 
 <img src=pictures/artificial_annotation.png width="500" height="700">
