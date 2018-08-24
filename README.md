@@ -15,12 +15,7 @@ auto-score is made up of modules that each accomplish one specific task :
 <img src=pictures/staff_handwritten.png width="400" height="250">  
 </p>
 
-2. `infer`, in progress : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN. (Images below belong are ground truths, not detected symbols. Only staff lines are detected).
-
-<p align="center"> 
-<img src=pictures/artificial_annotation.png width="500" height="700">
-<img src=pictures/handwritten_annotation.png width="800" height="500">
-</p>
+2. `infer`, in progress : This module slides a window along the staff lines to detect and classify relevant musical glyphs with the use of a CNN.
 
 3. `music`, todo : Finally, every detected glyph is processed within its context (pitch, duration, etc.). The output for now is simply the position of the glyphs. Alternatively a MusicXML file or tablatures could be implemented.
 
