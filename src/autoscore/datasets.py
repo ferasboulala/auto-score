@@ -173,10 +173,6 @@ def staff_xml(fn):
 
     return MusicFile(filename, height, space, column, row, rot, model, staffs)
 
-def blahblahblah():
-    print('hi')
-    return
-
 '''
 Parses the deepscores groundtruth and returns an array of glyphs
 '''
