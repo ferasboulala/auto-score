@@ -7,11 +7,6 @@ if(NOT OpenCV_LIBS)
   message(FATAL_ERROR "OpenCV package not found")
 endif()
 
-find_library(CAFFE2_LIB caffe2)
-if(NOT CAFFE2_LIB)
-  message(FATAL_ERROR "Caffe2 lib not found")
-endif()
-
 include_directories(include)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -19,7 +14,6 @@ set(CMAKE_CXX_STANDARD_11)
 set(ALL_LIBRARIES)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
 
-list(APPEND ALL_LIBRARIES ${CAFFE2_LIB})
 list(APPEND ALL_LIBRARIES ${OpenCV_LIBS})
 list(APPEND ALL_LIBRARIES -lstdc++fs)
 list(APPEND ALL_LIBRARIES -pthread)
