@@ -1,5 +1,6 @@
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
+#include <opencv2/opencv.hpp>
 
 #include <experimental/filesystem>
 #include <string>

@@ -1,14 +1,10 @@
-cmake_minimum_requireD(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
 project(auto-score)
 
 find_package(OpenCV REQUIRED)
-if(NOT OpenCV_LIBS)
-  message(FATAL_ERROR "OpenCV package not found")
-endif()
 
 include_directories(include)
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_CXX_STANDARD_11)
 set(ALL_LIBRARIES)
@@ -30,12 +26,16 @@ endmacro()
 
 file(GLOB LIB_SOURCES "${PROJECT_SOURCE_DIR}/src/autoscore/*.cc")
 list(APPEND LIB_SOURCES src/tinyxml2.cc)
-add_library(auto-score-lib ${LIB_SOURCES})
-link_whole_archive(auto-score-lib)
+add_library(auto-score ${LIB_SOURCES})
+link_whole_archive(auto-score)
+
+list(APPEND ALL_LIBRARIES auto-score)
+message (STATUS "All libraries : ${ALL_LIBRARIES}")
 
 file(GLOB BIN_SOURCES "${PROJECT_SOURCE_DIR}/src/binaries/*.cc")
 foreach(filename ${BIN_SOURCES})
   get_filename_component(name ${filename} NAME_WE)
+  message(STATUS "Preparing ${name} binary")
   add_executable(${name} ${filename})
   target_link_libraries(${name} ${ALL_LIBRARIES})
 endforeach()
