@@ -6,7 +6,7 @@ Essentially, it detects staff lines, slides a window across them with some overl
 ## Modules
 auto-score is made up of modules that each accomplish one specific task : 
 
-1. `as::staff` : The input image is then scanned for staff line detection. The output is staff line positions. (ZOOM in to see staff identification)
+1. `as::staff` : The input image is scanned for staff line detection. The output is staff line positions. (ZOOM in to see staff identification)
 
 <p align="center">  
 <img src=pictures/computer_generated.png width="250" height="350">  
