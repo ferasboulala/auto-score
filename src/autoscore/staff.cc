@@ -18,7 +18,7 @@
 #define K_NEAREST 5
 // Size of the sliding window in number of lines to find staffs
 #define KERNEL_SIZE 5
-// Ratiio of the max amount of polls per line to consider it a valid line
+// Ratio of the max amount of polls per line to consider it a valid line
 #define MIN_POLL_PER_LINE_RATIO 0.75
 // Ratio of the max amount of polls per staff to suspect the presence of a one
 #define POLL_PER_STAFF_RATIO 0.6

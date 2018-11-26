@@ -66,7 +66,7 @@ class MusicFile:
         for glyph in glyphs:
             if glyph.name not in glyph_dict:
                 continue
-            elif glyph_dict[glyph.name] < POLL_THRESH:
+            elif glyph_dict[glyph.name] < thresh:
                 continue
             
             x = int((glyph.bbox.xmin + glyph.bbox.xmax) / 2) - self.col
@@ -94,7 +94,6 @@ class MusicFile:
     def extract_samples(self, img, glyph_dict, thresh=0.8):
         samples = []
         for staff_idx, staff in enumerate(self.staffs):
-            prev_glyph = None
             for division_idx, division in enumerate(staff):
                 xmin = division_idx * self.kernel_size[0] + self.col
                 xmax = xmin + self.kernel_size[0]
@@ -120,10 +119,8 @@ class MusicFile:
                 div_img = img[ymin:ymax, xmin:xmax]
                 if polled_glyph is not None:
                     label = glyph.name
-                    prev_glyph = polled_glyph
                 else:
                     label = 'None'
-                    prev_glyph = None
                 samples.append((div_img, label))
         return samples
     
@@ -143,7 +140,6 @@ class MusicFile:
                                    (self.col + len(self.model), self.row + 5 * self.height + 4 * self.space + 
                                     self.staff_start[i]), (0,255,0), 5)
                 for division in staff:
-                    
                     for glyph in division:
                         img = cv.rectangle(img, 
                         (glyph.bbox.xmin, glyph.bbox.ymin), (glyph.bbox.xmax, glyph.bbox.ymax), (255,0,0), 3)

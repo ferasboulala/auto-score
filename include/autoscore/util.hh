@@ -1,3 +1,6 @@
+#ifndef _UTIL_HH
+#define _UTIL_HH
+
 #include <string>
 
 /**
@@ -24,3 +27,5 @@ inline bool is_image(const std::string &fn){
         fn.find(".jpg") == std::string::npos &&
         fn.find(".PNG") == std::string::npos);
 }
+
+#endif // _UTIL_HH
