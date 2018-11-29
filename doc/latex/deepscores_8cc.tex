@@ -1,0 +1,76 @@
+\hypertarget{deepscores_8cc}{}\section{src/binaries/deepscores.cc File Reference}
+\label{deepscores_8cc}\index{src/binaries/deepscores.\+cc@{src/binaries/deepscores.\+cc}}
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include $<$experimental/filesystem$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$thread$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$autoscore/staff.\+hh$>$}\\*
+{\ttfamily \#include $<$autoscore/util.\+hh$>$}\\*
+Include dependency graph for deepscores.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{deepscores_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{deepscores_8cc_a1f08b99bca257ad31559e1eb2fce4844}{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}~\char`\"{}../datasets/Artificial\char`\"{}
+\item 
+\#define \hyperlink{deepscores_8cc_a3d508d86b3e2885099b29f786de12d86}{F\+N\+\_\+\+D\+E\+E\+P\+S\+C\+O\+R\+E\+\_\+\+P\+NG}~\char`\"{}/images\+\_\+png\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{deepscores_8cc_a69bbe6efa5213e82c897620e1ae64438}{process\+\_\+p} (std\+::vector$<$ std\+::string $>$\+::iterator start, const int n\+\_\+files)
+\item 
+int \hyperlink{deepscores_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{deepscores.\+cc@{deepscores.\+cc}!F\+N\+\_\+\+D\+A\+T\+A\+S\+ET@{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}}
+\index{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET@{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}!deepscores.\+cc@{deepscores.\+cc}}
+\subsubsection[{\texorpdfstring{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}{FN_DATASET}}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+N\+\_\+\+D\+A\+T\+A\+S\+ET~\char`\"{}../datasets/Artificial\char`\"{}}\hypertarget{deepscores_8cc_a1f08b99bca257ad31559e1eb2fce4844}{}\label{deepscores_8cc_a1f08b99bca257ad31559e1eb2fce4844}
+
+
+Definition at line 11 of file deepscores.\+cc.
+
+\index{deepscores.\+cc@{deepscores.\+cc}!F\+N\+\_\+\+D\+E\+E\+P\+S\+C\+O\+R\+E\+\_\+\+P\+NG@{F\+N\+\_\+\+D\+E\+E\+P\+S\+C\+O\+R\+E\+\_\+\+P\+NG}}
+\index{F\+N\+\_\+\+D\+E\+E\+P\+S\+C\+O\+R\+E\+\_\+\+P\+NG@{F\+N\+\_\+\+D\+E\+E\+P\+S\+C\+O\+R\+E\+\_\+\+P\+NG}!deepscores.\+cc@{deepscores.\+cc}}
+\subsubsection[{\texorpdfstring{F\+N\+\_\+\+D\+E\+E\+P\+S\+C\+O\+R\+E\+\_\+\+P\+NG}{FN_DEEPSCORE_PNG}}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+N\+\_\+\+D\+E\+E\+P\+S\+C\+O\+R\+E\+\_\+\+P\+NG~\char`\"{}/images\+\_\+png\char`\"{}}\hypertarget{deepscores_8cc_a3d508d86b3e2885099b29f786de12d86}{}\label{deepscores_8cc_a3d508d86b3e2885099b29f786de12d86}
+
+
+Definition at line 12 of file deepscores.\+cc.
+
+
+
+\subsection{Function Documentation}
+\index{deepscores.\+cc@{deepscores.\+cc}!main@{main}}
+\index{main@{main}!deepscores.\+cc@{deepscores.\+cc}}
+\subsubsection[{\texorpdfstring{main(int argc, char $\ast$$\ast$argv)}{main(int argc, char **argv)}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\hypertarget{deepscores_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{}\label{deepscores_8cc_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+Definition at line 42 of file deepscores.\+cc.
+
+\index{deepscores.\+cc@{deepscores.\+cc}!process\+\_\+p@{process\+\_\+p}}
+\index{process\+\_\+p@{process\+\_\+p}!deepscores.\+cc@{deepscores.\+cc}}
+\subsubsection[{\texorpdfstring{process\+\_\+p(std\+::vector$<$ std\+::string $>$\+::iterator start, const int n\+\_\+files)}{process_p(std::vector< std::string >::iterator start, const int n_files)}}]{\setlength{\rightskip}{0pt plus 5cm}void process\+\_\+p (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::string $>$\+::iterator}]{start, }
+\item[{const int}]{n\+\_\+files}
+\end{DoxyParamCaption}
+)}\hypertarget{deepscores_8cc_a69bbe6efa5213e82c897620e1ae64438}{}\label{deepscores_8cc_a69bbe6efa5213e82c897620e1ae64438}
+
+
+Definition at line 17 of file deepscores.\+cc.
+

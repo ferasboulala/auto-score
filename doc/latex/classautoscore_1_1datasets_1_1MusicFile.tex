@@ -1,0 +1,238 @@
+\hypertarget{classautoscore_1_1datasets_1_1MusicFile}{}\section{autoscore.\+datasets.\+Music\+File Class Reference}
+\label{classautoscore_1_1datasets_1_1MusicFile}\index{autoscore.\+datasets.\+Music\+File@{autoscore.\+datasets.\+Music\+File}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classautoscore_1_1datasets_1_1MusicFile_a6e8b01cb3b1de42c987a6a901ec652df}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, \hyperlink{classautoscore_1_1datasets_1_1MusicFile_aacc6dc64cbc5fe1e92c6a06edc989afb}{filename}=\textquotesingle{}\textquotesingle{}, \hyperlink{classautoscore_1_1datasets_1_1MusicFile_a9f6580afdca3397f15fe0e60b48a75cc}{height}=0, \hyperlink{classautoscore_1_1datasets_1_1MusicFile_af4e09b923bdd5383d414bb98352aa462}{space}=0, column=0, \hyperlink{classautoscore_1_1datasets_1_1MusicFile_a861933bdc9897aff3416f6462dd1afdf}{row}=0, \hyperlink{classautoscore_1_1datasets_1_1MusicFile_a007db4b9326d26671bcd525eb6844a58}{rot}=0, \hyperlink{classautoscore_1_1datasets_1_1MusicFile_a5ff57ae711407456d3d211797d3c8eb1}{model}=\mbox{[}$\,$\mbox{]}, \hyperlink{classautoscore_1_1datasets_1_1MusicFile_aa0496558ca272cd757c35daf4d790c02}{staff\+\_\+start}=\mbox{[}$\,$\mbox{]})
+\item 
+def \hyperlink{classautoscore_1_1datasets_1_1MusicFile_ab1101d888b07755b148cae3e5f55d328}{compute\+\_\+kernel} (self)
+\item 
+def \hyperlink{classautoscore_1_1datasets_1_1MusicFile_ad9edec3f0f3e8d3d365788c8dce5a86b}{locate} (self, glyphs, glyph\+\_\+dict, thresh=\hyperlink{namespaceautoscore_1_1datasets_ae50cb083b87b74755b2e1cd980a87521}{P\+O\+L\+L\+\_\+\+T\+H\+R\+E\+SH})
+\item 
+def \hyperlink{classautoscore_1_1datasets_1_1MusicFile_a1979d1e68b3cee0de8cb3bf26537e6be}{extract\+\_\+samples} (self, img, glyph\+\_\+dict, thresh=0.\+8)
+\item 
+def \hyperlink{classautoscore_1_1datasets_1_1MusicFile_a270b7fa17a20dfd1d95137250fb8d663}{visualize} (self, img, glyphs=True, divs=True, labels=True)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_aacc6dc64cbc5fe1e92c6a06edc989afb}{filename}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a9f6580afdca3397f15fe0e60b48a75cc}{height}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_af4e09b923bdd5383d414bb98352aa462}{space}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a3fab23d7e20ab614e18c8d8b12e0fd57}{col}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a861933bdc9897aff3416f6462dd1afdf}{row}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a007db4b9326d26671bcd525eb6844a58}{rot}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a5ff57ae711407456d3d211797d3c8eb1}{model}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_aa0496558ca272cd757c35daf4d790c02}{staff\+\_\+start}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_aa0c2d8221dbf487cbe40366174c4c4de}{kernel\+\_\+size}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a2b86ffd7e820dba00ece053745db27cb}{stride}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a4efb643f52223c36362b20b366f044b9}{n\+\_\+strides\+\_\+per\+\_\+staff}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_afe8a162e3c25071506d522dcd570a0be}{boundary\+\_\+adjust}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a2554f38bd0d96e22e6328049b4f97d76}{n\+\_\+divisions}
+\item 
+\hyperlink{classautoscore_1_1datasets_1_1MusicFile_a7e6bd78a57ca8d50ffc47351c6126c41}{staffs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 42 of file datasets.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self, filename=\textquotesingle{}\textquotesingle{}, height=0, space=0, column=0, row=0, rot=0, model=[], staff\+\_\+start=[])}{__init__(self, filename='', height=0, space=0, column=0, row=0, rot=0, model=[], staff_start=[])}}]{\setlength{\rightskip}{0pt plus 5cm}def autoscore.\+datasets.\+Music\+File.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filename = {\ttfamily \textquotesingle{}\textquotesingle{}}, }
+\item[{}]{height = {\ttfamily 0}, }
+\item[{}]{space = {\ttfamily 0}, }
+\item[{}]{column = {\ttfamily 0}, }
+\item[{}]{row = {\ttfamily 0}, }
+\item[{}]{rot = {\ttfamily 0}, }
+\item[{}]{model = {\ttfamily \mbox{[}\mbox{]}}, }
+\item[{}]{staff\+\_\+start = {\ttfamily \mbox{[}\mbox{]}}}
+\end{DoxyParamCaption}
+)}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a6e8b01cb3b1de42c987a6a901ec652df}{}\label{classautoscore_1_1datasets_1_1MusicFile_a6e8b01cb3b1de42c987a6a901ec652df}
+
+
+Definition at line 43 of file datasets.\+py.
+
+
+
+\subsection{Member Function Documentation}
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!compute\+\_\+kernel@{compute\+\_\+kernel}}
+\index{compute\+\_\+kernel@{compute\+\_\+kernel}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{compute\+\_\+kernel(self)}{compute_kernel(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def autoscore.\+datasets.\+Music\+File.\+compute\+\_\+kernel (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_ab1101d888b07755b148cae3e5f55d328}{}\label{classautoscore_1_1datasets_1_1MusicFile_ab1101d888b07755b148cae3e5f55d328}
+
+
+Definition at line 54 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!extract\+\_\+samples@{extract\+\_\+samples}}
+\index{extract\+\_\+samples@{extract\+\_\+samples}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{extract\+\_\+samples(self, img, glyph\+\_\+dict, thresh=0.\+8)}{extract_samples(self, img, glyph_dict, thresh=0.8)}}]{\setlength{\rightskip}{0pt plus 5cm}def autoscore.\+datasets.\+Music\+File.\+extract\+\_\+samples (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{img, }
+\item[{}]{glyph\+\_\+dict, }
+\item[{}]{thresh = {\ttfamily 0.8}}
+\end{DoxyParamCaption}
+)}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a1979d1e68b3cee0de8cb3bf26537e6be}{}\label{classautoscore_1_1datasets_1_1MusicFile_a1979d1e68b3cee0de8cb3bf26537e6be}
+
+
+Definition at line 94 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!locate@{locate}}
+\index{locate@{locate}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{locate(self, glyphs, glyph\+\_\+dict, thresh=\+P\+O\+L\+L\+\_\+\+T\+H\+R\+E\+S\+H)}{locate(self, glyphs, glyph_dict, thresh=POLL_THRESH)}}]{\setlength{\rightskip}{0pt plus 5cm}def autoscore.\+datasets.\+Music\+File.\+locate (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{glyphs, }
+\item[{}]{glyph\+\_\+dict, }
+\item[{}]{thresh = {\ttfamily {\bf P\+O\+L\+L\+\_\+\+T\+H\+R\+E\+SH}}}
+\end{DoxyParamCaption}
+)}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_ad9edec3f0f3e8d3d365788c8dce5a86b}{}\label{classautoscore_1_1datasets_1_1MusicFile_ad9edec3f0f3e8d3d365788c8dce5a86b}
+
+
+Definition at line 63 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!visualize@{visualize}}
+\index{visualize@{visualize}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{visualize(self, img, glyphs=\+True, divs=\+True, labels=\+True)}{visualize(self, img, glyphs=True, divs=True, labels=True)}}]{\setlength{\rightskip}{0pt plus 5cm}def autoscore.\+datasets.\+Music\+File.\+visualize (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{img, }
+\item[{}]{glyphs = {\ttfamily True}, }
+\item[{}]{divs = {\ttfamily True}, }
+\item[{}]{labels = {\ttfamily True}}
+\end{DoxyParamCaption}
+)}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a270b7fa17a20dfd1d95137250fb8d663}{}\label{classautoscore_1_1datasets_1_1MusicFile_a270b7fa17a20dfd1d95137250fb8d663}
+
+
+Definition at line 128 of file datasets.\+py.
+
+
+
+\subsection{Member Data Documentation}
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!boundary\+\_\+adjust@{boundary\+\_\+adjust}}
+\index{boundary\+\_\+adjust@{boundary\+\_\+adjust}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{boundary\+\_\+adjust}{boundary_adjust}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+boundary\+\_\+adjust}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_afe8a162e3c25071506d522dcd570a0be}{}\label{classautoscore_1_1datasets_1_1MusicFile_afe8a162e3c25071506d522dcd570a0be}
+
+
+Definition at line 59 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!col@{col}}
+\index{col@{col}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{col}{col}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+col}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a3fab23d7e20ab614e18c8d8b12e0fd57}{}\label{classautoscore_1_1datasets_1_1MusicFile_a3fab23d7e20ab614e18c8d8b12e0fd57}
+
+
+Definition at line 47 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!filename@{filename}}
+\index{filename@{filename}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{filename}{filename}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+filename}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_aacc6dc64cbc5fe1e92c6a06edc989afb}{}\label{classautoscore_1_1datasets_1_1MusicFile_aacc6dc64cbc5fe1e92c6a06edc989afb}
+
+
+Definition at line 44 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!height@{height}}
+\index{height@{height}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{height}{height}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+height}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a9f6580afdca3397f15fe0e60b48a75cc}{}\label{classautoscore_1_1datasets_1_1MusicFile_a9f6580afdca3397f15fe0e60b48a75cc}
+
+
+Definition at line 45 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!kernel\+\_\+size@{kernel\+\_\+size}}
+\index{kernel\+\_\+size@{kernel\+\_\+size}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{kernel\+\_\+size}{kernel_size}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+kernel\+\_\+size}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_aa0c2d8221dbf487cbe40366174c4c4de}{}\label{classautoscore_1_1datasets_1_1MusicFile_aa0c2d8221dbf487cbe40366174c4c4de}
+
+
+Definition at line 56 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!model@{model}}
+\index{model@{model}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{model}{model}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+model}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a5ff57ae711407456d3d211797d3c8eb1}{}\label{classautoscore_1_1datasets_1_1MusicFile_a5ff57ae711407456d3d211797d3c8eb1}
+
+
+Definition at line 50 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!n\+\_\+divisions@{n\+\_\+divisions}}
+\index{n\+\_\+divisions@{n\+\_\+divisions}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{n\+\_\+divisions}{n_divisions}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+n\+\_\+divisions}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a2554f38bd0d96e22e6328049b4f97d76}{}\label{classautoscore_1_1datasets_1_1MusicFile_a2554f38bd0d96e22e6328049b4f97d76}
+
+
+Definition at line 60 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!n\+\_\+strides\+\_\+per\+\_\+staff@{n\+\_\+strides\+\_\+per\+\_\+staff}}
+\index{n\+\_\+strides\+\_\+per\+\_\+staff@{n\+\_\+strides\+\_\+per\+\_\+staff}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{n\+\_\+strides\+\_\+per\+\_\+staff}{n_strides_per_staff}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+n\+\_\+strides\+\_\+per\+\_\+staff}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a4efb643f52223c36362b20b366f044b9}{}\label{classautoscore_1_1datasets_1_1MusicFile_a4efb643f52223c36362b20b366f044b9}
+
+
+Definition at line 58 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!rot@{rot}}
+\index{rot@{rot}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{rot}{rot}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+rot}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a007db4b9326d26671bcd525eb6844a58}{}\label{classautoscore_1_1datasets_1_1MusicFile_a007db4b9326d26671bcd525eb6844a58}
+
+
+Definition at line 49 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!row@{row}}
+\index{row@{row}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{row}{row}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+row}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a861933bdc9897aff3416f6462dd1afdf}{}\label{classautoscore_1_1datasets_1_1MusicFile_a861933bdc9897aff3416f6462dd1afdf}
+
+
+Definition at line 48 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!space@{space}}
+\index{space@{space}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{space}{space}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+space}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_af4e09b923bdd5383d414bb98352aa462}{}\label{classautoscore_1_1datasets_1_1MusicFile_af4e09b923bdd5383d414bb98352aa462}
+
+
+Definition at line 46 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!staff\+\_\+start@{staff\+\_\+start}}
+\index{staff\+\_\+start@{staff\+\_\+start}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{staff\+\_\+start}{staff_start}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+staff\+\_\+start}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_aa0496558ca272cd757c35daf4d790c02}{}\label{classautoscore_1_1datasets_1_1MusicFile_aa0496558ca272cd757c35daf4d790c02}
+
+
+Definition at line 51 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!staffs@{staffs}}
+\index{staffs@{staffs}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{staffs}{staffs}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+staffs}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a7e6bd78a57ca8d50ffc47351c6126c41}{}\label{classautoscore_1_1datasets_1_1MusicFile_a7e6bd78a57ca8d50ffc47351c6126c41}
+
+
+Definition at line 65 of file datasets.\+py.
+
+\index{autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}!stride@{stride}}
+\index{stride@{stride}!autoscore\+::datasets\+::\+Music\+File@{autoscore\+::datasets\+::\+Music\+File}}
+\subsubsection[{\texorpdfstring{stride}{stride}}]{\setlength{\rightskip}{0pt plus 5cm}autoscore.\+datasets.\+Music\+File.\+stride}\hypertarget{classautoscore_1_1datasets_1_1MusicFile_a2b86ffd7e820dba00ece053745db27cb}{}\label{classautoscore_1_1datasets_1_1MusicFile_a2b86ffd7e820dba00ece053745db27cb}
+
+
+Definition at line 57 of file datasets.\+py.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/autoscore/\hyperlink{datasets_8py}{datasets.\+py}\end{DoxyCompactItemize}

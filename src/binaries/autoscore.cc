@@ -1,3 +1,10 @@
+/**
+ * \mainpage AUTOSCORE
+ * autoscore is a project that aims to convert music scores
+ * (written or computer generated) to a tablature or conventional music file
+ * format like MusicXML.
+**/
+
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
 #include <opencv2/opencv.hpp>

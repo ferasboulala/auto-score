@@ -1,0 +1,68 @@
+\hypertarget{staff_8hh}{}\section{include/autoscore/staff.hh File Reference}
+\label{staff_8hh}\index{include/autoscore/staff.\+hh@{include/autoscore/staff.\+hh}}
+{\ttfamily \#include $<$opencv2/opencv.\+hpp$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+Include dependency graph for staff.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{staff_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{staff_8hh__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structStaffModel}{Staff\+Model}
+\begin{DoxyCompactList}\small\item\em \hyperlink{structStaffModel}{Staff\+Model} that holds the gradient (or orientation) at each column. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespaceas}{as}
+\item 
+ \hyperlink{namespaceas_1_1staff}{as\+::staff}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::vector$<$ std\+::pair$<$ int, int $>$ $>$ \hyperlink{staff_8hh_acfffa1dd2bf9ce5820435e63446a7c90}{Staffs}
+\begin{DoxyCompactList}\small\item\em Vector of staffs with first and last line. Combined with a staff model, it can serve pitch inference. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structStaffModel}{Staff\+Model} \hyperlink{namespaceas_1_1staff_adc528d054888cbe3b9da25286da8aef6}{as\+::staff\+::\+Get\+Staff\+Model} (const cv\+::\+Mat \&src, const int n\+\_\+threads=1)
+\begin{DoxyCompactList}\small\item\em Estimates a staff model from a binary image. \end{DoxyCompactList}\item 
+void \hyperlink{namespaceas_1_1staff_a9c48cfcf1c17cad08ed233fe90d05839}{as\+::staff\+::\+Print\+Staff\+Model} (cv\+::\+Mat \&dst, const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\begin{DoxyCompactList}\small\item\em Prints a staff model on a black image. \end{DoxyCompactList}\item 
+\hyperlink{staff_8hh_acfffa1dd2bf9ce5820435e63446a7c90}{Staffs} \hyperlink{namespaceas_1_1staff_a8a53d0c0106d677e72ae36edb5bbd760}{as\+::staff\+::\+Fit\+Staff\+Model} (const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\begin{DoxyCompactList}\small\item\em Fits the given model and returns all valid staffs. \end{DoxyCompactList}\item 
+void \hyperlink{namespaceas_1_1staff_a5209861cdb891c8a12b5ef43784fac77}{as\+::staff\+::\+Print\+Staffs} (cv\+::\+Mat \&dst, const \hyperlink{staff_8hh_acfffa1dd2bf9ce5820435e63446a7c90}{Staffs} \&staffs, const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\begin{DoxyCompactList}\small\item\em Prints all the detected staffs of the model on an image. \end{DoxyCompactList}\item 
+void \hyperlink{namespaceas_1_1staff_ae06eef6c527f2a2919cc8344394fc80c}{as\+::staff\+::\+Remove\+Staffs} (cv\+::\+Mat \&dst, const \hyperlink{staff_8hh_acfffa1dd2bf9ce5820435e63446a7c90}{Staffs} \&staffs, const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\begin{DoxyCompactList}\small\item\em Removes staffs from an image according to a model and start and end positions. \end{DoxyCompactList}\item 
+void \hyperlink{namespaceas_1_1staff_af93180a3091e6494dc9983792c5113dc}{as\+::staff\+::\+Realign} (cv\+::\+Mat \&dst, const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\begin{DoxyCompactList}\small\item\em Realigns the image according to the staff model gradient. The output image is then modeled with a constant gradient. To distort back the image, give the inverse of the model ($\ast$-\/1). \end{DoxyCompactList}\item 
+void \hyperlink{namespaceas_1_1staff_a568fd337876db996340be89931a8b908}{as\+::staff\+::\+Save\+To\+Disk} (const std\+::string \&fn, const \hyperlink{staff_8hh_acfffa1dd2bf9ce5820435e63446a7c90}{Staffs} \&staffs, const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\begin{DoxyCompactList}\small\item\em Saves the staff information in a xml format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{staff.\+hh@{staff.\+hh}!Staffs@{Staffs}}
+\index{Staffs@{Staffs}!staff.\+hh@{staff.\+hh}}
+\subsubsection[{\texorpdfstring{Staffs}{Staffs}}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::vector$<$std\+::pair$<$int, int$>$ $>$ {\bf Staffs}}\hypertarget{staff_8hh_acfffa1dd2bf9ce5820435e63446a7c90}{}\label{staff_8hh_acfffa1dd2bf9ce5820435e63446a7c90}
+
+
+Vector of staffs with first and last line. Combined with a staff model, it can serve pitch inference. 
+
+
+
+Definition at line 22 of file staff.\+hh.
+

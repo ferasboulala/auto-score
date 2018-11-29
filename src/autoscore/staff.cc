@@ -11,29 +11,29 @@
 #include <unistd.h>
 
 // Hyperparameters
-#define BINARY_THRESH_VAL 128
+#define BINARY_THRESH_VAL       128
 // Minimum amount of CC in a column to estimate the gradient
-#define MIN_CONNECTED_COMP 10
+#define MIN_CONNECTED_COMP      10
 // Number of neighbouring CC to average the gradient
-#define K_NEAREST 5
+#define K_NEAREST               5
 // Size of the sliding window in number of lines to find staffs
-#define KERNEL_SIZE 5
+#define KERNEL_SIZE             5
 // Ratio of the max amount of polls per line to consider it a valid line
 #define MIN_POLL_PER_LINE_RATIO 0.75
 // Ratio of the max amount of polls per staff to suspect the presence of a one
-#define POLL_PER_STAFF_RATIO 0.6
+#define POLL_PER_STAFF_RATIO    0.6
 // Minimum amount of detected HoughLines to consider it straight
-#define MIN_HOUGH_LINES 10
+#define MIN_HOUGH_LINES         10
 
 // Hough
-#define THETA_RES 2
-#define N_BINS 20
+#define THETA_RES   2
+#define N_BINS      20
 
 // Useful constants
 #define LINES_PER_STAFF 5
-#define RAD2DEG 180 / CV_PI
-#define DEG2RAD 1 / (RAD2DEG)
-#define EPSILON 1e-7
+#define RAD2DEG         180 / CV_PI
+#define DEG2RAD         1 / (RAD2DEG)
+#define EPSILON         1e-7
 
 namespace {
 
@@ -812,5 +812,3 @@ void as::staff::SaveToDisk(const std::string &fn, const Staffs &staffs,
 
   assert(doc.SaveFile((strip_ext(strip_fn(fn)) + ".xml").c_str()) >= 0);
 }
-
-// End of measure with glyph removal with staff_height very high (model module)

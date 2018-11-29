@@ -1,0 +1,463 @@
+\hypertarget{classtinyxml2_1_1XMLDocument}{}\section{tinyxml2\+:\+:X\+M\+L\+Document Class Reference}
+\label{classtinyxml2_1_1XMLDocument}\index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+
+
+{\ttfamily \#include $<$tinyxml2.\+hh$>$}
+
+
+
+Inheritance diagram for tinyxml2\+:\+:X\+M\+L\+Document\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{classtinyxml2_1_1XMLDocument__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for tinyxml2\+:\+:X\+M\+L\+Document\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classtinyxml2_1_1XMLDocument__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classtinyxml2_1_1XMLDocument_1_1DepthTracker}{Depth\+Tracker}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtinyxml2_1_1XMLDocument_a57ddf17b6e054dda10af98991b1b8f70}{X\+M\+L\+Document} (bool process\+Entities=true, Whitespace whitespace\+Mode=P\+R\+E\+S\+E\+R\+V\+E\+\_\+\+W\+H\+I\+T\+E\+S\+P\+A\+CE)\hypertarget{classtinyxml2_1_1XMLDocument_a57ddf17b6e054dda10af98991b1b8f70}{}\label{classtinyxml2_1_1XMLDocument_a57ddf17b6e054dda10af98991b1b8f70}
+
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+virtual \hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_a3e185f880882bd978367bb55937735ec}{To\+Document} ()\hypertarget{classtinyxml2_1_1XMLDocument_a3e185f880882bd978367bb55937735ec}{}\label{classtinyxml2_1_1XMLDocument_a3e185f880882bd978367bb55937735ec}
+
+\begin{DoxyCompactList}\small\item\em Safely cast to a Document, or null. \end{DoxyCompactList}\item 
+virtual const \hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document} $\ast$ {\bfseries To\+Document} () const \hypertarget{classtinyxml2_1_1XMLDocument_a15eb1a62afa18c66808031da647d1129}{}\label{classtinyxml2_1_1XMLDocument_a15eb1a62afa18c66808031da647d1129}
+
+\item 
+X\+M\+L\+Error \hyperlink{classtinyxml2_1_1XMLDocument_a1819bd34f540a7304c105a6232d25a1f}{Parse} (const char $\ast$xml, size\+\_\+t n\+Bytes=(size\+\_\+t)(-\/1))
+\item 
+X\+M\+L\+Error \hyperlink{classtinyxml2_1_1XMLDocument_a2ebd4647a8af5fc6831b294ac26a150a}{Load\+File} (const char $\ast$filename)
+\item 
+X\+M\+L\+Error \hyperlink{classtinyxml2_1_1XMLDocument_a5f1d330fad44c52f3d265338dd2a6dc2}{Load\+File} (F\+I\+LE $\ast$)
+\item 
+X\+M\+L\+Error \hyperlink{classtinyxml2_1_1XMLDocument_a73ac416b4a2aa0952e841220eb3da18f}{Save\+File} (const char $\ast$filename, bool compact=false)
+\item 
+X\+M\+L\+Error \hyperlink{classtinyxml2_1_1XMLDocument_a8b95779479a0035acc67b3a61dfe1b74}{Save\+File} (F\+I\+LE $\ast$fp, bool compact=false)
+\item 
+bool {\bfseries Process\+Entities} () const \hypertarget{classtinyxml2_1_1XMLDocument_adfcff7d0599cd520e9fcbb8891e1b678}{}\label{classtinyxml2_1_1XMLDocument_adfcff7d0599cd520e9fcbb8891e1b678}
+
+\item 
+Whitespace {\bfseries Whitespace\+Mode} () const \hypertarget{classtinyxml2_1_1XMLDocument_a94b3ea2f77c9ac831723984df5a02d01}{}\label{classtinyxml2_1_1XMLDocument_a94b3ea2f77c9ac831723984df5a02d01}
+
+\item 
+bool \hyperlink{classtinyxml2_1_1XMLDocument_a530649e9de7e5aa8df9c37f66197fcb6}{Has\+B\+OM} () const 
+\item 
+void \hyperlink{classtinyxml2_1_1XMLDocument_a14419b698f7c4b140df4e80f3f0c93b0}{Set\+B\+OM} (bool use\+B\+OM)
+\item 
+\hyperlink{classtinyxml2_1_1XMLElement}{X\+M\+L\+Element} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_ad2b70320d3c2a071c2f36928edff3e1c}{Root\+Element} ()
+\item 
+const \hyperlink{classtinyxml2_1_1XMLElement}{X\+M\+L\+Element} $\ast$ {\bfseries Root\+Element} () const \hypertarget{classtinyxml2_1_1XMLDocument_a23a25b573d2adf3ee6075636c2a31c73}{}\label{classtinyxml2_1_1XMLDocument_a23a25b573d2adf3ee6075636c2a31c73}
+
+\item 
+void \hyperlink{classtinyxml2_1_1XMLDocument_a686ea28672c0e0c60383ec28148c1ac0}{Print} (\hyperlink{classtinyxml2_1_1XMLPrinter}{X\+M\+L\+Printer} $\ast$streamer=0) const 
+\item 
+virtual bool \hyperlink{classtinyxml2_1_1XMLDocument_aa08503d24898bf9992ae5e5fb8b0cf87}{Accept} (\hyperlink{classtinyxml2_1_1XMLVisitor}{X\+M\+L\+Visitor} $\ast$visitor) const 
+\item 
+\hyperlink{classtinyxml2_1_1XMLElement}{X\+M\+L\+Element} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_a3c335a700a43d7c363a393142a23f234}{New\+Element} (const char $\ast$name)
+\item 
+\hyperlink{classtinyxml2_1_1XMLComment}{X\+M\+L\+Comment} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_a386df0befd06aadb5e0cd21381aa955a}{New\+Comment} (const char $\ast$comment)
+\item 
+\hyperlink{classtinyxml2_1_1XMLText}{X\+M\+L\+Text} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_acece5de77a0819f2341b08c1e1ed9987}{New\+Text} (const char $\ast$text)
+\item 
+\hyperlink{classtinyxml2_1_1XMLDeclaration}{X\+M\+L\+Declaration} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_ae519030c0262fa2daff8993681990e16}{New\+Declaration} (const char $\ast$text=0)
+\item 
+\hyperlink{classtinyxml2_1_1XMLUnknown}{X\+M\+L\+Unknown} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_a4954f502c5fd7f49de54c3c0c99bb73d}{New\+Unknown} (const char $\ast$text)
+\item 
+void \hyperlink{classtinyxml2_1_1XMLDocument_ac1d6e2c7fcc1a660624ac4f68e96380d}{Delete\+Node} (\hyperlink{classtinyxml2_1_1XMLNode}{X\+M\+L\+Node} $\ast$node)
+\item 
+void {\bfseries Clear\+Error} ()\hypertarget{classtinyxml2_1_1XMLDocument_a4085d9c52f1d93214311459d6d1fcf17}{}\label{classtinyxml2_1_1XMLDocument_a4085d9c52f1d93214311459d6d1fcf17}
+
+\item 
+bool \hyperlink{classtinyxml2_1_1XMLDocument_abf0f9ac4c3aa5698a785937f71f7a69f}{Error} () const \hypertarget{classtinyxml2_1_1XMLDocument_abf0f9ac4c3aa5698a785937f71f7a69f}{}\label{classtinyxml2_1_1XMLDocument_abf0f9ac4c3aa5698a785937f71f7a69f}
+
+\begin{DoxyCompactList}\small\item\em Return true if there was an error parsing the document. \end{DoxyCompactList}\item 
+X\+M\+L\+Error \hyperlink{classtinyxml2_1_1XMLDocument_a34903418c9e83f27945c2c533839e350}{Error\+ID} () const \hypertarget{classtinyxml2_1_1XMLDocument_a34903418c9e83f27945c2c533839e350}{}\label{classtinyxml2_1_1XMLDocument_a34903418c9e83f27945c2c533839e350}
+
+\begin{DoxyCompactList}\small\item\em Return the error\+ID. \end{DoxyCompactList}\item 
+const char $\ast$ {\bfseries Error\+Name} () const \hypertarget{classtinyxml2_1_1XMLDocument_a7ff8b68f87042d535841b0afd2c82161}{}\label{classtinyxml2_1_1XMLDocument_a7ff8b68f87042d535841b0afd2c82161}
+
+\item 
+const char $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_afa6df3166e31985f1e54bd2073e2faad}{Error\+Str} () const 
+\item 
+void \hyperlink{classtinyxml2_1_1XMLDocument_a7545cc9a9a67eee9307c001aa316a388}{Print\+Error} () const \hypertarget{classtinyxml2_1_1XMLDocument_a7545cc9a9a67eee9307c001aa316a388}{}\label{classtinyxml2_1_1XMLDocument_a7545cc9a9a67eee9307c001aa316a388}
+
+\begin{DoxyCompactList}\small\item\em A (trivial) utility function that prints the \hyperlink{classtinyxml2_1_1XMLDocument_afa6df3166e31985f1e54bd2073e2faad}{Error\+Str()} to stdout. \end{DoxyCompactList}\item 
+int \hyperlink{classtinyxml2_1_1XMLDocument_a22876562274ac31884bafb9e5cb64aa1}{Error\+Line\+Num} () const \hypertarget{classtinyxml2_1_1XMLDocument_a22876562274ac31884bafb9e5cb64aa1}{}\label{classtinyxml2_1_1XMLDocument_a22876562274ac31884bafb9e5cb64aa1}
+
+\begin{DoxyCompactList}\small\item\em Return the line where the error occurred, or zero if unknown. \end{DoxyCompactList}\item 
+void \hyperlink{classtinyxml2_1_1XMLDocument_a65656b0b2cbc822708eb351504178aaf}{Clear} ()\hypertarget{classtinyxml2_1_1XMLDocument_a65656b0b2cbc822708eb351504178aaf}{}\label{classtinyxml2_1_1XMLDocument_a65656b0b2cbc822708eb351504178aaf}
+
+\begin{DoxyCompactList}\small\item\em Clear the document, resetting it to the initial state. \end{DoxyCompactList}\item 
+void \hyperlink{classtinyxml2_1_1XMLDocument_a341e6d8c97c0c2b5d96a5f355c09c665}{Deep\+Copy} (\hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document} $\ast$target) const 
+\item 
+char $\ast$ {\bfseries Identify} (char $\ast$p, \hyperlink{classtinyxml2_1_1XMLNode}{X\+M\+L\+Node} $\ast$$\ast$node)\hypertarget{classtinyxml2_1_1XMLDocument_a25827d1bec509ad566a107e5853ed040}{}\label{classtinyxml2_1_1XMLDocument_a25827d1bec509ad566a107e5853ed040}
+
+\item 
+void {\bfseries Mark\+In\+Use} (\hyperlink{classtinyxml2_1_1XMLNode}{X\+M\+L\+Node} $\ast$)\hypertarget{classtinyxml2_1_1XMLDocument_a95d28ecb4760a994556b0a51690b21be}{}\label{classtinyxml2_1_1XMLDocument_a95d28ecb4760a994556b0a51690b21be}
+
+\item 
+virtual \hyperlink{classtinyxml2_1_1XMLNode}{X\+M\+L\+Node} $\ast$ \hyperlink{classtinyxml2_1_1XMLDocument_a57c8511ed9f83aa3e20909a3db3f83d0}{Shallow\+Clone} (\hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document} $\ast$) const 
+\item 
+virtual bool \hyperlink{classtinyxml2_1_1XMLDocument_a12eac66c6e45d074d5cc47319868cd66}{Shallow\+Equal} (const \hyperlink{classtinyxml2_1_1XMLNode}{X\+M\+L\+Node} $\ast$) const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const char $\ast$ {\bfseries Error\+I\+D\+To\+Name} (X\+M\+L\+Error error\+ID)\hypertarget{classtinyxml2_1_1XMLDocument_a639f7c295c38dc5a4aafeb2fff93da03}{}\label{classtinyxml2_1_1XMLDocument_a639f7c295c38dc5a4aafeb2fff93da03}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries X\+M\+L\+Document} (const \hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document} \&)\hypertarget{classtinyxml2_1_1XMLDocument_adcea490db02a099d99440cd14a87d9e4}{}\label{classtinyxml2_1_1XMLDocument_adcea490db02a099d99440cd14a87d9e4}
+
+\item 
+void {\bfseries operator=} (const \hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document} \&)\hypertarget{classtinyxml2_1_1XMLDocument_aa542c2cf1276ee4bd778f16d196fe222}{}\label{classtinyxml2_1_1XMLDocument_aa542c2cf1276ee4bd778f16d196fe222}
+
+\item 
+void {\bfseries Parse} ()\hypertarget{classtinyxml2_1_1XMLDocument_aeb556e0e2bed02a73a6c5aaf19759e9a}{}\label{classtinyxml2_1_1XMLDocument_aeb556e0e2bed02a73a6c5aaf19759e9a}
+
+\item 
+void {\bfseries Set\+Error} (X\+M\+L\+Error error, int line\+Num, const char $\ast$format,...)\hypertarget{classtinyxml2_1_1XMLDocument_abffeba53b165f55f385ea7063a93bc95}{}\label{classtinyxml2_1_1XMLDocument_abffeba53b165f55f385ea7063a93bc95}
+
+\item 
+void {\bfseries Push\+Depth} ()\hypertarget{classtinyxml2_1_1XMLDocument_a4d4aa7ec8e078ee6b449471e187d2d67}{}\label{classtinyxml2_1_1XMLDocument_a4d4aa7ec8e078ee6b449471e187d2d67}
+
+\item 
+void {\bfseries Pop\+Depth} ()\hypertarget{classtinyxml2_1_1XMLDocument_a863c45ff542c2b76af0e6c227a743c85}{}\label{classtinyxml2_1_1XMLDocument_a863c45ff542c2b76af0e6c227a743c85}
+
+\item 
+{\footnotesize template$<$class Node\+Type , int Pool\+Element\+Size$>$ }\\Node\+Type $\ast$ {\bfseries Create\+Unlinked\+Node} (\hyperlink{classtinyxml2_1_1MemPoolT}{Mem\+PoolT}$<$ Pool\+Element\+Size $>$ \&pool)\hypertarget{classtinyxml2_1_1XMLDocument_acda2123b71a6e6534be9f48e75ea680a}{}\label{classtinyxml2_1_1XMLDocument_acda2123b71a6e6534be9f48e75ea680a}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool {\bfseries \+\_\+write\+B\+OM}\hypertarget{classtinyxml2_1_1XMLDocument_a1dbdc7feaa58007403c20243ac5abbd3}{}\label{classtinyxml2_1_1XMLDocument_a1dbdc7feaa58007403c20243ac5abbd3}
+
+\item 
+bool {\bfseries \+\_\+process\+Entities}\hypertarget{classtinyxml2_1_1XMLDocument_a9f768cb74fb5ccbadeffa436916f0194}{}\label{classtinyxml2_1_1XMLDocument_a9f768cb74fb5ccbadeffa436916f0194}
+
+\item 
+X\+M\+L\+Error {\bfseries \+\_\+error\+ID}\hypertarget{classtinyxml2_1_1XMLDocument_a61270d643f810975656da2054e1e1622}{}\label{classtinyxml2_1_1XMLDocument_a61270d643f810975656da2054e1e1622}
+
+\item 
+Whitespace {\bfseries \+\_\+whitespace\+Mode}\hypertarget{classtinyxml2_1_1XMLDocument_afec08bf4b1c57b487ba3c6855cfe5478}{}\label{classtinyxml2_1_1XMLDocument_afec08bf4b1c57b487ba3c6855cfe5478}
+
+\item 
+\hyperlink{classtinyxml2_1_1StrPair}{Str\+Pair} {\bfseries \+\_\+error\+Str}\hypertarget{classtinyxml2_1_1XMLDocument_a13a35ff680994da3fc2d2b2e62a33f8d}{}\label{classtinyxml2_1_1XMLDocument_a13a35ff680994da3fc2d2b2e62a33f8d}
+
+\item 
+int {\bfseries \+\_\+error\+Line\+Num}\hypertarget{classtinyxml2_1_1XMLDocument_a7865f254baf1f615c5250aa31bb262d1}{}\label{classtinyxml2_1_1XMLDocument_a7865f254baf1f615c5250aa31bb262d1}
+
+\item 
+char $\ast$ {\bfseries \+\_\+char\+Buffer}\hypertarget{classtinyxml2_1_1XMLDocument_a7913ff24220a40e2e2b49a5137b43d29}{}\label{classtinyxml2_1_1XMLDocument_a7913ff24220a40e2e2b49a5137b43d29}
+
+\item 
+int {\bfseries \+\_\+parse\+Cur\+Line\+Num}\hypertarget{classtinyxml2_1_1XMLDocument_a802c62efacc325f1acb9cfd331b59ea5}{}\label{classtinyxml2_1_1XMLDocument_a802c62efacc325f1acb9cfd331b59ea5}
+
+\item 
+int {\bfseries \+\_\+parsing\+Depth}\hypertarget{classtinyxml2_1_1XMLDocument_adf4da174d246a262137aceb38e37dc77}{}\label{classtinyxml2_1_1XMLDocument_adf4da174d246a262137aceb38e37dc77}
+
+\item 
+\hyperlink{classtinyxml2_1_1DynArray}{Dyn\+Array}$<$ \hyperlink{classtinyxml2_1_1XMLNode}{X\+M\+L\+Node} $\ast$, 10 $>$ {\bfseries \+\_\+unlinked}\hypertarget{classtinyxml2_1_1XMLDocument_a1d2e0f6b8bf0914058c71f2425edac19}{}\label{classtinyxml2_1_1XMLDocument_a1d2e0f6b8bf0914058c71f2425edac19}
+
+\item 
+\hyperlink{classtinyxml2_1_1MemPoolT}{Mem\+PoolT}$<$ sizeof(\hyperlink{classtinyxml2_1_1XMLElement}{X\+M\+L\+Element}) $>$ {\bfseries \+\_\+element\+Pool}\hypertarget{classtinyxml2_1_1XMLDocument_a21574fba363a0d23bfc820d1652ab8bc}{}\label{classtinyxml2_1_1XMLDocument_a21574fba363a0d23bfc820d1652ab8bc}
+
+\item 
+\hyperlink{classtinyxml2_1_1MemPoolT}{Mem\+PoolT}$<$ sizeof(\hyperlink{classtinyxml2_1_1XMLAttribute}{X\+M\+L\+Attribute}) $>$ {\bfseries \+\_\+attribute\+Pool}\hypertarget{classtinyxml2_1_1XMLDocument_a0a57ebeba23bc6cfce88f12b4a946aac}{}\label{classtinyxml2_1_1XMLDocument_a0a57ebeba23bc6cfce88f12b4a946aac}
+
+\item 
+\hyperlink{classtinyxml2_1_1MemPoolT}{Mem\+PoolT}$<$ sizeof(\hyperlink{classtinyxml2_1_1XMLText}{X\+M\+L\+Text}) $>$ {\bfseries \+\_\+text\+Pool}\hypertarget{classtinyxml2_1_1XMLDocument_afe8ac410aaa53cf1f2142a4c2fd958c7}{}\label{classtinyxml2_1_1XMLDocument_afe8ac410aaa53cf1f2142a4c2fd958c7}
+
+\item 
+\hyperlink{classtinyxml2_1_1MemPoolT}{Mem\+PoolT}$<$ sizeof(\hyperlink{classtinyxml2_1_1XMLComment}{X\+M\+L\+Comment}) $>$ {\bfseries \+\_\+comment\+Pool}\hypertarget{classtinyxml2_1_1XMLDocument_ac2e73ccbc037dee917c3163158180398}{}\label{classtinyxml2_1_1XMLDocument_ac2e73ccbc037dee917c3163158180398}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const char $\ast$ {\bfseries \+\_\+error\+Names} \mbox{[}X\+M\+L\+\_\+\+E\+R\+R\+O\+R\+\_\+\+C\+O\+U\+NT\mbox{]}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries X\+M\+L\+Element}\hypertarget{classtinyxml2_1_1XMLDocument_ac2fba9b6e452829dd892f7392c24e0eb}{}\label{classtinyxml2_1_1XMLDocument_ac2fba9b6e452829dd892f7392c24e0eb}
+
+\item 
+class {\bfseries X\+M\+L\+Node}\hypertarget{classtinyxml2_1_1XMLDocument_a8233f9dc4d61d90e93be2a3647c6d957}{}\label{classtinyxml2_1_1XMLDocument_a8233f9dc4d61d90e93be2a3647c6d957}
+
+\item 
+class {\bfseries X\+M\+L\+Text}\hypertarget{classtinyxml2_1_1XMLDocument_ae50b59416e98bbe7e4bc87df40092109}{}\label{classtinyxml2_1_1XMLDocument_ae50b59416e98bbe7e4bc87df40092109}
+
+\item 
+class {\bfseries X\+M\+L\+Comment}\hypertarget{classtinyxml2_1_1XMLDocument_acee9e261162d4236fb2c30312c54cd4c}{}\label{classtinyxml2_1_1XMLDocument_acee9e261162d4236fb2c30312c54cd4c}
+
+\item 
+class {\bfseries X\+M\+L\+Declaration}\hypertarget{classtinyxml2_1_1XMLDocument_a93d2c2c2db3973083b7d6e7f6f358160}{}\label{classtinyxml2_1_1XMLDocument_a93d2c2c2db3973083b7d6e7f6f358160}
+
+\item 
+class {\bfseries X\+M\+L\+Unknown}\hypertarget{classtinyxml2_1_1XMLDocument_a6946948274f7a02f5e69b5dbeaea9b35}{}\label{classtinyxml2_1_1XMLDocument_a6946948274f7a02f5e69b5dbeaea9b35}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A Document binds together all the functionality. It can be saved, loaded, and printed to the screen. All Nodes are connected and allocated to a Document. If the Document is deleted, all its Nodes are also deleted. 
+
+\subsection{Member Function Documentation}
+\index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Accept@{Accept}}
+\index{Accept@{Accept}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Accept(\+X\+M\+L\+Visitor $\ast$visitor) const }{Accept(XMLVisitor *visitor) const }}]{\setlength{\rightskip}{0pt plus 5cm}bool tinyxml2\+::\+X\+M\+L\+Document\+::\+Accept (
+\begin{DoxyParamCaption}
+\item[{{\bf X\+M\+L\+Visitor} $\ast$}]{visitor}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classtinyxml2_1_1XMLDocument_aa08503d24898bf9992ae5e5fb8b0cf87}{}\label{classtinyxml2_1_1XMLDocument_aa08503d24898bf9992ae5e5fb8b0cf87}
+Accept a hierarchical visit of the nodes in the Tiny\+X\+M\+L-\/2 D\+OM. Every node in the X\+ML tree will be conditionally visited and the host will be called back via the \hyperlink{classtinyxml2_1_1XMLVisitor}{X\+M\+L\+Visitor} interface.
+
+This is essentially a S\+AX interface for Tiny\+X\+M\+L-\/2. (Note however it doesn\textquotesingle{}t re-\/parse the X\+ML for the callbacks, so the performance of Tiny\+X\+M\+L-\/2 is unchanged by using this interface versus any other.)
+
+The interface has been based on ideas from\+:
+
+
+\begin{DoxyItemize}
+\item \href{http://www.saxproject.org/}{\tt http\+://www.\+saxproject.\+org/}
+\item \href{http://c2.com/cgi/wiki?HierarchicalVisitorPattern}{\tt http\+://c2.\+com/cgi/wiki?\+Hierarchical\+Visitor\+Pattern}
+\end{DoxyItemize}
+
+Which are both good references for \char`\"{}visiting\char`\"{}.
+
+An example of using \hyperlink{classtinyxml2_1_1XMLDocument_aa08503d24898bf9992ae5e5fb8b0cf87}{Accept()}\+: \begin{DoxyVerb}XMLPrinter printer;
+tinyxmlDoc.Accept( &printer );
+const char* xmlcstr = printer.CStr();
+\end{DoxyVerb}
+ 
+
+Implements \hyperlink{classtinyxml2_1_1XMLNode_a81e66df0a44c67a7af17f3b77a152785}{tinyxml2\+::\+X\+M\+L\+Node}.
+
+\index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Deep\+Copy@{Deep\+Copy}}
+\index{Deep\+Copy@{Deep\+Copy}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Deep\+Copy(\+X\+M\+L\+Document $\ast$target) const }{DeepCopy(XMLDocument *target) const }}]{\setlength{\rightskip}{0pt plus 5cm}void tinyxml2\+::\+X\+M\+L\+Document\+::\+Deep\+Copy (
+\begin{DoxyParamCaption}
+\item[{{\bf X\+M\+L\+Document} $\ast$}]{target}
+\end{DoxyParamCaption}
+) const}\hypertarget{classtinyxml2_1_1XMLDocument_a341e6d8c97c0c2b5d96a5f355c09c665}{}\label{classtinyxml2_1_1XMLDocument_a341e6d8c97c0c2b5d96a5f355c09c665}
+Copies this document to a target document. The target will be completely cleared before the copy. If you want to copy a sub-\/tree, see \hyperlink{classtinyxml2_1_1XMLNode_aac9830f503ff38b6f9f7ea7f48b8adee}{X\+M\+L\+Node\+::\+Deep\+Clone()}.
+
+N\+O\+TE\+: that the \textquotesingle{}target\textquotesingle{} must be non-\/null. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Delete\+Node@{Delete\+Node}}
+\index{Delete\+Node@{Delete\+Node}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Delete\+Node(\+X\+M\+L\+Node $\ast$node)}{DeleteNode(XMLNode *node)}}]{\setlength{\rightskip}{0pt plus 5cm}void tinyxml2\+::\+X\+M\+L\+Document\+::\+Delete\+Node (
+\begin{DoxyParamCaption}
+\item[{{\bf X\+M\+L\+Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_ac1d6e2c7fcc1a660624ac4f68e96380d}{}\label{classtinyxml2_1_1XMLDocument_ac1d6e2c7fcc1a660624ac4f68e96380d}
+Delete a node associated with this document. It will be unlinked from the D\+OM. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Error\+Str@{Error\+Str}}
+\index{Error\+Str@{Error\+Str}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Error\+Str() const }{ErrorStr() const }}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+Error\+Str (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classtinyxml2_1_1XMLDocument_afa6df3166e31985f1e54bd2073e2faad}{}\label{classtinyxml2_1_1XMLDocument_afa6df3166e31985f1e54bd2073e2faad}
+Returns a \char`\"{}long form\char`\"{} error description. A hopefully helpful diagnostic with location, line number, and/or additional info. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Has\+B\+OM@{Has\+B\+OM}}
+\index{Has\+B\+OM@{Has\+B\+OM}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Has\+B\+O\+M() const }{HasBOM() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool tinyxml2\+::\+X\+M\+L\+Document\+::\+Has\+B\+OM (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classtinyxml2_1_1XMLDocument_a530649e9de7e5aa8df9c37f66197fcb6}{}\label{classtinyxml2_1_1XMLDocument_a530649e9de7e5aa8df9c37f66197fcb6}
+Returns true if this document has a leading Byte Order Mark of U\+T\+F8. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Load\+File@{Load\+File}}
+\index{Load\+File@{Load\+File}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Load\+File(const char $\ast$filename)}{LoadFile(const char *filename)}}]{\setlength{\rightskip}{0pt plus 5cm}X\+M\+L\+Error tinyxml2\+::\+X\+M\+L\+Document\+::\+Load\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a2ebd4647a8af5fc6831b294ac26a150a}{}\label{classtinyxml2_1_1XMLDocument_a2ebd4647a8af5fc6831b294ac26a150a}
+Load an X\+ML file from disk. Returns X\+M\+L\+\_\+\+S\+U\+C\+C\+E\+SS (0) on success, or an error\+ID. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Load\+File@{Load\+File}}
+\index{Load\+File@{Load\+File}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Load\+File(\+F\+I\+L\+E $\ast$)}{LoadFile(FILE *)}}]{\setlength{\rightskip}{0pt plus 5cm}X\+M\+L\+Error tinyxml2\+::\+X\+M\+L\+Document\+::\+Load\+File (
+\begin{DoxyParamCaption}
+\item[{F\+I\+LE $\ast$}]{fp}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a5f1d330fad44c52f3d265338dd2a6dc2}{}\label{classtinyxml2_1_1XMLDocument_a5f1d330fad44c52f3d265338dd2a6dc2}
+Load an X\+ML file from disk. You are responsible for providing and closing the F\+I\+L\+E$\ast$.
+
+N\+O\+TE\+: The file should be opened as binary (\char`\"{}rb\char`\"{}) not text in order for Tiny\+X\+M\+L-\/2 to correctly do newline normalization.
+
+Returns X\+M\+L\+\_\+\+S\+U\+C\+C\+E\+SS (0) on success, or an error\+ID. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!New\+Comment@{New\+Comment}}
+\index{New\+Comment@{New\+Comment}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{New\+Comment(const char $\ast$comment)}{NewComment(const char *comment)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf X\+M\+L\+Comment} $\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+New\+Comment (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{comment}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a386df0befd06aadb5e0cd21381aa955a}{}\label{classtinyxml2_1_1XMLDocument_a386df0befd06aadb5e0cd21381aa955a}
+Create a new Comment associated with this Document. The memory for the Comment is managed by the Document. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!New\+Declaration@{New\+Declaration}}
+\index{New\+Declaration@{New\+Declaration}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{New\+Declaration(const char $\ast$text=0)}{NewDeclaration(const char *text=0)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf X\+M\+L\+Declaration} $\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+New\+Declaration (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{text = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_ae519030c0262fa2daff8993681990e16}{}\label{classtinyxml2_1_1XMLDocument_ae519030c0262fa2daff8993681990e16}
+Create a new Declaration associated with this Document. The memory for the object is managed by the Document.
+
+If the \textquotesingle{}text\textquotesingle{} param is null, the standard declaration is used.\+: \begin{DoxyVerb}    <?xml version="1.0" encoding="UTF-8"?>
+\end{DoxyVerb}
+ \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!New\+Element@{New\+Element}}
+\index{New\+Element@{New\+Element}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{New\+Element(const char $\ast$name)}{NewElement(const char *name)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf X\+M\+L\+Element} $\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+New\+Element (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a3c335a700a43d7c363a393142a23f234}{}\label{classtinyxml2_1_1XMLDocument_a3c335a700a43d7c363a393142a23f234}
+Create a new Element associated with this Document. The memory for the Element is managed by the Document. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!New\+Text@{New\+Text}}
+\index{New\+Text@{New\+Text}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{New\+Text(const char $\ast$text)}{NewText(const char *text)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf X\+M\+L\+Text} $\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+New\+Text (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{text}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_acece5de77a0819f2341b08c1e1ed9987}{}\label{classtinyxml2_1_1XMLDocument_acece5de77a0819f2341b08c1e1ed9987}
+Create a new Text associated with this Document. The memory for the Text is managed by the Document. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!New\+Unknown@{New\+Unknown}}
+\index{New\+Unknown@{New\+Unknown}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{New\+Unknown(const char $\ast$text)}{NewUnknown(const char *text)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf X\+M\+L\+Unknown} $\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+New\+Unknown (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{text}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a4954f502c5fd7f49de54c3c0c99bb73d}{}\label{classtinyxml2_1_1XMLDocument_a4954f502c5fd7f49de54c3c0c99bb73d}
+Create a new Unknown associated with this Document. The memory for the object is managed by the Document. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Parse@{Parse}}
+\index{Parse@{Parse}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Parse(const char $\ast$xml, size\+\_\+t n\+Bytes=(size\+\_\+t)(-\/1))}{Parse(const char *xml, size_t nBytes=(size_t)(-1))}}]{\setlength{\rightskip}{0pt plus 5cm}X\+M\+L\+Error tinyxml2\+::\+X\+M\+L\+Document\+::\+Parse (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{xml, }
+\item[{size\+\_\+t}]{n\+Bytes = {\ttfamily (size\+\_\+t)(-\/1)}}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a1819bd34f540a7304c105a6232d25a1f}{}\label{classtinyxml2_1_1XMLDocument_a1819bd34f540a7304c105a6232d25a1f}
+Parse an X\+ML file from a character string. Returns X\+M\+L\+\_\+\+S\+U\+C\+C\+E\+SS (0) on success, or an error\+ID.
+
+You may optionally pass in the \textquotesingle{}n\+Bytes\textquotesingle{}, which is the number of bytes which will be parsed. If not specified, Tiny\+X\+M\+L-\/2 will assume \textquotesingle{}xml\textquotesingle{} points to a null terminated string. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Print@{Print}}
+\index{Print@{Print}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Print(\+X\+M\+L\+Printer $\ast$streamer=0) const }{Print(XMLPrinter *streamer=0) const }}]{\setlength{\rightskip}{0pt plus 5cm}void tinyxml2\+::\+X\+M\+L\+Document\+::\+Print (
+\begin{DoxyParamCaption}
+\item[{{\bf X\+M\+L\+Printer} $\ast$}]{streamer = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const}\hypertarget{classtinyxml2_1_1XMLDocument_a686ea28672c0e0c60383ec28148c1ac0}{}\label{classtinyxml2_1_1XMLDocument_a686ea28672c0e0c60383ec28148c1ac0}
+Print the Document. If the Printer is not provided, it will print to stdout. If you provide Printer, this can print to a file\+: \begin{DoxyVerb}XMLPrinter printer( fp );
+doc.Print( &printer );
+\end{DoxyVerb}
+
+
+Or you can use a printer to print to memory\+: \begin{DoxyVerb}XMLPrinter printer;
+doc.Print( &printer );
+// printer.CStr() has a const char* to the XML
+\end{DoxyVerb}
+ \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Root\+Element@{Root\+Element}}
+\index{Root\+Element@{Root\+Element}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Root\+Element()}{RootElement()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf X\+M\+L\+Element}$\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+Root\+Element (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classtinyxml2_1_1XMLDocument_ad2b70320d3c2a071c2f36928edff3e1c}{}\label{classtinyxml2_1_1XMLDocument_ad2b70320d3c2a071c2f36928edff3e1c}
+Return the root element of D\+OM. Equivalent to \hyperlink{classtinyxml2_1_1XMLNode_a4a38e0da23f4d97673a86c77d5cae5c2}{First\+Child\+Element()}. To get the first node, use First\+Child(). \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Save\+File@{Save\+File}}
+\index{Save\+File@{Save\+File}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Save\+File(const char $\ast$filename, bool compact=false)}{SaveFile(const char *filename, bool compact=false)}}]{\setlength{\rightskip}{0pt plus 5cm}X\+M\+L\+Error tinyxml2\+::\+X\+M\+L\+Document\+::\+Save\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{bool}]{compact = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a73ac416b4a2aa0952e841220eb3da18f}{}\label{classtinyxml2_1_1XMLDocument_a73ac416b4a2aa0952e841220eb3da18f}
+Save the X\+ML file to disk. Returns X\+M\+L\+\_\+\+S\+U\+C\+C\+E\+SS (0) on success, or an error\+ID. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Save\+File@{Save\+File}}
+\index{Save\+File@{Save\+File}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Save\+File(\+F\+I\+L\+E $\ast$fp, bool compact=false)}{SaveFile(FILE *fp, bool compact=false)}}]{\setlength{\rightskip}{0pt plus 5cm}X\+M\+L\+Error tinyxml2\+::\+X\+M\+L\+Document\+::\+Save\+File (
+\begin{DoxyParamCaption}
+\item[{F\+I\+LE $\ast$}]{fp, }
+\item[{bool}]{compact = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{classtinyxml2_1_1XMLDocument_a8b95779479a0035acc67b3a61dfe1b74}{}\label{classtinyxml2_1_1XMLDocument_a8b95779479a0035acc67b3a61dfe1b74}
+Save the X\+ML file to disk. You are responsible for providing and closing the F\+I\+L\+E$\ast$.
+
+Returns X\+M\+L\+\_\+\+S\+U\+C\+C\+E\+SS (0) on success, or an error\+ID. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Set\+B\+OM@{Set\+B\+OM}}
+\index{Set\+B\+OM@{Set\+B\+OM}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Set\+B\+O\+M(bool use\+B\+O\+M)}{SetBOM(bool useBOM)}}]{\setlength{\rightskip}{0pt plus 5cm}void tinyxml2\+::\+X\+M\+L\+Document\+::\+Set\+B\+OM (
+\begin{DoxyParamCaption}
+\item[{bool}]{use\+B\+OM}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classtinyxml2_1_1XMLDocument_a14419b698f7c4b140df4e80f3f0c93b0}{}\label{classtinyxml2_1_1XMLDocument_a14419b698f7c4b140df4e80f3f0c93b0}
+Sets whether to write the B\+OM when writing the file. \index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Shallow\+Clone@{Shallow\+Clone}}
+\index{Shallow\+Clone@{Shallow\+Clone}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Shallow\+Clone(\+X\+M\+L\+Document $\ast$) const }{ShallowClone(XMLDocument *) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf X\+M\+L\+Node}$\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+Shallow\+Clone (
+\begin{DoxyParamCaption}
+\item[{{\bf X\+M\+L\+Document} $\ast$}]{document}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classtinyxml2_1_1XMLDocument_a57c8511ed9f83aa3e20909a3db3f83d0}{}\label{classtinyxml2_1_1XMLDocument_a57c8511ed9f83aa3e20909a3db3f83d0}
+Make a copy of this node, but not its children. You may pass in a Document pointer that will be the owner of the new Node. If the \textquotesingle{}document\textquotesingle{} is null, then the node returned will be allocated from the current Document. (this-\/$>$\hyperlink{classtinyxml2_1_1XMLNode_af343d1ef0b45c0020e62d784d7e67a68}{Get\+Document()})
+
+Note\+: if called on a \hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document}, this will return null. 
+
+Implements \hyperlink{classtinyxml2_1_1XMLNode_a8402cbd3129d20e9e6024bbcc0531283}{tinyxml2\+::\+X\+M\+L\+Node}.
+
+\index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!Shallow\+Equal@{Shallow\+Equal}}
+\index{Shallow\+Equal@{Shallow\+Equal}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{Shallow\+Equal(const X\+M\+L\+Node $\ast$) const }{ShallowEqual(const XMLNode *) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool tinyxml2\+::\+X\+M\+L\+Document\+::\+Shallow\+Equal (
+\begin{DoxyParamCaption}
+\item[{const {\bf X\+M\+L\+Node} $\ast$}]{compare}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classtinyxml2_1_1XMLDocument_a12eac66c6e45d074d5cc47319868cd66}{}\label{classtinyxml2_1_1XMLDocument_a12eac66c6e45d074d5cc47319868cd66}
+Test if 2 nodes are the same, but don\textquotesingle{}t test children. The 2 nodes do not need to be in the same Document.
+
+Note\+: if called on a \hyperlink{classtinyxml2_1_1XMLDocument}{X\+M\+L\+Document}, this will return false. 
+
+Implements \hyperlink{classtinyxml2_1_1XMLNode_a7ce18b751c3ea09eac292dca264f9226}{tinyxml2\+::\+X\+M\+L\+Node}.
+
+
+
+\subsection{Member Data Documentation}
+\index{tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}!\+\_\+error\+Names@{\+\_\+error\+Names}}
+\index{\+\_\+error\+Names@{\+\_\+error\+Names}!tinyxml2\+::\+X\+M\+L\+Document@{tinyxml2\+::\+X\+M\+L\+Document}}
+\subsubsection[{\texorpdfstring{\+\_\+error\+Names}{_errorNames}}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ tinyxml2\+::\+X\+M\+L\+Document\+::\+\_\+error\+Names\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\hypertarget{classtinyxml2_1_1XMLDocument_af006d806fd8e1f6e74933ee9c062de4a}{}\label{classtinyxml2_1_1XMLDocument_af006d806fd8e1f6e74933ee9c062de4a}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    \textcolor{stringliteral}{"XML\_SUCCESS"},
+    \textcolor{stringliteral}{"XML\_NO\_ATTRIBUTE"},
+    \textcolor{stringliteral}{"XML\_WRONG\_ATTRIBUTE\_TYPE"},
+    \textcolor{stringliteral}{"XML\_ERROR\_FILE\_NOT\_FOUND"},
+    \textcolor{stringliteral}{"XML\_ERROR\_FILE\_COULD\_NOT\_BE\_OPENED"},
+    \textcolor{stringliteral}{"XML\_ERROR\_FILE\_READ\_ERROR"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING\_ELEMENT"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING\_ATTRIBUTE"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING\_TEXT"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING\_CDATA"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING\_COMMENT"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING\_DECLARATION"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING\_UNKNOWN"},
+    \textcolor{stringliteral}{"XML\_ERROR\_EMPTY\_DOCUMENT"},
+    \textcolor{stringliteral}{"XML\_ERROR\_MISMATCHED\_ELEMENT"},
+    \textcolor{stringliteral}{"XML\_ERROR\_PARSING"},
+    \textcolor{stringliteral}{"XML\_CAN\_NOT\_CONVERT\_TEXT"},
+    \textcolor{stringliteral}{"XML\_NO\_TEXT\_NODE"},
+    \textcolor{stringliteral}{"XML\_ELEMENT\_DEPTH\_EXCEEDED"}
+\}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/tinyxml2.\+hh\item 
+src/tinyxml2.\+cc\end{DoxyCompactItemize}

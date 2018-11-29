@@ -1,0 +1,227 @@
+\hypertarget{namespaceanonymous__namespace_02staff_8cc_03}{}\section{anonymous\+\_\+namespace\{staff.\+cc\} Namespace Reference}
+\label{namespaceanonymous__namespace_02staff_8cc_03}\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structanonymous__namespace_02staff_8cc_03_1_1ConnectedComponent}{Connected\+Component}
+\item 
+struct \hyperlink{structanonymous__namespace_02staff_8cc_03_1_1GradientData}{Gradient\+Data}
+\item 
+struct \hyperlink{structanonymous__namespace_02staff_8cc_03_1_1RunLengthData}{Run\+Length\+Data}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a79495cf4f6a32aa51f293ed70e818804}{is\+\_\+gray} (const cv\+::\+Mat \&src)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a57d06804211d80274cc40825db82bfcb}{bounding\+\_\+box} (const cv\+::\+Mat \&src, cv\+::\+Mat \&dst)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a3568b86a70e0f8a3daec31a019eeb104}{draw\+\_\+model} (cv\+::\+Mat \&dst, const \hyperlink{structStaffModel}{Staff\+Model} \&model, const int pos, const cv\+::\+Scalar color)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a9156ea35902498bfb94f9f22b8f4bf6e}{rotate\+\_\+image} (cv\+::\+Mat \&dst, const double rot\+\_\+theta)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a5bdda2981a95b5eb6d486efc14676724}{raw\+\_\+rotate} (cv\+::\+Mat \&dst, const double rot\+\_\+theta)
+\item 
+bool \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a63818cc0df79b80ab6ffcad5b63df63a}{black\+\_\+on\+\_\+white} (const cv\+::\+Mat \&src)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a6e1c8cba88d76c900e8c838e6e97beb8}{estimate\+\_\+rotation} (cv\+::\+Mat \&img, \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_ab0f140df81f62c7aa0f330a0a876b5cf}{run\+\_\+length\+\_\+p} (struct \hyperlink{structanonymous__namespace_02staff_8cc_03_1_1RunLengthData}{Run\+Length\+Data} \&data)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_afe2c1f1f40fd4b176293cdc981bdd6b9}{run\+\_\+length} (const cv\+::\+Mat \&img, int \&staff\+\_\+height, int \&staff\+\_\+space, const int n\+\_\+threads)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a88b9ddc21068ab319b4e4366abb95a8b}{remove\+\_\+glyphs} (cv\+::\+Mat \&staff\+\_\+image, const int staff\+\_\+height, const int staff\+\_\+space)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_af9ad599266f45cfd7cbd4108a1d15927}{estimate\+\_\+gradient\+\_\+p} (struct \hyperlink{structanonymous__namespace_02staff_8cc_03_1_1GradientData}{Gradient\+Data} \&data)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_ab397b0436cc25a1d1b61be4bd5be3c35}{estimate\+\_\+gradient} (\hyperlink{structStaffModel}{Staff\+Model} \&model, const int n\+\_\+threads)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a5f56c8cd80f73838161c63d79eee1e80}{interpolate\+\_\+model} (\hyperlink{structStaffModel}{Staff\+Model} \&model)
+\item 
+std\+::vector$<$ int $>$ \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_ab179502b6b6aa0bbe43936bac2f43411}{poll\+\_\+lines} (const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\item 
+void \hyperlink{namespaceanonymous__namespace_02staff_8cc_03_a0a9d89aad47af23fc68cfb5600c4eb98}{remove\+\_\+line} (cv\+::\+Mat \&dst, double line\+\_\+pos, const \hyperlink{structStaffModel}{Staff\+Model} \&model)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!black\+\_\+on\+\_\+white@{black\+\_\+on\+\_\+white}}
+\index{black\+\_\+on\+\_\+white@{black\+\_\+on\+\_\+white}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{black\+\_\+on\+\_\+white(const cv\+::\+Mat \&src)}{black_on_white(const cv::Mat &src)}}]{\setlength{\rightskip}{0pt plus 5cm}bool anonymous\+\_\+namespace\{staff.\+cc\}\+::black\+\_\+on\+\_\+white (
+\begin{DoxyParamCaption}
+\item[{const cv\+::\+Mat \&}]{src}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a63818cc0df79b80ab6ffcad5b63df63a}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a63818cc0df79b80ab6ffcad5b63df63a}
+
+
+Definition at line 89 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!bounding\+\_\+box@{bounding\+\_\+box}}
+\index{bounding\+\_\+box@{bounding\+\_\+box}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{bounding\+\_\+box(const cv\+::\+Mat \&src, cv\+::\+Mat \&dst)}{bounding_box(const cv::Mat &src, cv::Mat &dst)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::bounding\+\_\+box (
+\begin{DoxyParamCaption}
+\item[{const cv\+::\+Mat \&}]{src, }
+\item[{cv\+::\+Mat \&}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a57d06804211d80274cc40825db82bfcb}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a57d06804211d80274cc40825db82bfcb}
+
+
+Definition at line 47 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!draw\+\_\+model@{draw\+\_\+model}}
+\index{draw\+\_\+model@{draw\+\_\+model}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{draw\+\_\+model(cv\+::\+Mat \&dst, const Staff\+Model \&model, const int pos, const cv\+::\+Scalar color)}{draw_model(cv::Mat &dst, const StaffModel &model, const int pos, const cv::Scalar color)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::draw\+\_\+model (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{dst, }
+\item[{const {\bf Staff\+Model} \&}]{model, }
+\item[{const int}]{pos, }
+\item[{const cv\+::\+Scalar}]{color}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a3568b86a70e0f8a3daec31a019eeb104}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a3568b86a70e0f8a3daec31a019eeb104}
+
+
+Definition at line 54 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!estimate\+\_\+gradient@{estimate\+\_\+gradient}}
+\index{estimate\+\_\+gradient@{estimate\+\_\+gradient}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{estimate\+\_\+gradient(\+Staff\+Model \&model, const int n\+\_\+threads)}{estimate_gradient(StaffModel &model, const int n_threads)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::estimate\+\_\+gradient (
+\begin{DoxyParamCaption}
+\item[{{\bf Staff\+Model} \&}]{model, }
+\item[{const int}]{n\+\_\+threads}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_ab397b0436cc25a1d1b61be4bd5be3c35}{}\label{namespaceanonymous__namespace_02staff_8cc_03_ab397b0436cc25a1d1b61be4bd5be3c35}
+
+
+Definition at line 285 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!estimate\+\_\+gradient\+\_\+p@{estimate\+\_\+gradient\+\_\+p}}
+\index{estimate\+\_\+gradient\+\_\+p@{estimate\+\_\+gradient\+\_\+p}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{estimate\+\_\+gradient\+\_\+p(struct Gradient\+Data \&data)}{estimate_gradient_p(struct GradientData &data)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::estimate\+\_\+gradient\+\_\+p (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Gradient\+Data} \&}]{data}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_af9ad599266f45cfd7cbd4108a1d15927}{}\label{namespaceanonymous__namespace_02staff_8cc_03_af9ad599266f45cfd7cbd4108a1d15927}
+
+
+Definition at line 263 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!estimate\+\_\+rotation@{estimate\+\_\+rotation}}
+\index{estimate\+\_\+rotation@{estimate\+\_\+rotation}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{estimate\+\_\+rotation(cv\+::\+Mat \&img, Staff\+Model \&model)}{estimate_rotation(cv::Mat &img, StaffModel &model)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::estimate\+\_\+rotation (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{img, }
+\item[{{\bf Staff\+Model} \&}]{model}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a6e1c8cba88d76c900e8c838e6e97beb8}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a6e1c8cba88d76c900e8c838e6e97beb8}
+
+
+Definition at line 103 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!interpolate\+\_\+model@{interpolate\+\_\+model}}
+\index{interpolate\+\_\+model@{interpolate\+\_\+model}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{interpolate\+\_\+model(\+Staff\+Model \&model)}{interpolate_model(StaffModel &model)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::interpolate\+\_\+model (
+\begin{DoxyParamCaption}
+\item[{{\bf Staff\+Model} \&}]{model}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a5f56c8cd80f73838161c63d79eee1e80}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a5f56c8cd80f73838161c63d79eee1e80}
+
+
+Definition at line 356 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!is\+\_\+gray@{is\+\_\+gray}}
+\index{is\+\_\+gray@{is\+\_\+gray}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{is\+\_\+gray(const cv\+::\+Mat \&src)}{is_gray(const cv::Mat &src)}}]{\setlength{\rightskip}{0pt plus 5cm}bool anonymous\+\_\+namespace\{staff.\+cc\}\+::is\+\_\+gray (
+\begin{DoxyParamCaption}
+\item[{const cv\+::\+Mat \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a79495cf4f6a32aa51f293ed70e818804}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a79495cf4f6a32aa51f293ed70e818804}
+
+
+Definition at line 40 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!poll\+\_\+lines@{poll\+\_\+lines}}
+\index{poll\+\_\+lines@{poll\+\_\+lines}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{poll\+\_\+lines(const Staff\+Model \&model)}{poll_lines(const StaffModel &model)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$int$>$ anonymous\+\_\+namespace\{staff.\+cc\}\+::poll\+\_\+lines (
+\begin{DoxyParamCaption}
+\item[{const {\bf Staff\+Model} \&}]{model}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_ab179502b6b6aa0bbe43936bac2f43411}{}\label{namespaceanonymous__namespace_02staff_8cc_03_ab179502b6b6aa0bbe43936bac2f43411}
+
+
+Definition at line 392 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!raw\+\_\+rotate@{raw\+\_\+rotate}}
+\index{raw\+\_\+rotate@{raw\+\_\+rotate}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{raw\+\_\+rotate(cv\+::\+Mat \&dst, const double rot\+\_\+theta)}{raw_rotate(cv::Mat &dst, const double rot_theta)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::raw\+\_\+rotate (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{dst, }
+\item[{const double}]{rot\+\_\+theta}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a5bdda2981a95b5eb6d486efc14676724}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a5bdda2981a95b5eb6d486efc14676724}
+
+
+Definition at line 81 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!remove\+\_\+glyphs@{remove\+\_\+glyphs}}
+\index{remove\+\_\+glyphs@{remove\+\_\+glyphs}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{remove\+\_\+glyphs(cv\+::\+Mat \&staff\+\_\+image, const int staff\+\_\+height, const int staff\+\_\+space)}{remove_glyphs(cv::Mat &staff_image, const int staff_height, const int staff_space)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::remove\+\_\+glyphs (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{staff\+\_\+image, }
+\item[{const int}]{staff\+\_\+height, }
+\item[{const int}]{staff\+\_\+space}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a88b9ddc21068ab319b4e4366abb95a8b}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a88b9ddc21068ab319b4e4366abb95a8b}
+
+
+Definition at line 229 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!remove\+\_\+line@{remove\+\_\+line}}
+\index{remove\+\_\+line@{remove\+\_\+line}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{remove\+\_\+line(cv\+::\+Mat \&dst, double line\+\_\+pos, const Staff\+Model \&model)}{remove_line(cv::Mat &dst, double line_pos, const StaffModel &model)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::remove\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{dst, }
+\item[{double}]{line\+\_\+pos, }
+\item[{const {\bf Staff\+Model} \&}]{model}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a0a9d89aad47af23fc68cfb5600c4eb98}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a0a9d89aad47af23fc68cfb5600c4eb98}
+
+
+Definition at line 436 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!rotate\+\_\+image@{rotate\+\_\+image}}
+\index{rotate\+\_\+image@{rotate\+\_\+image}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{rotate\+\_\+image(cv\+::\+Mat \&dst, const double rot\+\_\+theta)}{rotate_image(cv::Mat &dst, const double rot_theta)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::rotate\+\_\+image (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{dst, }
+\item[{const double}]{rot\+\_\+theta}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_a9156ea35902498bfb94f9f22b8f4bf6e}{}\label{namespaceanonymous__namespace_02staff_8cc_03_a9156ea35902498bfb94f9f22b8f4bf6e}
+
+
+Definition at line 69 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!run\+\_\+length@{run\+\_\+length}}
+\index{run\+\_\+length@{run\+\_\+length}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{run\+\_\+length(const cv\+::\+Mat \&img, int \&staff\+\_\+height, int \&staff\+\_\+space, const int n\+\_\+threads)}{run_length(const cv::Mat &img, int &staff_height, int &staff_space, const int n_threads)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::run\+\_\+length (
+\begin{DoxyParamCaption}
+\item[{const cv\+::\+Mat \&}]{img, }
+\item[{int \&}]{staff\+\_\+height, }
+\item[{int \&}]{staff\+\_\+space, }
+\item[{const int}]{n\+\_\+threads}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_afe2c1f1f40fd4b176293cdc981bdd6b9}{}\label{namespaceanonymous__namespace_02staff_8cc_03_afe2c1f1f40fd4b176293cdc981bdd6b9}
+
+
+Definition at line 179 of file staff.\+cc.
+
+\index{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}!run\+\_\+length\+\_\+p@{run\+\_\+length\+\_\+p}}
+\index{run\+\_\+length\+\_\+p@{run\+\_\+length\+\_\+p}!anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}@{anonymous\+\_\+namespace\lcurly{}staff.\+cc\rcurly{}}}
+\subsubsection[{\texorpdfstring{run\+\_\+length\+\_\+p(struct Run\+Length\+Data \&data)}{run_length_p(struct RunLengthData &data)}}]{\setlength{\rightskip}{0pt plus 5cm}void anonymous\+\_\+namespace\{staff.\+cc\}\+::run\+\_\+length\+\_\+p (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Run\+Length\+Data} \&}]{data}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceanonymous__namespace_02staff_8cc_03_ab0f140df81f62c7aa0f330a0a876b5cf}{}\label{namespaceanonymous__namespace_02staff_8cc_03_ab0f140df81f62c7aa0f330a0a876b5cf}
+
+
+Definition at line 160 of file staff.\+cc.
+

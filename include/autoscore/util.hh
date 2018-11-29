@@ -4,23 +4,26 @@
 #include <string>
 
 /**
- * @brief Strips the path of a filename
- * @param std::string fn : absolute or relative filename
- * @return std::string name of the file
+ * \fn std::string strip_fn(const std::string &fn)
+ * \brief Strips the path of a filename
+ * \param fn Absolute or relative filename
+ * \return Name of the file
 */
 std::string strip_fn(const std::string &fn);
 
 /**
- * @brief Strips the extension of a file
- * @param std::string fn : path
- * @return std::string path without the extension
+ * \fn std::string strip_ext(const std::string &fn)
+ * \brief Strips the extension of a file
+ * \param fn Path to the file
+ * \return Path without the extension
 */
 std::string strip_ext(const std::string &fn);
 
 /**
- * @brief Checks if the filename is an image supported by OpenCV
- * @param std::string fn : The filename
- * @return bool
+ * \fn inline bool is_image(const std::string &fn)
+ * \brief Checks if the filename is an image supported by OpenCV
+ * \param fn The filename
+ * \return A boolean
 */
 inline bool is_image(const std::string &fn){
   return !(fn.find(".png") == std::string::npos &&

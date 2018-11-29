@@ -1,0 +1,86 @@
+\hypertarget{muscima_8cc}{}\section{src/binaries/muscima.cc File Reference}
+\label{muscima_8cc}\index{src/binaries/muscima.\+cc@{src/binaries/muscima.\+cc}}
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include $<$experimental/filesystem$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$thread$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$autoscore/staff.\+hh$>$}\\*
+{\ttfamily \#include $<$autoscore/util.\+hh$>$}\\*
+Include dependency graph for muscima.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{muscima_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{muscima_8cc_a1f08b99bca257ad31559e1eb2fce4844}{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}~\char`\"{}../datasets/Handwritten\char`\"{}
+\item 
+\#define \hyperlink{muscima_8cc_a6d1102e5aefefff081698ae8409fc8af}{N\+\_\+\+S\+C\+O\+R\+E\+S\+\_\+\+P\+E\+R\+\_\+W}~20
+\item 
+\#define \hyperlink{muscima_8cc_aacd9f8bfa223a964f4b14409a229e8a4}{N\+\_\+\+W\+R\+I\+T\+E\+RS}~50
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{muscima_8cc_a5e040f7303b8f39f6cde816932e2a53c}{process\+\_\+p} (std\+::vector$<$ std\+::string $>$\+::iterator start, const int n\+\_\+files, const int writer, const std\+::string dist)
+\item 
+int \hyperlink{muscima_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{muscima.\+cc@{muscima.\+cc}!F\+N\+\_\+\+D\+A\+T\+A\+S\+ET@{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}}
+\index{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET@{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}!muscima.\+cc@{muscima.\+cc}}
+\subsubsection[{\texorpdfstring{F\+N\+\_\+\+D\+A\+T\+A\+S\+ET}{FN_DATASET}}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+N\+\_\+\+D\+A\+T\+A\+S\+ET~\char`\"{}../datasets/Handwritten\char`\"{}}\hypertarget{muscima_8cc_a1f08b99bca257ad31559e1eb2fce4844}{}\label{muscima_8cc_a1f08b99bca257ad31559e1eb2fce4844}
+
+
+Definition at line 10 of file muscima.\+cc.
+
+\index{muscima.\+cc@{muscima.\+cc}!N\+\_\+\+S\+C\+O\+R\+E\+S\+\_\+\+P\+E\+R\+\_\+W@{N\+\_\+\+S\+C\+O\+R\+E\+S\+\_\+\+P\+E\+R\+\_\+W}}
+\index{N\+\_\+\+S\+C\+O\+R\+E\+S\+\_\+\+P\+E\+R\+\_\+W@{N\+\_\+\+S\+C\+O\+R\+E\+S\+\_\+\+P\+E\+R\+\_\+W}!muscima.\+cc@{muscima.\+cc}}
+\subsubsection[{\texorpdfstring{N\+\_\+\+S\+C\+O\+R\+E\+S\+\_\+\+P\+E\+R\+\_\+W}{N_SCORES_PER_W}}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\+\_\+\+S\+C\+O\+R\+E\+S\+\_\+\+P\+E\+R\+\_\+W~20}\hypertarget{muscima_8cc_a6d1102e5aefefff081698ae8409fc8af}{}\label{muscima_8cc_a6d1102e5aefefff081698ae8409fc8af}
+
+
+Definition at line 11 of file muscima.\+cc.
+
+\index{muscima.\+cc@{muscima.\+cc}!N\+\_\+\+W\+R\+I\+T\+E\+RS@{N\+\_\+\+W\+R\+I\+T\+E\+RS}}
+\index{N\+\_\+\+W\+R\+I\+T\+E\+RS@{N\+\_\+\+W\+R\+I\+T\+E\+RS}!muscima.\+cc@{muscima.\+cc}}
+\subsubsection[{\texorpdfstring{N\+\_\+\+W\+R\+I\+T\+E\+RS}{N_WRITERS}}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\+\_\+\+W\+R\+I\+T\+E\+RS~50}\hypertarget{muscima_8cc_aacd9f8bfa223a964f4b14409a229e8a4}{}\label{muscima_8cc_aacd9f8bfa223a964f4b14409a229e8a4}
+
+
+Definition at line 12 of file muscima.\+cc.
+
+
+
+\subsection{Function Documentation}
+\index{muscima.\+cc@{muscima.\+cc}!main@{main}}
+\index{main@{main}!muscima.\+cc@{muscima.\+cc}}
+\subsubsection[{\texorpdfstring{main(int argc, char $\ast$$\ast$argv)}{main(int argc, char **argv)}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\hypertarget{muscima_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{}\label{muscima_8cc_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+Definition at line 45 of file muscima.\+cc.
+
+\index{muscima.\+cc@{muscima.\+cc}!process\+\_\+p@{process\+\_\+p}}
+\index{process\+\_\+p@{process\+\_\+p}!muscima.\+cc@{muscima.\+cc}}
+\subsubsection[{\texorpdfstring{process\+\_\+p(std\+::vector$<$ std\+::string $>$\+::iterator start, const int n\+\_\+files, const int writer, const std\+::string dist)}{process_p(std::vector< std::string >::iterator start, const int n_files, const int writer, const std::string dist)}}]{\setlength{\rightskip}{0pt plus 5cm}void process\+\_\+p (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::string $>$\+::iterator}]{start, }
+\item[{const int}]{n\+\_\+files, }
+\item[{const int}]{writer, }
+\item[{const std\+::string}]{dist}
+\end{DoxyParamCaption}
+)}\hypertarget{muscima_8cc_a5e040f7303b8f39f6cde816932e2a53c}{}\label{muscima_8cc_a5e040f7303b8f39f6cde816932e2a53c}
+
+
+Definition at line 17 of file muscima.\+cc.
+
