@@ -1,6 +1,0 @@
-/home/feras/Documents/auto-score/build/CMakeFiles/edit_cache.dir
-/home/feras/Documents/auto-score/build/CMakeFiles/auto-score.dir
-/home/feras/Documents/auto-score/build/CMakeFiles/deepscores.dir
-/home/feras/Documents/auto-score/build/CMakeFiles/rebuild_cache.dir
-/home/feras/Documents/auto-score/build/CMakeFiles/muscima.dir
-/home/feras/Documents/auto-score/build/CMakeFiles/autoscore.dir
