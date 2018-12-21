@@ -8,8 +8,8 @@
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
 
-#define FN_DATASET "../datasets/Artificial"
-#define FN_DEEPSCORE_PNG "/images_png"
+#define FN_DATASET        "../datasets/Artificial"
+#define FN_DEEPSCORE_PNG  "/images_png"
 
 namespace fs = std::experimental::filesystem;
 
@@ -40,7 +40,7 @@ void process_p(std::vector<std::string>::iterator start, const int n_files) {
 // dataset is enormous, files that were already processed will be skipped.
 // Hence, the program can be stopped at any time.
 int main(int argc, char **argv) {
-  if (argc < 2) {
+  if (argc < 2 || std::string(argv[1]) == "-h") {
     std::cerr << "Usage : deepscores <path-to: /images_png/> <n_threads>"
               << std::endl;
     return -1;

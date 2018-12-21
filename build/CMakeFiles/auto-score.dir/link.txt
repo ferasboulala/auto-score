@@ -1,0 +1,2 @@
+/usr/bin/ar qc libauto-score.a  CMakeFiles/auto-score.dir/src/autoscore/staff.cc.o CMakeFiles/auto-score.dir/src/autoscore/util.cc.o CMakeFiles/auto-score.dir/src/tinyxml2.cc.o
+/usr/bin/ranlib libauto-score.a

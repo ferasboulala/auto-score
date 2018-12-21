@@ -43,7 +43,7 @@ void process_p(std::vector<std::string>::iterator start, const int n_files,
 // because they are unreadable. The curvature or rotation distortions are
 // supported but for inference only.
 int main(int argc, char **argv) {
-  if (argc < 3) {
+  if (argc < 3 || std::string(argv[2]) == "-h") {
     std::cerr << "Usage : muscima <path-to: /distorsion/> <path-to: "
                  "/v1.0/data/crop_object_manual/> <n_threads>"
               << std::endl;

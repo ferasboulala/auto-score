@@ -28,7 +28,7 @@ namespace staff {
  * \fn StaffModel GetStaffModel(const cv::Mat &src, const int n_threads = 1)
  * \brief Estimates a staff model from a binary image
  * \param src Binary image (CV_8UC1, black on white)
- * \return StaffModel Estimated model
+ * \return Estimated model
  */
 StaffModel GetStaffModel(const cv::Mat &src, const int n_threads = 1);
 
@@ -43,7 +43,7 @@ void PrintStaffModel(cv::Mat &dst, const StaffModel &model);
  * \fn Staffs FitStaffModel(const StaffModel &model)
  * \brief Fits the given model and returns all valid staffs
  * \param StaffModel
- * \return Staffs
+ * \return All valid staffs
  */
 Staffs FitStaffModel(const StaffModel &model);
 
@@ -52,7 +52,7 @@ Staffs FitStaffModel(const StaffModel &model);
  * \brief Prints all the detected staffs of the model on an image
  * \param dst Image on which it will be printed (will be BGR)
  * \param model The relevant staff model
- * \return Staffs The position of the staffs
+ * \return The position of the staffs
  */
 void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
 
@@ -62,7 +62,7 @@ void PrintStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
  * positions
  * \param dst Image with staffs
  * \param staffs The positions of the staffs
- * \param model The relevant staff model
+ * \param The relevant staff model
  */
 void RemoveStaffs(cv::Mat &dst, const Staffs &staffs, const StaffModel &model);
 

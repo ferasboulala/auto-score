@@ -23,7 +23,7 @@ std::string strip_ext(const std::string &fn);
  * \fn inline bool is_image(const std::string &fn)
  * \brief Checks if the filename is an image supported by OpenCV
  * \param fn The filename
- * \return A boolean
+ * \return Whether or not the filename is a valid image
 */
 inline bool is_image(const std::string &fn){
   return !(fn.find(".png") == std::string::npos &&

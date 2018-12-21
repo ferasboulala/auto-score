@@ -568,7 +568,6 @@ Staffs as::staff::FitStaffModel(const StaffModel &model) {
   cv::Mat img = model.staff_image;
   const bool straight = model.straight;
 
-  // Polling each staff line
   std::vector<int> staff_lines = poll_lines(model);
 
   // Convolving a 1-D kernel
@@ -809,6 +808,6 @@ void as::staff::SaveToDisk(const std::string &fn, const Staffs &staffs,
     s->SetText(std::to_string(staff.first).c_str());
     AllStaffs->InsertEndChild(s);
   }
-
+  
   assert(doc.SaveFile((strip_ext(strip_fn(fn)) + ".xml").c_str()) >= 0);
 }
