@@ -7,7 +7,7 @@
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
 
-#define FN_DATASET "../datasets/Handwritten"
+#define FN_DATASET "../datasets/Handwritten/xml"
 #define N_SCORES_PER_W 20
 #define N_WRITERS 50
 
@@ -93,7 +93,9 @@ int main(int argc, char **argv) {
       "typeset-emulation",
       "staffline-thickness-variation-v1",
       "staffline-thickness-variation-v2"};
-  system(std::string("mkdir ../datasets/Handwritten/").c_str());
+  system("mkdir ../datasets/Handwritten/");
+  system("mkdir ../datasets/Handwritten/xml/");
+  
 
   // For every transformation
   const std::string fn = argv[1];

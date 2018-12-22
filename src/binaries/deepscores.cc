@@ -8,7 +8,7 @@
 #include <autoscore/staff.hh>
 #include <autoscore/util.hh>
 
-#define FN_DATASET        "../datasets/Artificial"
+#define FN_DATASET        "../datasets/Artificial/xml"
 #define FN_DEEPSCORE_PNG  "/images_png"
 
 namespace fs = std::experimental::filesystem;
@@ -55,6 +55,7 @@ int main(int argc, char **argv) {
   // Creating a map of already processed files
   std::map<std::string, std::string> processed_images;
   if (!fs::exists(FN_DATASET)) {
+    system("mkdir ../datasets/Artificial");
     system((std::string("mkdir ") + FN_DATASET).c_str());
   } else {
     for (auto &p : fs::directory_iterator(FN_DATASET)) {
