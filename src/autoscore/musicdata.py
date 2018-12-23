@@ -36,7 +36,7 @@ GREEN = 0, 255, 0
 
 RELEVANT_GLYPHS_MUSCIMA = {'g-clef', 'sharp', 'notehead-full', 'flat', 'natural', 'notehead-empty', 'None', 'Other'}
 RELEVANT_GLYPHS_DEEPSCORES = {'noteheadBlack', 'noteheadHalf', 'gClef', 'keySharp', 'accidentalNatural',
-                              'noteheadWhole','accidentalSharp'}
+                              'noteheadWhole','accidentalSharp', 'None', 'Other'}
 
 
 def _setup_dir(RELEVANT_GLYPHS, dir_fn):
@@ -76,7 +76,6 @@ def get_deepscores_data(images_dir, gt_dir):
     glyph_count = dict((name, 0) for name in RELEVANT_GLYPHS_DEEPSCORES)
     total_count = 0
     for i, music_file in enumerate(music_files):
-        print('Total glyphs : {0}'.format(total_count))
         music_file.position_glyphs(glyphs_per_score[i], content)
         img = cv.imread(join(images_dir, music_file.filename), cv.CV_8UC1)
         X, y = music_file.extract_training_data(img, content, RELEVANT_GLYPHS_DEEPSCORES)
@@ -203,7 +202,7 @@ def sort_by_writers(music_files):
         pos = file.filename.find('p')
         page = int(file.filename[pos + 1: pos + 4])
         pos = file.filename.find('W-')
-        if (file.filename[pos + 3] != '_'):
+        if file.filename[pos + 3] != '_':
             writer = int(file.filename[pos + 2: pos + 4])
             pos += 4
         else:
@@ -233,8 +232,6 @@ class MusicFile:
         self.staff_starts = staff_starts
         self._compute_kernel()
 
-        # Positions every input glyph in the appropriate staff. For training only.
-
     def position_glyphs(self, glyphs, dataset_content, minimum_occurences=POLL_THRESH):
         for glyph in glyphs:
             if glyph.name not in dataset_content:
@@ -253,7 +250,6 @@ class MusicFile:
 
             self.glyphs_per_staff[closest_staff_idx][closest_kernel_idx].append(glyph)
 
-    # Extracts images for every glyph. Returns an image and label. For training only.
     def extract_training_data(self, img, glyph_dict, relevant_glyphs,
                               area_overlap_thresh=AREA_OVERLAP_MIN):
         n_samples = self.n_divisions * len(self.glyphs_per_staff)
@@ -287,7 +283,6 @@ class MusicFile:
 
     def visualize(self, img, glyphs=True, divs=False, labels=True):
         img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
-        height, width, channels = img.shape
         if divs:
             img = self._draw_divisions(img)
         if glyphs:
@@ -305,11 +300,13 @@ class MusicFile:
                             (self.col + len(self.model_gradient), self.row + 5 * self.staff_height + \
                              4 * self.staff_space + staff_pos), GREEN, 5)
 
-    def _label_glyph(self, img, glyph, staff_idx):
+    @staticmethod
+    def _label_glyph(img, glyph, staff_idx):
         return cv.putText(img, glyph.name + ' ' + str(staff_idx), (glyph.bbox.xmin, glyph.bbox.ymax + 20), \
                           cv.FONT_HERSHEY_SIMPLEX, 1, RED, 1, cv.LINE_AA)
 
-    def _draw_glyph(self, img, glyph):
+    @staticmethod
+    def _draw_glyph(img, glyph):
         return cv.rectangle(img, (glyph.bbox.xmin, glyph.bbox.ymin), (glyph.bbox.xmax, glyph.bbox.ymax), BLUE, 3)
 
     def _draw_divisions(self, img):
@@ -338,8 +335,8 @@ class MusicFile:
             dist = abs(y - pos)
             if dist < min_dist:
                 min_dist = dist
-                closest_staff_idx = i
-        return closest_staff_idx, min_dist
+                closest_staff_index = i
+        return closest_staff_index, min_dist
 
     def _get_avg_staff_positions(self):
         return [start + 2 * (self.staff_space + self.staff_height) + int(self.staff_height / 2) \
@@ -364,12 +361,14 @@ class MusicFile:
         ymax = ymin + self.kernel_size[1]
         return BBox(xmin, xmax, ymin, ymax)
 
-    def _get_div_glyph_overlap(self, glyph, div_bbox):
+    @staticmethod
+    def _get_div_glyph_overlap(glyph, div_bbox):
         xmin, xmax, ymin, ymax = div_bbox
         overlap = cross_section((xmin, xmax), (glyph.bbox.xmin, glyph.bbox.xmax)) * cross_section(
             (ymin, ymax), (glyph.bbox.ymin, glyph.bbox.ymax))
         return overlap
 
-    def _get_img_bbox(self, img, bbox):
+    @staticmethod
+    def _get_img_bbox(img, bbox):
         xmin, xmax, ymin, ymax = bbox
         return img[ymin:ymax, xmin:xmax]
