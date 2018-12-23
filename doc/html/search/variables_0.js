@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['bbox',['BBox',['../namespaceautoscore_1_1datasets.html#a496e55c76f81ad6b09efdd85a5ba2835',1,'autoscore::datasets']]],
-  ['blacks',['blacks',['../structanonymous__namespace_02staff_8cc_03_1_1RunLengthData.html#acac0ba1ce364389ce57220db37036035',1,'anonymous_namespace{staff.cc}::RunLengthData']]],
-  ['boundary_5fadjust',['boundary_adjust',['../classautoscore_1_1datasets_1_1MusicFile.html#afe8a162e3c25071506d522dcd570a0be',1,'autoscore::datasets::MusicFile']]],
-  ['boundary_5fextra',['BOUNDARY_EXTRA',['../namespaceautoscore_1_1datasets.html#ac90c2f8d773dbf3e1371da538b224f3f',1,'autoscore::datasets']]]
+  ['area_5foverlap_5fmin',['AREA_OVERLAP_MIN',['../namespaceautoscore_1_1musicdata.html#aa2545f5fe006ee17a14f604063447c90',1,'autoscore::musicdata']]],
+  ['artificial_5ffn',['ARTIFICIAL_FN',['../namespaceautoscore_1_1musicdata.html#acfb5d195ffef1d88681f6e3555219925',1,'autoscore::musicdata']]],
+  ['artificial_5ffn_5fdata',['ARTIFICIAL_FN_DATA',['../namespaceautoscore_1_1musicdata.html#a47cc3f7854416092969250879a8a0d7f',1,'autoscore::musicdata']]],
+  ['artificial_5ffn_5fxml',['ARTIFICIAL_FN_XML',['../namespaceautoscore_1_1musicdata.html#a6e0e7fa09f8f4907ed2774f39c417c8d',1,'autoscore::musicdata']]]
 ];

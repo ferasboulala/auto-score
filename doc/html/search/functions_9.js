@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['main',['main',['../namespaceautoscore_1_1model.html#a5207a743d3b33b8901a1139dea14b35f',1,'autoscore.model.main()'],['../autoscore_8cc.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;autoscore.cc'],['../deepscores_8cc.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;deepscores.cc'],['../muscima_8cc.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;muscima.cc']]],
-  ['muscima_5fgt',['muscima_gt',['../namespaceautoscore_1_1datasets.html#a34a53caff7c74831afe401b4164b1c91',1,'autoscore::datasets']]]
+  ['poll_5flines',['poll_lines',['../namespaceanonymous__namespace_02staff_8cc_03.html#ab179502b6b6aa0bbe43936bac2f43411',1,'anonymous_namespace{staff.cc}']]],
+  ['position_5fglyphs',['position_glyphs',['../classautoscore_1_1musicdata_1_1MusicFile.html#a099d02258a24d1e795ea87edee6342fc',1,'autoscore::musicdata::MusicFile']]],
+  ['printstaffmodel',['PrintStaffModel',['../namespaceas_1_1staff.html#a9c48cfcf1c17cad08ed233fe90d05839',1,'as::staff']]],
+  ['printstaffs',['PrintStaffs',['../namespaceas_1_1staff.html#a5209861cdb891c8a12b5ef43784fac77',1,'as::staff']]],
+  ['process_5fimage',['process_image',['../autoscore_8cc.html#a666818ed37d4c58f0479a01910fdd50a',1,'autoscore.cc']]],
+  ['process_5fp',['process_p',['../deepscores_8cc.html#a69bbe6efa5213e82c897620e1ae64438',1,'process_p(std::vector&lt; std::string &gt;::iterator start, const int n_files):&#160;deepscores.cc'],['../muscima_8cc.html#a5e040f7303b8f39f6cde816932e2a53c',1,'process_p(std::vector&lt; std::string &gt;::iterator start, const int n_files, const int writer, const std::string dist):&#160;muscima.cc']]]
 ];

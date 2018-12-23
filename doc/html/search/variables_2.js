@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['end',['end',['../structanonymous__namespace_02staff_8cc_03_1_1GradientData.html#ac4f2494fcfceeb929511dd9dd28c16f6',1,'anonymous_namespace{staff.cc}::GradientData']]],
-  ['epsilon',['EPSILON',['../namespaceautoscore_1_1datasets.html#a272e50309d385d448c4fa92b2a0f6042',1,'autoscore::datasets']]]
+  ['col',['col',['../classautoscore_1_1musicdata_1_1MusicFile.html#a15f8f0472645e6d49d93401496f2551d',1,'autoscore::musicdata::MusicFile']]],
+  ['components',['components',['../structanonymous__namespace_02staff_8cc_03_1_1GradientData.html#ab8ff0d4a7fdbeb1f29340e160eb617ca',1,'anonymous_namespace{staff.cc}::GradientData']]],
+  ['conv1',['conv1',['../classautoscore_1_1model_1_1Net.html#a627695d95db2a994bef69b3a89c51c30',1,'autoscore::model::Net']]],
+  ['conv2',['conv2',['../classautoscore_1_1model_1_1Net.html#a1c3f9d3b681c1f611c28a818c18f70e6',1,'autoscore::model::Net']]],
+  ['conv2_5fdrop',['conv2_drop',['../classautoscore_1_1model_1_1Net.html#aea9cd230e23281abf4d8d23e768b7918',1,'autoscore::model::Net']]]
 ];

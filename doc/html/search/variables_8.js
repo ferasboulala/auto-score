@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['model',['model',['../classautoscore_1_1datasets_1_1MusicFile.html#a5ff57ae711407456d3d211797d3c8eb1',1,'autoscore::datasets::MusicFile']]]
+  ['kernel_5fsize',['kernel_size',['../classautoscore_1_1musicdata_1_1MusicFile.html#a611564c1e2d4168ea877d4babfcbb50e',1,'autoscore::musicdata::MusicFile']]]
 ];

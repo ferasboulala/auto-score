@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['fc1',['fc1',['../classautoscore_1_1model_1_1Net.html#ace16e109006254bbd976660c4df63ac8',1,'autoscore::model::Net']]],
-  ['fc2',['fc2',['../classautoscore_1_1model_1_1Net.html#ac2913be42e89e170ae4829f901169e46',1,'autoscore::model::Net']]],
-  ['filename',['filename',['../classautoscore_1_1datasets_1_1MusicFile.html#aacc6dc64cbc5fe1e92c6a06edc989afb',1,'autoscore::datasets::MusicFile']]],
-  ['finish',['finish',['../structanonymous__namespace_02staff_8cc_03_1_1RunLengthData.html#a4eb4c72887a7a75f3b99c711a7af9638',1,'anonymous_namespace{staff.cc}::RunLengthData']]]
+  ['end',['end',['../structanonymous__namespace_02staff_8cc_03_1_1GradientData.html#ac4f2494fcfceeb929511dd9dd28c16f6',1,'anonymous_namespace{staff.cc}::GradientData']]],
+  ['epsilon',['EPSILON',['../namespaceautoscore_1_1musicdata.html#a355d8fb1a4b75793b64381e7097d51b7',1,'autoscore::musicdata']]]
 ];

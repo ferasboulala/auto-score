@@ -5,9 +5,9 @@ from os.path import join, splitext, isfile, expanduser
 from os import listdir
 from subprocess import call
 
-PREFIX_FN = expanduser("~") + '/Documents/auto-score/'
-ARTIFICIAL_FN = PREFIX_FN + 'datasets/Artificial/'
-HANDWRITTEN_FN = PREFIX_FN + 'datasets/Handwritten/'
+PREFIX_FN = expanduser("~") + '/Documents/auto-score/datasets/'
+ARTIFICIAL_FN = PREFIX_FN + 'Artificial/'
+HANDWRITTEN_FN = PREFIX_FN + 'Handwritten/'
 ARTIFICIAL_FN_XML = ARTIFICIAL_FN + 'xml/'
 HANDWRITTEN_FN_XML = HANDWRITTEN_FN + 'xml/'
 ARTIFICIAL_FN_DATA = ARTIFICIAL_FN + 'data/'
@@ -34,24 +34,32 @@ RED = 255, 0, 0
 BLUE = 0, 0, 255
 GREEN = 0, 255, 0
 
-RELEVANT_GLYPHS = {'noteheadBlack', 'noteheadHalf', 'gClef', 'keySharp', 'accidentalNatural', 'noteheadWhole',
-                   'accidentalSharp', 'g-clef', 'sharp', 'notehead-full', 'flat', 'natural', 'notehead-empty',
-                   'None', 'Other'}
+RELEVANT_GLYPHS_MUSCIMA = {'g-clef', 'sharp', 'notehead-full', 'flat', 'natural', 'notehead-empty', 'None', 'Other'}
+RELEVANT_GLYPHS_DEEPSCORES = {'noteheadBlack', 'noteheadHalf', 'gClef', 'keySharp', 'accidentalNatural',
+                              'noteheadWhole','accidentalSharp'}
 
 
-def _setup_dir():
-    call(['mkdir', ARTIFICIAL_FN_DATA])
-    call(['mkdir', HANDWRITTEN_FN_DATA])
-
+def _setup_dir(RELEVANT_GLYPHS, dir_fn):
+    call(['mkdir', dir_fn])
     for name in RELEVANT_GLYPHS:
-        call(['mkdir', ARTIFICIAL_FN_DATA + name])
-        call(['mkdir', HANDWRITTEN_FN_DATA + name])
+        call(['mkdir', dir_fn + name])
+
+
+def _get_music_files_from_dir(dir_fn):
+    filenames = [f for f in listdir(dir_fn) if isfile(join(dir_fn, f))]
+    return [get_music_file_from_xml(join(dir_fn, f)) for f in filenames]
+
+
+def _save_samples_to_disk(X, y, glyph_count, dir_fn):
+    for img, label in zip(X, y):
+        glyph_count[label] += 1
+        fn = dir_fn + label + '/' + str(glyph_count[label]) + '.jpg'
+        cv.imwrite(fn, img)
 
 
 def get_deepscores_data(images_dir, gt_dir):
-    _setup_dir()
-    filenames = [f for f in listdir(ARTIFICIAL_FN_XML) if isfile(join(ARTIFICIAL_FN_XML, f))]
-    music_files = [get_music_file_from_xml(join(ARTIFICIAL_FN_XML, f)) for f in filenames]
+    _setup_dir(RELEVANT_GLYPHS_DEEPSCORES, ARTIFICIAL_FN_DATA)
+    music_files = _get_music_files_from_dir(ARTIFICIAL_FN_XML)
     glyphs_per_score = []
     content = dict()
     for music_file in music_files:
@@ -65,24 +73,47 @@ def get_deepscores_data(images_dir, gt_dir):
             else:
                 content[glyph.name] += 1
 
-    glyph_count = dict((name, 0) for name in RELEVANT_GLYPHS)
+    glyph_count = dict((name, 0) for name in RELEVANT_GLYPHS_DEEPSCORES)
     total_count = 0
     for i, music_file in enumerate(music_files):
         print('Total glyphs : {0}'.format(total_count))
         music_file.position_glyphs(glyphs_per_score[i], content)
         img = cv.imread(join(images_dir, music_file.filename), cv.CV_8UC1)
-        x, labels = music_file.extract_training_data(img, content, RELEVANT_GLYPHS)
-
-        for img, label in zip(x, labels):
-            glyph_count[label] += 1
-            fn = ARTIFICIAL_FN_DATA + label + '/' + str(glyph_count[label]) + '.jpg'
-            cv.imwrite(fn, img)
-            total_count += 1
+        X, y = music_file.extract_training_data(img, content, RELEVANT_GLYPHS_DEEPSCORES)
+        _save_samples_to_disk(X, y, glyph_count, ARTIFICIAL_FN_DATA)
+        total_count += 1
+        print('{0} processed'.format(total_count))
 
 
-# TODO : Do the equivalent of get_deepscores_data for the muscima dataset
 def get_muscima_data(images_dir, gt_dir):
-    pass
+    _setup_dir(RELEVANT_GLYPHS_MUSCIMA, HANDWRITTEN_FN_DATA)
+    music_files = _get_music_files_from_dir(HANDWRITTEN_FN_XML)
+    sorted_handwritten_files = sort_by_writers(music_files)
+    content = dict()
+    glyphs_per_score = []
+    for music_file in sorted_handwritten_files:
+        filename = 'CVC-MUSCIMA_W-' + str(music_file[0]).zfill(2) + '_N-' + \
+                   str(music_file[1]).zfill(2) + '_D-ideal.xml'
+        glyphs_per_score.append(muscima_score_ground_truth(filename, gt_dir))
+
+    for glyphs_in_score in glyphs_per_score:
+        for glyph in glyphs_in_score:
+            if glyph.name not in content:
+                content[glyph.name] = 1
+            else:
+                content[glyph.name] += 1
+
+    glyph_count = dict((name, 0) for name in RELEVANT_GLYPHS_MUSCIMA)
+    total_count = 0
+    for i, (writer, page) in enumerate(sorted_handwritten_files):
+        distortions = sorted_handwritten_files[(writer, page)]
+        for file in distortions:
+            file.position_glyphs(glyphs_per_score[i], content)
+            img = cv.imread(join(images_dir, file.filename), cv.CV_8UC1)
+            X, y = file.extract_training_data(img, content, RELEVANT_GLYPHS_MUSCIMA)
+            _save_samples_to_disk(X, y, glyph_count, HANDWRITTEN_FN_DATA)
+            total_count += 1
+            print('{0} processed'.format(total_count))
 
 
 def cross_section(first_coordinates, second_coordinates):
@@ -223,7 +254,7 @@ class MusicFile:
             self.glyphs_per_staff[closest_staff_idx][closest_kernel_idx].append(glyph)
 
     # Extracts images for every glyph. Returns an image and label. For training only.
-    def extract_training_data(self, img, glyph_dict, relevant_glyphs=RELEVANT_GLYPHS,
+    def extract_training_data(self, img, glyph_dict, relevant_glyphs,
                               area_overlap_thresh=AREA_OVERLAP_MIN):
         n_samples = self.n_divisions * len(self.glyphs_per_staff)
         X, y = [None] * n_samples, [None] * n_samples

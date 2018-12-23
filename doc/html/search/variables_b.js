@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['rot',['rot',['../classautoscore_1_1datasets_1_1MusicFile.html#a007db4b9326d26671bcd525eb6844a58',1,'autoscore.datasets.MusicFile.rot()'],['../structStaffModel.html#aa887f6067d99543cc6ffaa237f19ef87',1,'StaffModel::rot()']]],
-  ['row',['row',['../classautoscore_1_1datasets_1_1MusicFile.html#a861933bdc9897aff3416f6462dd1afdf',1,'autoscore::datasets::MusicFile']]]
+  ['poll_5fthresh',['POLL_THRESH',['../namespaceautoscore_1_1musicdata.html#a4342208695b0441e76d13ad639c1d700',1,'autoscore::musicdata']]],
+  ['prefix_5ffn',['PREFIX_FN',['../namespaceautoscore_1_1musicdata.html#a684ad72261f10358480f889b7c755716',1,'autoscore::musicdata']]]
 ];
