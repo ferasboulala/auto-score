@@ -5,7 +5,8 @@ Essentially, it detects staff lines, slides a window across them with some overl
 
 GOAL : Generate tablatures for guitar or bass from a handwritten or computer generated score.
 
-## Staff line detection :  The input image is scanned for staff line detection. The output is staff line positions. (ZOOM in to see staff identification)
+## Staff line detection 
+The input image is scanned for staff line detection. The output is staff line positions. (ZOOM in to see staff identification)
 
 <p align="center">  
 <img src=pictures/computer_generated.png width="250" height="350">  
