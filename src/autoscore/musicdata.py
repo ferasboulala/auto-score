@@ -220,7 +220,7 @@ def sort_by_writers(music_files):
 
 
 class MusicFile:
-    def __init__(self, filename='', staff_height=0, staff_space=0, \
+    def __init__(self, filename='', staff_height=0, staff_space=0,
                  column=0, row=0, rot=0, model_gradient=[], staff_starts=[]):
         self.filename = filename
         self.staff_height = staff_height
@@ -281,7 +281,7 @@ class MusicFile:
                 i += 1
         return X, y
 
-    def visualize(self, img, glyphs=True, divs=False, labels=True):
+    def visualize_ground_truth(self, img, glyphs=True, divs=False, labels=True):
         img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
         if divs:
             img = self._draw_divisions(img)
@@ -296,13 +296,13 @@ class MusicFile:
         return img
 
     def _draw_staff(self, img, staff_pos):
-        return cv.rectangle(img, (self.col, self.row + staff_pos), \
-                            (self.col + len(self.model_gradient), self.row + 5 * self.staff_height + \
+        return cv.rectangle(img, (self.col, self.row + staff_pos),
+                            (self.col + len(self.model_gradient), self.row + 5 * self.staff_height +
                              4 * self.staff_space + staff_pos), GREEN, 5)
 
     @staticmethod
     def _label_glyph(img, glyph, staff_idx):
-        return cv.putText(img, glyph.name + ' ' + str(staff_idx), (glyph.bbox.xmin, glyph.bbox.ymax + 20), \
+        return cv.putText(img, glyph.name + ' ' + str(staff_idx), (glyph.bbox.xmin, glyph.bbox.ymax + 20),
                           cv.FONT_HERSHEY_SIMPLEX, 1, RED, 1, cv.LINE_AA)
 
     @staticmethod
@@ -311,7 +311,7 @@ class MusicFile:
 
     def _draw_divisions(self, img):
         for i in range(self.n_divisions):
-            img = cv.line(img, (self.col + self.kernel_size[0] * i, 0), \
+            img = cv.line(img, (self.col + self.kernel_size[0] * i, 0),
                           (self.col + self.kernel_size[0] * i, self.height - 1), BLUE, 2)
         return img
 
@@ -322,7 +322,7 @@ class MusicFile:
         self.n_strides_per_staff = int(len(self.model_gradient) / self.stride)
         self.boundary_adjust = BOUNDARY_EXTRA * (self.staff_height + self.staff_space)
         self.n_divisions = int(len(self.model_gradient) / self.kernel_size[0])
-        self.glyphs_per_staff = [[[] for j in range(self.n_divisions)] for i in range(len(self.staff_starts))]
+        self.glyphs_per_staff = [[[] for _ in range(self.n_divisions)] for _ in range(len(self.staff_starts))]
 
     def _get_closest_kernel_idx(self, x):
         return int(float(x) / len(self.model_gradient) * self.n_divisions)
@@ -339,7 +339,7 @@ class MusicFile:
         return closest_staff_index, min_dist
 
     def _get_avg_staff_positions(self):
-        return [start + 2 * (self.staff_space + self.staff_height) + int(self.staff_height / 2) \
+        return [start + 2 * (self.staff_space + self.staff_height) + int(self.staff_height / 2)
                 for start in self.staff_starts]
 
     def _get_avg_glyph_pos(self, glyph):
@@ -356,7 +356,7 @@ class MusicFile:
     def _get_division_bbox(self, staff_idx, div_idx):
         xmin = div_idx * self.kernel_size[0] + self.col
         xmax = xmin + self.kernel_size[0]
-        ymin = int(self.staff_starts[staff_idx] + self.row - (self.kernel_size[1] - \
+        ymin = int(self.staff_starts[staff_idx] + self.row - (self.kernel_size[1] -
                                                               5 * self.staff_height - 4 * self.staff_space) / 2)
         ymax = ymin + self.kernel_size[1]
         return BBox(xmin, xmax, ymin, ymax)

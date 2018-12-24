@@ -4,8 +4,49 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
+from torch.utils.data import Dataset, DataLoader
 
-# import musicdata
+import cv2 as cv
+from os import listdir, walk
+from os.path import join
+from random import shuffle
+
+
+class Rescale:
+    def __init__(self, W=100, H=200):
+        self.W = W
+        self.H = H
+
+    def __call__(self, img):
+        return cv.resize(img, (self.H, self.W), interpolation=cv.INTER_NEAREST)
+
+
+DEF_DIR_FN = '/home/feras/Documents/auto-score/datasets/Artificial/data/'
+DEF_TRANSFORM = transforms.Compose([Rescale(50, 100)])
+
+
+class DatasetLoader(Dataset):
+    def __init__(self, dir_fn=DEF_DIR_FN, transform=DEF_TRANSFORM):
+        super(DatasetLoader, self).__init__()
+        self.transform = transform
+        self.X_fn = []
+        class_names = listdir(dir_fn)
+        for name in class_names:
+            for prefix, _, files in walk(join(dir_fn, name)):
+                for file in files:
+                    x = join(prefix, file), name
+                    self.X_fn.append(x)
+        shuffle(self.X_fn)
+
+    def __len__(self):
+        return len(self.X_fn)
+
+    def __getitem__(self, i):
+        fn, label = self.X_fn[i]
+        img = cv.imread(fn, 0)
+        if self.transform:
+            img = self.transform(img)
+        return img, label
 
 
 class Net(nn.Module):
