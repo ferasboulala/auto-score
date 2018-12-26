@@ -1,1 +1,1 @@
-from . import musicdata
+from . import musicdata, sampler

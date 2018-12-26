@@ -12,6 +12,8 @@ from os import listdir, walk
 from os.path import join
 from random import shuffle
 
+from sampler import ImbalancedDatasetSampler
+
 DEF_H = 50
 DEF_W = 10
 
@@ -139,7 +141,8 @@ def main():
     torch.manual_seed(args.seed)
 
     my_loader = DatasetLoader()
-    train_loader = DataLoader(my_loader, batch_size=10, shuffle=True)
+    train_loader = DataLoader(my_loader, batch_size=10, shuffle=False,
+                              sampler=ImbalancedDatasetSampler(my_loader))
     # test_loader = DataLoader(DatasetLoader(train=False))
 
     model = Net(n_classes=len(my_loader.lookup))
