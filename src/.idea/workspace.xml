@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="534c770b-3bad-4c9d-bf02-b8694d54719c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/autoscore/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/autoscore/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/autoscore/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="56" column="37" lean-forward="true" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
+            <state relative-caret-position="-100">
+              <caret line="49" column="53" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -39,7 +40,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/autoscore/musicdata.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
+            <state relative-caret-position="640">
               <caret line="37" column="26" selection-start-line="37" selection-end-line="37" selection-end-column="26" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
@@ -153,8 +154,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="25" y="17" width="1870" height="1019" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20942983" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18585527" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -181,6 +183,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../miniconda3/envs/env/lib/python3.6/site-packages/torch/utils/data/dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1422">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/autoscore/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-100">
+          <caret line="49" column="53" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/autoscore/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
@@ -193,20 +215,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/autoscore/musicdata.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
+        <state relative-caret-position="640">
           <caret line="37" column="26" selection-start-line="37" selection-end-line="37" selection-end-column="26" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/autoscore/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="56" column="37" lean-forward="true" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>

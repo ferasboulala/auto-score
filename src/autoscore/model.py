@@ -12,8 +12,8 @@ from os import listdir, walk
 from os.path import join
 from random import shuffle
 
-DEF_H = 100
-DEF_W = 20
+DEF_H = 50
+DEF_W = 10
 
 DEF_DIR_FN = '/home/feras/Documents/auto-score/datasets/Artificial/data/'
 DEF_TRANSFORM = transforms.Compose([transforms.Resize((DEF_H, DEF_W), interpolation=1),
@@ -27,7 +27,7 @@ class DatasetLoader(Dataset):
         self.transform = transform
         self.X_fn = []
         class_names = listdir(dir_fn)
-        self.lookup = {name:i for i, name in enumerate(class_names)}
+        self.lookup = {name: i for i, name in enumerate(class_names)}
         for name in class_names:
             for prefix, _, files in walk(join(dir_fn, name)):
                 for file in files:
@@ -47,35 +47,40 @@ class DatasetLoader(Dataset):
 
 
 class Net(nn.Module):
-    def __init__(self, n_classes, *args, **kwargs):
+    def __init__(self, n_classes, n_conv=2, n_maps=15):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(1, 10, kernel_size=3)
-        self.conv2 = nn.Conv2d(10, 20, kernel_size=3)
-        self.conv2_drop = nn.Dropout2d()
+        self.n_maps = n_maps
+        self.conv = []
+        self.conv.append(nn.Conv2d(1, n_maps, kernel_size=3))
+        for i in range(n_conv):
+            if i == 0:
+                continue
+            self.conv.append(nn.Conv2d(i * n_maps, (i+1) * n_maps, kernel_size=3))
         self.fc_size = self._get_conv_size(DEF_H, DEF_W)
         self.fc1 = nn.Linear(self.fc_size, 100)
-        self.fc2 = nn.Linear(100, 50)
-        self.fc3 = nn.Linear(50, n_classes)
+        self.fc2 = nn.Linear(100, n_classes)
+        # self.fc3 = nn.Linear(100, n_classes)
 
     def forward(self, x):
-        x = F.relu(F.max_pool2d(self.conv1(x), 2))
-        x = F.relu(F.max_pool2d((self.conv2(x)), 2))
+        for conv in self.conv:
+            x = F.max_pool2d(F.relu(conv(x)), 2)
         x = x.view(-1, self.fc_size)
         x = F.relu(self.fc1(x))
         x = F.dropout(x, training=self.training)
         x = F.relu(self.fc2(x))
-        x = F.dropout(x, training=self.training)
+        # x = F.dropout(x, training=self.training)
+        # x = F.relu(self.fc3(x))
         return F.log_softmax(x, dim=1)
 
     @staticmethod
-    def _reduce(x):
-        return (x - 2) // 2
+    def _reduce(x, kernel_size=3):
+        return (x - (kernel_size - 1)) // (kernel_size - 1)
 
-    def _get_conv_size(self, y, x, it=2):
-        for _ in range(it):
+    def _get_conv_size(self, x, y):
+        for _ in range(len(self.conv)):
             y = self._reduce(y)
             x = self._reduce(x)
-        return x * y * it * 10
+        return x * y * len(self.conv) * self.n_maps
 
 
 def train(args, model, train_loader, optimizer, epoch):
@@ -97,7 +102,7 @@ def test(args, model, test_loader):
     test_loss = 0
     correct = 0
     with torch.no_grad():
-        for data, target in test_loader:
+        for data, target in test_loader[0:1000]:
             output = model(data)
             test_loss += F.nll_loss(output, target, reduction='sum').item() # sum up batch loss
             pred = output.max(1, keepdim=True)[1] # get the index of the max log-probability
@@ -128,18 +133,18 @@ def main():
     parser.add_argument('--log-interval', type=int, default=10, metavar='N',
                         help='how many batches to wait before logging training status')
     args = parser.parse_args()
-    use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     torch.manual_seed(args.seed)
 
     my_loader = DatasetLoader()
-    train_loader = DataLoader(my_loader, batch_size=10)
+    train_loader = DataLoader(my_loader, batch_size=10, shuffle=True)
 
     model = Net(n_classes=len(my_loader.lookup))
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
     for epoch in range(1, args.epochs + 1):
         train(args, model, train_loader, optimizer, epoch)
+        # test(args, model, train_loader)
 
 
 if __name__ == '__main__':
