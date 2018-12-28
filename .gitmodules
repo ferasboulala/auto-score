@@ -1,0 +1,3 @@
+[submodule "staff-detect"]
+	path = staff-detect
+	url = https://github.com/ferasboulala/staff-detect.git
