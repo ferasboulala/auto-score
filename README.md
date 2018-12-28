@@ -1,4 +1,4 @@
-# AUTO-SCORE
+# auto-score
 An attempt to classify computer generated and handwritten scores music glyphs. 
 
 Current progress : 
