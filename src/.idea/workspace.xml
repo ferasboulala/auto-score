@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="534c770b-3bad-4c9d-bf02-b8694d54719c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/autoscore/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/autoscore/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/autoscore/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/autoscore/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/autoscore/sampler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="340">
+              <caret line="17" column="40" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -162,7 +160,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="25" y="17" width="1870" height="1019" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18585527" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -232,8 +229,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/autoscore/sampler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="340">
+          <caret line="17" column="40" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
