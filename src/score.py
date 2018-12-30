@@ -39,7 +39,7 @@ class Score:
         # Size of the roi that will be used for every potential glyph
         self.kernel_size = self.staff_space + 2 * self.staff_height
         # Threshold before considering there is a symbol in the current column
-        self.step_threshold = 6 * self.staff_height
+        self.step_threshold = 7 * self.staff_height
         # Threshold before considering there is something in the roi
         self.kernel_threshold = self.kernel_size * self.staff_height * 2
 
@@ -69,11 +69,16 @@ class Score:
             i = np.argmin(np.asarray([abs(y - c) for c in staff_centers]))
             self.staffs[i].glyphs.append(glyph)
 
-    def extract_inference_data(self, img, staff):
+    def potential_glyphs(self, img, staff):
         staff_image = self.extract_staff_image(img, staff)
-        X = []
+        col_count = np.count_nonzero(staff_image == 0, axis=0)
+        connected_components = self._1d_connected_comp(col_count > self.step_threshold)
+        boxes = [BBox(xmin, xmax, 0, staff_image.shape[0]) for (xmin, xmax) in connected_components]
+        return boxes
+
+    def extract_inference_data(self, img, staff):
         # TODO : Extract all the rois that could potentially hold a glyph
-        return X
+        return
 
     def extract_training_data(self, img, augment=False):
         n_samples = sum([len(staff.glyphs) for staff in self.staffs])
@@ -91,7 +96,7 @@ class Score:
                     if augment:
                         X[i:(i + 4)] = self._get_surrounding_roi(img, glyph.box)
                         y[i:(i + 4)] = [label] * 4
-                except ValueError:
+                except ValueError:  # Can't augment data there
                     pass
         return X
 
@@ -117,3 +122,15 @@ class Score:
     def _get_bbox_center(box):
         xmin, xmax, ymin, ymax = box
         return (xmin + xmax) / 2 , (ymin + ymax) / 2
+
+    @staticmethod
+    def _1d_connected_comp(arr):
+        i = 0
+        CC = []
+        beg, end = 0, 0
+        while beg <= end:
+            beg = np.argmax(arr[i:]) + i
+            end = np.argmax(arr[beg:] == False) + beg - 1
+            i = end + 1
+            CC.append((beg, end))
+        return CC
