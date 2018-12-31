@@ -7,7 +7,7 @@ DEF_ROT = 1.570796
 DEF_STEP_RATIO = 0.25
 EPSILON = 0.1
 
-BBox = namedtuple('BBox', ['xmin', 'xmax', 'ymin', 'ymax'])
+BBox = namedtuple('BBox', ['x_min', 'x_max', 'y_min', 'y_max'])
 Glyph = namedtuple('Glyph', ['name', 'box'])
 Staff = namedtuple('Staff', ['glyphs', 'box'])
 
@@ -41,7 +41,7 @@ class Score:
         # Threshold before considering there is a symbol in the current column
         self.step_threshold = 7 * self.staff_height
         # Threshold before considering there is something in the roi
-        self.kernel_threshold = self.kernel_size * self.staff_height * 2
+        self.kernel_threshold = self.kernel_size * self.staff_height * 2.5
 
         cols = int(root[1][2].text)
         rows = int(root[1][3].text)
@@ -69,11 +69,13 @@ class Score:
             i = np.argmin(np.asarray([abs(y - c) for c in staff_centers]))
             self.staffs[i].glyphs.append(glyph)
 
-    def potential_glyphs(self, img, staff):
-        staff_image = self.extract_staff_image(img, staff)
+    def potential_glyphs(self, staff_image):
+        thickness, _ = staff_image.shape
+        if thickness != self.staff_thickness:
+            raise ValueError('Staff image does not belong to this score. Staff thickness does not fit.')
         col_count = np.count_nonzero(staff_image == 0, axis=0)
         connected_components = self._1d_connected_comp(col_count > self.step_threshold)
-        boxes = [BBox(xmin, xmax, 0, staff_image.shape[0]) for (xmin, xmax) in connected_components]
+        boxes = [BBox(x_min, x_max, 0, staff_image.shape[0]) for (x_min, x_max) in connected_components]
         return boxes
 
     def extract_inference_data(self, img, staff):
@@ -102,26 +104,40 @@ class Score:
 
     def _get_surrounding_roi(self, img, box):
         step = self.kernel_size * DEF_STEP_RATIO
-        xmin, xmax, ymin, ymax = box
+        x_min, x_max, y_min, y_max = box
         boxes, rois = [] , []
-        boxes.append(BBox(xmin - step, xmax - step, ymin, ymax))
-        boxes.append(BBox(xmin + step, xmax + step, ymin, ymax))
-        boxes.append(BBox(xmin, xmax, ymin - step, ymax - step))
-        boxes.append(BBox(xmin, xmax, ymin + step, ymax + step))
+        boxes.append(BBox(x_min - step, x_max - step, y_min, y_max))
+        boxes.append(BBox(x_min + step, x_max + step, y_min, y_max))
+        boxes.append(BBox(x_min, x_max, y_min - step, y_max - step))
+        boxes.append(BBox(x_min, x_max, y_min + step, y_max + step))
         rois = [self._extract_roi(img, b) for b in boxes]
         return rois
 
+
+    def _convolve_bbox(self, img, box):
+        x_min, x_max, y_min, y_max = box
+        n_horizontal = (x_max - x_min) / self.kernel_size
+        n_vertical = (y_max - y_min) / self.kernel_size
+        x_start = x_min - self.kernel_size
+        y_start = y_min - self.kernel_size
+
+        X = np.arange(0, n_horizontal) * self.kernel_size + x_start
+        Y = np.arrange(0, n_vertical) * self.kernel_size + y_start
+
+        # TODO : Finish this with as much numpy and itertools as possible
+        return img
+
     @staticmethod
     def _extract_roi(img, box):
-        xmin, xmax, ymin, ymax = box
-        if ymax > img.shape[0] or xmax > img.shape[1]:
+        x_min, x_max, y_min, y_max = box
+        if y_max > img.shape[0] or x_max > img.shape[1]:
             raise ValueError('Given image does not fit in dimensions')
-        return img[ymin:ymax, xmin:xmax]
+        return img[y_min, y_max, x_min:x_max]
 
     @staticmethod
     def _get_bbox_center(box):
-        xmin, xmax, ymin, ymax = box
-        return (xmin + xmax) / 2 , (ymin + ymax) / 2
+        x_min, x_max, y_min, y_max = box
+        return (x_min + x_max) / 2 , (y_min + y_max) / 2
 
     @staticmethod
     def _1d_connected_comp(arr):
