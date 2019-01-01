@@ -14,8 +14,6 @@ Staff = namedtuple('Staff', ['glyphs', 'box'])
 
 class Score:
     def __init__(self, fn):
-        assert EPSILON > 0 and DEF_STEP_RATIO != 0
-
         tree = ElementTree.parse(fn)
         root = tree.getroot()
         if root.tag != 'stav':
@@ -41,7 +39,9 @@ class Score:
         # Threshold before considering there is a symbol in the current column
         self.step_threshold = 7 * self.staff_height
         # Threshold before considering there is something in the roi
-        self.kernel_threshold = self.kernel_size * self.staff_height * 2.5
+        self.kernel_threshold = round(self.kernel_size * self.staff_height * 2)
+        # Convolution
+        self.step = self.kernel_size // 4
 
         cols = int(root[1][2].text)
         rows = int(root[1][3].text)
@@ -69,12 +69,16 @@ class Score:
             i = np.argmin(np.asarray([abs(y - c) for c in staff_centers]))
             self.staffs[i].glyphs.append(glyph)
 
-    def potential_glyphs(self, staff_image):
+    def potential_glyphs(self, staff_image, merge=False, thin_filter=False):
         thickness, _ = staff_image.shape
         if thickness != self.staff_thickness:
             raise ValueError('Staff image does not belong to this score. Staff thickness does not fit.')
         col_count = np.count_nonzero(staff_image == 0, axis=0)
         connected_components = self._1d_connected_comp(col_count > self.step_threshold)
+        if merge:
+            connected_components = self._1d_merge_cc(connected_components, self.kernel_size / 2)
+        if thin_filter:
+            connected_components = self.filter_cc(connected_components, self.kernel_size)
         boxes = [BBox(x_min, x_max, 0, staff_image.shape[0]) for (x_min, x_max) in connected_components]
         return boxes
 
@@ -100,7 +104,20 @@ class Score:
                         y[i:(i + 4)] = [label] * 4
                 except ValueError:  # Can't augment data there
                     pass
-        return X
+        return X, y
+
+    def convolve_box(self, box):
+        x_min, x_max, y_min, y_max = box
+        n_horizontal = (x_max - x_min + self.step * 2) // self.step
+        n_vertical = (y_max - y_min + self.step * 2) // self.step
+        x_start = x_min - self.step
+        y_start = y_min - self.step
+
+        X = np.arange(0, n_horizontal) * self.step + x_start
+        Y = np.arange(0, n_vertical) * self.step + y_start
+
+        return [BBox(x, x + self.kernel_size, y, y + self.kernel_size)
+                for x in X for y in Y if x >= 0 and y >= 0]
 
     def _get_surrounding_roi(self, img, box):
         step = self.kernel_size * DEF_STEP_RATIO
@@ -113,26 +130,16 @@ class Score:
         rois = [self._extract_roi(img, b) for b in boxes]
         return rois
 
-
-    def _convolve_bbox(self, img, box):
-        x_min, x_max, y_min, y_max = box
-        n_horizontal = (x_max - x_min) / self.kernel_size
-        n_vertical = (y_max - y_min) / self.kernel_size
-        x_start = x_min - self.kernel_size
-        y_start = y_min - self.kernel_size
-
-        X = np.arange(0, n_horizontal) * self.kernel_size + x_start
-        Y = np.arrange(0, n_vertical) * self.kernel_size + y_start
-
-        # TODO : Finish this with as much numpy and itertools as possible
-        return img
+    @staticmethod
+    def filter_cc(cc, threshold):
+        return [(start, finish) for start, finish in cc if finish - start >= threshold]
 
     @staticmethod
     def _extract_roi(img, box):
         x_min, x_max, y_min, y_max = box
         if y_max > img.shape[0] or x_max > img.shape[1]:
             raise ValueError('Given image does not fit in dimensions')
-        return img[y_min, y_max, x_min:x_max]
+        return img[y_min:y_max, x_min:x_max]
 
     @staticmethod
     def _get_bbox_center(box):
@@ -150,3 +157,20 @@ class Score:
             i = end + 1
             CC.append((beg, end))
         return CC
+
+    @staticmethod
+    def _1d_merge_cc(cc, threshold):
+        if len(cc) == 1:
+            return cc
+        merged = []
+        i = 0
+        while i < len(cc) - 1:
+            start, finish = cc[i]
+            while cc[i + 1][0] - finish <= threshold:
+                finish = cc[i + 1][1]
+                if i == len(cc) - 2:
+                    break
+                i += 1
+            merged.append((start, finish))
+            i += 1
+        return merged
