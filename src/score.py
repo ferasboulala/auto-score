@@ -27,6 +27,8 @@ class Score:
         if np.count_nonzero(model_gradient):
             raise ValueError('Staff model must be rectified')
 
+        self.filename = root[0].text
+
         # Staff line thickness
         self.staff_height = int(root[1][0].text)
         # Distance between each staff
@@ -39,7 +41,7 @@ class Score:
         # Threshold before considering there is a symbol in the current column
         self.step_threshold = 7 * self.staff_height
         # Threshold before considering there is something in the roi
-        self.kernel_threshold = round(self.kernel_size * self.staff_height * 2)
+        self.kernel_threshold = self.kernel_size * self.staff_height * 2
         # Convolution
         self.step = self.kernel_size // 4
 
