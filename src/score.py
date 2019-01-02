@@ -19,7 +19,7 @@ Staff = namedtuple('Staff', ['glyphs', 'box', 'start'])
 
 
 class Score:
-    def __init__(self, fn, no_staff_lines=True):
+    def __init__(self, fn, no_staff_lines=True, extra_space=DEF_EXTRA_STAFF_SPACE):
         tree = ElementTree.parse(fn)
         root = tree.getroot()
         if root.tag != 'stav':
@@ -41,7 +41,7 @@ class Score:
         # Distance between each staff
         self.staff_space = int(root[1][1].text)
         # Thickness of a complete staff
-        self.staff_extra = (self.staff_height + self.staff_space) * DEF_EXTRA_STAFF_SPACE
+        self.staff_extra = (self.staff_height + self.staff_space) * extra_space
         self.staff_thickness = self.staff_height * 5 + self.staff_space * 4
         # Size of the roi that will be used for every potential glyph
         self.kernel_size = self.staff_space + 2 * self.staff_height
@@ -91,7 +91,7 @@ class Score:
     def potential_regions(self, staff_image, merge=False, thin_filter=False):
         thickness, _ = staff_image.shape
         if thickness != self.staff_thickness + self.staff_extra:
-            raise ValueError('Staff image does not belong to this score. Staff thickness does not fit.')
+            raise ValueError('Staff image does not belong to this score or extra space is too wide.')
         col_count = np.count_nonzero(staff_image == 0, axis=0)
         connected_components = self._1d_connected_comp(col_count > self.step_threshold)
         if merge:
