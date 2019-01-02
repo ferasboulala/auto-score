@@ -11,9 +11,9 @@ Current progress :
 Explanation can be found in the `autotab.ipynb` jupyter notebook.
 
 <p align="center">
-<img src=pictures/bin_count.png width="150" height="1000"> 
-<img src=pictures/out/pre_filter.png width="150" height="1000"> 
-<img src=pictures/out/filter.png width="150" height="1000">   
-<img src=pictures/out/potential_glyph_areas.png width="150" height="1000">
-<img src=pictures/out/groundtruths.png width="150" height="1000">
+<img src=pictures/bin_count.png width="1000" height="150"> 
+<img src=pictures/pre_filter.png width="1000" height="150"> 
+<img src=pictures/filter.png width="1000" height="150">   
+<img src=pictures/potential_glyph_areas.png width="1000" height="150">
+<img src=pictures/groundtruths.png width="1000" height="150">
 </p>
