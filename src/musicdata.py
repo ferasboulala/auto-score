@@ -1,3 +1,8 @@
+"""
+This module is the initial attempt at generating ground truth for OMR.
+The score module is the preferred method.
+"""
+
 import cv2 as cv
 import xml.etree.ElementTree as ET
 from collections import namedtuple
@@ -152,7 +157,8 @@ def get_music_file_from_xml(fn):
 def deepscores_score_ground_truth(score_filename, dataset_filename):
     tree = ET.parse(join(dataset_filename, splitext(score_filename)[0] + '.xml'))
     root = tree.getroot()
-    assert root.tag == 'annotation'
+    if root.tag != 'annotation':
+        raise ValueError('This is not a valid deepscores ground truth description file')
 
     width = height = 0
     glyphs = []
