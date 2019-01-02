@@ -19,7 +19,7 @@ Staff = namedtuple('Staff', ['glyphs', 'box', 'start'])
 
 
 class Score:
-    def __init__(self, fn):
+    def __init__(self, fn, no_staff_lines=True):
         tree = ElementTree.parse(fn)
         root = tree.getroot()
         if root.tag != 'stav':
@@ -47,8 +47,12 @@ class Score:
         self.kernel_size = self.staff_space + 2 * self.staff_height
         # Threshold before considering there is a symbol in the current column
         self.step_threshold = 7 * self.staff_height
+        if no_staff_lines:
+            self.step_threshold -= 5 * self.staff_height
         # Threshold before considering there is something in the roi
         self.kernel_threshold = self.kernel_size * self.staff_height * 2
+        if no_staff_lines:
+            self.kernel_threshold -= self.kernel_size * self.staff_height
         # Convolution
         self.step = self.kernel_size // 4
 
